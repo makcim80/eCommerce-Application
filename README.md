@@ -10,6 +10,12 @@ eCommerce-Application - this is a team project in which you have to develop your
 - API
 - CommerceTools
 
+## Technical requirements
+- TypeScript is used to write application code.
+- (Optional) using framework React, Angular, Vue etc.
+- Using eslint configured for TypeScript validation.
+- It is forbidden to use obsolete libraries (JQuery, etc.)
+
 ## Project steps
 ### Sprint 1: In the first sprint, the team should set up a project repository,
 set up project management with a task board, integration with CommerceTools
@@ -40,6 +46,21 @@ of responsibilities.
 3. CommerceTools Project and API Client Setup
 - Create the project in CommerceTools, setting up the currencies, languages, and other configurations in the Merchant Center.
 - Create the API client for CommerceTools, enabling access to the platform's APIs and managing permissions and scopes required for the project.
+4. Development Environment Configuration
+- Set up and configure a bundler (e.g., Webpack, Vite, Parcel, or other) for the project, supporting both development and production build modes.
+- Configure TypeScript to enforce strong typing and improve code quality throughout the project.
+- Set up ESLint to enforce consistent coding styles and identify potential issues in the codebase.
+- Configure Prettier to automatically format code, ensuring a consistent and readable code style.
+- Initialize Husky to manage Git hooks, automating tasks such as code formatting and linting checks during the commit process.
+- Install and configure Jest as the testing framework for the project, enabling comprehensive testing of code functionality.
+5. Development Scripts
+- Create a script for running ESLint across the codebase, enabling quick and efficient identification of coding style issues and potential errors.
+- Create a script for running Prettier across the codebase, simplifying code formatting and ensuring uniform code style.
+- Create a script for running Jest tests, streamlining the process of executing tests and generating reports on test outcomes.
+6. Comprehensive README
+- Add a thorough README file in the repository, describing the project, its purpose, and the technology stack used.
+- Clearly document all available scripts (e.g., for running ESLint, Prettier, and Jest tests) and their usage in the README file.
+- Provide detailed instructions for setting up and running the project locally, ensuring newcomers and contributors can quickly get started.
 
 ### Sprint 2: In the second sprint, the team will focus on implementing the login,
 registration and main pages, including input validation, integration with
@@ -81,13 +102,7 @@ All these features should be built using the commercetools API for data retrieva
 We will also implement performance optimization techniques such as lazy loading, pagination,
 or infinite scroll to handle a large number of products efficiently.
 
-## Technical requirements
-- TypeScript is used to write application code.
-- (Optional) using framework React, Angular, Vue etc.
-- Using eslint configured for TypeScript validation.
-- It is forbidden to use obsolete libraries (JQuery, etc.)
 
-## Repository requirements
 
 ##
 
