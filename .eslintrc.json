@@ -8,8 +8,8 @@
         "airbnb-base",
         "airbnb-typescript/base",
         "eslint:recommended",
-        "prettier",
         "plugin:@typescript-eslint/recommended",
+        "prettier",
         "plugin:prettier/recommended"
     ],
     "parser": "@typescript-eslint/parser",
@@ -18,7 +18,7 @@
         "sourceType": "module",
         "project": "./tsconfig.json"
     },
-    "plugins": ["prettier", "import", "@typescript-eslint"],
+    "plugins": ["import", "@typescript-eslint", "prettier"],
     "rules": {
         "no-console": 0,
         "import/extensions": "off",
