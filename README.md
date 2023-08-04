@@ -1,5 +1,5 @@
 <h1 align="center">Cat`s Shop</h1>
-<p align="center">
+
 Welcome to Cat's Shop! This platform reproduces the real shopping experience in the digital environment.
 It is an online shopping portal for purebred cats that provides an interactive experience for users.
 
@@ -17,10 +17,8 @@ geolocation of the transport that carries your pet!
 Our delivery method was invented by the founders of the store in the fastest and most comfortable way:
 we have organized a special air and ground transport with a service for the treatment and care of your pet:
 this includes veterinary supervision, feeding and entertainment. Delivery implemented throughout Europe!
-</p>
 
-
-## Used technology stack
+## The technology stack used in project
 - TypeScript
 - Webpack
 - CommerceTools
