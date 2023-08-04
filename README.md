@@ -1,17 +1,34 @@
-# eCommerce-Application
+<p align="center">
+   <img alt="logo" src="./assets/logo.jpg"/>
+</p>
+<h1 align="center">Cat`s Shop</h1>
+<p align="center">
+Welcome to Cat's Shop! This platform reproduces the real shopping experience in the digital environment.
+It is an online shopping portal for purebred cats that provides an interactive experience for users.
 
-## Description of the project
-eCommerce-Application - this is a team project in which you have to develop your own online store
+Our app is powered by CommerceTools, which offers a microservices-based cloud-based commerce platform
+that enables brands to create unique and compelling digital commerce experiences!
 
-## Required Skills
+In our store, users can view a wide range of cat breeds, view detailed descriptions, add a pet to the
+cart for further checkout. It includes features such as user registration and login, pet search on
+the page, sorting by certain parameters to make the shopping experience more streamlined and convenient.
+
+When the buyer places an order, we immediately get to work and send a notification that the order
+has been accepted for work and its transportation is organized. Also, the buyer can track the
+geolocation of the transport that carries your pet!
+
+Our delivery method was invented by the founders of the store in the fastest and most comfortable way:
+we have organized a special air and ground transport with a service for the treatment and care of your pet:
+this includes veterinary supervision, feeding and entertainment. Delivery implemented throughout Europe!
+</p>
+
+
+## Used technology stack
 - TypeScript
 - Webpack
-- Husky, Jest, ESLint, Prettier
-- API
 - CommerceTools
-
-## Technical requirements
-- TypeScript is used to write application code.
-- (Optional) using framework React, Angular, Vue etc.
-- Using eslint configured for TypeScript validation.
-- It is forbidden to use obsolete libraries (JQuery, etc.)
+- API
+- Using ESlint configured for TypeScript validation.
+- Using Prettier for automatic code formatting, ensuring a consistent and readable code style.
+- Husky to manage Git hooks, automating tasks such as code formatting and linting checks during the commit process.
+- Using Jest as a testing environment for the project, which will allow comprehensive testing of the functionality of the code
