@@ -42,5 +42,5 @@ of the functionality of the code
 run scripts using `npm run`
 
 ## Instructions for configuring a project to run locally
-- Клонируйте репозиторий
-- Выполните команду `npm install` для установки пакетов проекта
+- Clone the repository
+- Run `npm install` command to install project packages
