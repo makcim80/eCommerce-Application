@@ -1,6 +1,5 @@
-<p align="center">
-   <img alt="logo" src="./assets/logo.jpg"/>
-</p>
+![](C:/Users/Darya/Desktop/logo.jpg)
+
 <h1 align="center">Cat`s Shop</h1>
 <p align="center">
 Welcome to Cat's Shop! This platform reproduces the real shopping experience in the digital environment.
@@ -30,5 +29,7 @@ this includes veterinary supervision, feeding and entertainment. Delivery implem
 - API
 - Using ESlint configured for TypeScript validation.
 - Using Prettier for automatic code formatting, ensuring a consistent and readable code style.
-- Husky to manage Git hooks, automating tasks such as code formatting and linting checks during the commit process.
-- Using Jest as a testing environment for the project, which will allow comprehensive testing of the functionality of the code
+- Husky to manage Git hooks, automating tasks such as code formatting and linting checks during the
+commit process.
+- Using Jest as a testing environment for the project, which will allow comprehensive testing
+of the functionality of the code
