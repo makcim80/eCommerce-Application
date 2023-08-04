@@ -1,5 +1,3 @@
-![](C:/Users/Darya/Desktop/logo.jpg)
-
 <h1 align="center">Cat`s Shop</h1>
 <p align="center">
 Welcome to Cat's Shop! This platform reproduces the real shopping experience in the digital environment.
