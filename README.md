@@ -31,3 +31,16 @@ this includes veterinary supervision, feeding and entertainment. Delivery implem
 commit process.
 - Using Jest as a testing environment for the project, which will allow comprehensive testing
 of the functionality of the code
+
+## Script instructions
+- `start`: Builds the project using webpack.
+- `build`: Running the development server using webpack
+- `lint`: Parses TypeScript files using ESLint and airbnb-base rules
+- `lint:fix`: Automatically fixes problems in TypeScript files.
+- `test`: Runs Jest tests
+
+run scripts using `npm run`
+
+## Instructions for configuring a project to run locally
+- Клонируйте репозиторий
+- Выполните команду `npm install` для установки пакетов проекта
