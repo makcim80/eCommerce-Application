@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'MonospaceRegular';
+  src: url('./assets/fonts/MonospaceRegular.ttf');
+}
+
+@font-face {
+  font-family: 'Rubik Wet Paint', cursive;
+  src: url('./assets/fonts/Beginner.ttf');
+}
+
+@font-face {
+  font-family: 'Roboto', sans-serif;
+  src: url('./assets/fonts/Roboto-Regular.ttf');
+}
+
+body {
+  font-family: 'Rubik Wet Paint', cursive;
+}
