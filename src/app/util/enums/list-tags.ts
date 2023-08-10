@@ -5,7 +5,13 @@ export const enum ListTags {
   INPUT = 'input',
   H1 = 'h1',
   H3 = 'h3',
+  H6 = 'h6',
   SPAN = 'span',
   FOOTER = 'footer',
   MAIN = 'main',
+  IMG = 'img',
+  FORM = 'form',
+  LABEL = 'label',
+  LINK = 'a',
+  PARAGRAPH = 'p',
 }
