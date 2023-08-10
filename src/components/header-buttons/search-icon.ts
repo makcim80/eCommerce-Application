@@ -1,5 +1,7 @@
 import { ListTags } from '../../app/util/enums/list-tags';
 import { ListClasses } from '../../app/util/enums/list-classes';
+import { ListAttributes } from '../../app/util/enums/list-attributes';
+import { ListPaths } from '../../app/util/enums/list-paths';
 import View from '../../app/view/view';
 
 export default class SearchIcon extends View {
@@ -13,6 +15,6 @@ export default class SearchIcon extends View {
   }
 
   public configureView(): void {
-    this.getHTMLElement()?.setAttribute('src', './assets/img/search-icon.png');
+    this.getHTMLElement()?.setAttribute(ListAttributes.SRC, ListPaths.SEARCH_ICON);
   }
 }

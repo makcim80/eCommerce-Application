@@ -1,5 +1,7 @@
 import { ListClasses } from '../../util/enums/list-classes';
 import { ListTags } from '../../util/enums/list-tags';
+import { ListAttributes } from '../../util/enums/list-attributes';
+import { ListPaths } from '../../util/enums/list-paths';
 import View from '../view';
 import ElementCreator from '../../util/element-creator';
 import HeaderButtonsView from '../../../components/header-buttons/header-buttons-view';
@@ -26,8 +28,8 @@ export default class HeaderView extends View {
     this.view.addInnerElement(headerContainer);
 
     const logo = document.createElement(ListTags.IMG);
-    logo.setAttribute('src', './assets/img/logo.png');
-    logo.setAttribute('alt', 'logo');
+    logo.setAttribute(ListAttributes.SRC, ListPaths.LOGO);
+    logo.setAttribute(ListAttributes.ALT, 'logo');
     headerContainer.addInnerElement(logo);
 
     const headerButtons = this.headerButtonsView?.getHTMLElement();
