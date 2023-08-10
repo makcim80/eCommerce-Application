@@ -1,7 +1,5 @@
+import App from './app/app';
 import './style.css';
 
-const greeting = document.querySelector('body');
-if (greeting) {
-  greeting.classList.add('bg-red-500');
-  greeting.textContent = 'Hello world!!!';
-}
+const app = new App();
+console.log(app);
