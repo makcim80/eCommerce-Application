@@ -13,9 +13,9 @@ export default class InputFieldCreator extends ElementCreator {
     this.element.classList.add(ListClasses.BG);
     if (typeof params.callback === 'function') this.setCallback(params.callback);
 
-    this.inputElement = document.createElement('input');
+    this.inputElement = document.createElement(ListTags.INPUT);
 
-    this.labelElement = document.createElement('label');
+    this.labelElement = document.createElement(ListTags.LABEL);
     this.setTextContent(params.textContent);
 
     this.element.append(this.labelElement, this.inputElement);
