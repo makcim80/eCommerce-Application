@@ -1,5 +1,6 @@
 import { ListClasses } from '../../app/util/enums/list-classes';
 import { ListTags } from '../../app/util/enums/list-tags';
+import { ListTextContent } from '../../app/util/enums/list-textContent';
 import View from '../../app/view/view';
 
 export default class ButtonSignIn extends View {
@@ -7,7 +8,7 @@ export default class ButtonSignIn extends View {
     const params = {
       tag: ListTags.BUTTON,
       classNames: ListClasses.BUTTON_SIGN_IN,
-      textContent: 'Sign in',
+      textContent: ListTextContent.SIGN_IN,
     };
     super(params);
   }

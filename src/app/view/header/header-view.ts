@@ -5,6 +5,7 @@ import { ListPaths } from '../../util/enums/list-paths';
 import View from '../view';
 import ElementCreator from '../../util/element-creator';
 import HeaderButtonsView from '../../../components/header-buttons/header-buttons-view';
+import { ListAttributesValues } from '../../util/enums/list-attributesValues';
 
 export default class HeaderView extends View {
   public headerButtonsView: HeaderButtonsView | null;
@@ -29,12 +30,9 @@ export default class HeaderView extends View {
 
     const logo = document.createElement(ListTags.IMG);
     logo.setAttribute(ListAttributes.SRC, ListPaths.LOGO);
-    logo.setAttribute(ListAttributes.ALT, 'logo');
+    logo.setAttribute(ListAttributes.ALT, ListAttributesValues.LOGO);
     headerContainer.addInnerElement(logo);
 
-    const headerButtons = this.headerButtonsView?.getHTMLElement();
-    if (headerButtons) {
-      headerContainer.addInnerElement(headerButtons);
-    }
+    headerContainer.getElement()?.append(this.headerButtonsView?.getHTMLElement() || '');
   }
 }

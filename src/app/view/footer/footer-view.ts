@@ -25,9 +25,6 @@ export default class FooterView extends View {
     const footerContent = new ElementCreator(params);
     this.view.addInnerElement(footerContent);
 
-    const footerLinks = this.footerLinksView?.getHTMLElement();
-    if (footerLinks) {
-      footerContent.addInnerElement(footerLinks);
-    }
+    footerContent.getElement()?.append(this.footerLinksView?.getHTMLElement() || '');
   }
 }

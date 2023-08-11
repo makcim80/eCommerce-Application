@@ -30,21 +30,13 @@ export default class HeaderButtonsView extends View {
   }
 
   private configureView(): void {
-    const searchIcon = this.searchIcon?.getHTMLElement();
-    const basketIcon = this.basketIcon?.getHTMLElement();
-    const buttonSignUp = this.buttonSignUp?.getHTMLElement();
-    const buttonSignIn = this.buttonSignIn?.getHTMLElement();
-    if (searchIcon) {
-      this.view.addInnerElement(searchIcon);
-    }
-    if (basketIcon) {
-      this.view.addInnerElement(basketIcon);
-    }
-    if (buttonSignUp) {
-      this.view.addInnerElement(buttonSignUp);
-    }
-    if (buttonSignIn) {
-      this.view.addInnerElement(buttonSignIn);
-    }
+    this.view
+      .getElement()
+      ?.append(
+        this.searchIcon?.getHTMLElement() || '',
+        this.basketIcon?.getHTMLElement() || '',
+        this.buttonSignUp?.getHTMLElement() || '',
+        this.buttonSignIn?.getHTMLElement() || '',
+      );
   }
 }
