@@ -26,9 +26,9 @@ export default class PasswordView {
     this.input?.setAttribute(ListAttributes.ID, ListAttributesValues.FORM_PASSWORD);
     this.input?.setAttribute(ListAttributes.TYPE, ListAttributesValues.TEXT);
     this.input?.setAttribute(ListAttributes.PLACEHOLDER, ListAttributesValues.PLACEHOLDER_PASSWORD);
-    this.input?.classList.add(ListClasses.INPUT);
+    this.input?.classList.add(...ListClasses.INPUT.split(' '));
     this.label?.setAttribute(ListAttributes.FOR, ListAttributesValues.FORM_PASSWORD);
-    this.label?.classList.add(ListClasses.LABEL);
+    this.label?.classList.add(...ListClasses.LABEL.split(' '));
     if (this.label) {
       this.label.textContent = ListTextContent.PASSWORD;
     }

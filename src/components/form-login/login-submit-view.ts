@@ -24,7 +24,7 @@ export default class LoginSubmitView {
   public configureView(): void {
     this.input?.setAttribute(ListAttributes.TYPE, ListAttributesValues.BUTTON);
     this.input?.setAttribute(ListAttributes.VALUE, ListAttributesValues.SIGN_IN);
-    this.input?.classList.add(ListClasses.BUTTON_INPUT, ListClasses.BUTTON_INPUT_HOVER);
+    this.input?.classList.add(...ListClasses.SUBMIT_BUTTONS.split(' '));
   }
 
   public getElement(): HTMLElement | null {

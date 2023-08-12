@@ -33,12 +33,12 @@ export default class LoginView extends View {
     const loginImage = document.createElement(ListTags.IMG);
     loginImage.setAttribute(ListAttributes.SRC, ListPaths.LOGIN);
     loginImage.setAttribute(ListAttributes.ALT, ListAttributesValues.LOGIN);
-    loginImage.classList.add(ListClasses.LOGIN_IMG, ListClasses.BORDER_RADIUS);
+    loginImage.classList.add(...ListClasses.LOGIN_IMG.split(' '));
     this.view.addInnerElement(loginImage);
 
     const loginTitle = document.createElement(ListTags.H3);
     loginTitle.textContent = ListTextContent.LOGIN;
-    loginTitle.classList.add(ListClasses.LOGIN_TITLE);
+    loginTitle.classList.add(...ListClasses.LOGIN_TITLE.split(' '));
     this.view.addInnerElement(loginTitle);
 
     this.view

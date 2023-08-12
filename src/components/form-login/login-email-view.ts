@@ -26,9 +26,9 @@ export default class EmailView {
     this.input?.setAttribute(ListAttributes.ID, ListAttributesValues.EMAIL);
     this.input?.setAttribute(ListAttributes.TYPE, ListAttributesValues.TEXT);
     this.input?.setAttribute(ListAttributes.PLACEHOLDER, ListAttributesValues.PLACEHOLDER_EMAIL);
-    this.input?.classList.add(ListClasses.INPUT);
+    this.input?.classList.add(...ListClasses.INPUT.split(' '));
     this.label?.setAttribute(ListAttributes.FOR, ListAttributesValues.EMAIL);
-    this.label?.classList.add(ListClasses.LABEL);
+    this.label?.classList.add(...ListClasses.LABEL.split(' '));
     if (this.label) {
       this.label.textContent = ListTextContent.EMAIL;
     }
