@@ -3,6 +3,7 @@ import { ListClasses } from '../../app/util/enums/list-classes';
 import { ListAttributes } from '../../app/util/enums/list-attributes';
 import { ListPaths } from '../../app/util/enums/list-paths';
 import View from '../../app/view/view';
+import { ListOfValues } from '../../app/util/enums/list-attributesValues';
 
 export default class SearchIcon extends View {
   constructor() {
@@ -16,5 +17,6 @@ export default class SearchIcon extends View {
 
   public configureView(): void {
     this.getHTMLElement()?.setAttribute(ListAttributes.SRC, ListPaths.SEARCH_ICON);
+    this.getHTMLElement()?.setAttribute(ListAttributes.ALT, ListOfValues.SEARCH_ICON);
   }
 }
