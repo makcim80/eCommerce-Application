@@ -12,4 +12,6 @@ export const enum ListTextContent {
   COUNTRY = 'COUNTRY',
   CITY = 'CITY',
   POST = 'POSTCODE',
+  SHIPPING_ADDRESS = 'Shipping address',
+  BILLING_ADDRESS = 'Billing address',
 }

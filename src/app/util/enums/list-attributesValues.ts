@@ -1,4 +1,4 @@
-export const enum ListAttributesValues {
+export const enum ListOfValues {
   LOGO = 'logo',
   EMAIL = 'email',
   TEXT = 'text',
@@ -18,4 +18,9 @@ export const enum ListAttributesValues {
   FIRST_NAME = 'first-name',
   CHECKBOX = 'checkbox',
   PASSWORD = 'password',
+  TOWN = 'town',
+  STREET = 'street',
+  POST = 'post',
+  SEARCH_ICON = 'search-icon',
+  BASKET_ICON = 'basket-icon',
 }
