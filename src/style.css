@@ -41,3 +41,12 @@ body {
   display: flex;
   flex-direction: column;
 }
+
+.form {
+  transform: translate(-50%, -50%);
+}
+
+::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+}
+

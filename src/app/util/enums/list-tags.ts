@@ -14,4 +14,6 @@ export const enum ListTags {
   LABEL = 'label',
   LINK = 'a',
   PARAGRAPH = 'p',
+  SELECT = 'select',
+  OPTION = 'option',
 }
