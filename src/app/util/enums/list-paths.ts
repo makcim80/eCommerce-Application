@@ -3,4 +3,6 @@ export const enum ListPaths {
   BASKET_ICON = './assets/img/basket-icon.png',
   SEARCH_ICON = './assets/img/search-icon.png',
   LOGIN = './assets/img/login.jpeg',
+  EYE = './assets/img/eye.png',
+  EYE_CLOSE = './assets/img/eye-close.png',
 }

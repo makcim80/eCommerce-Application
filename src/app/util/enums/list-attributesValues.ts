@@ -17,4 +17,5 @@ export const enum ListAttributesValues {
   LAST_NAME = 'last-name',
   FIRST_NAME = 'first-name',
   CHECKBOX = 'checkbox',
+  PASSWORD = 'password',
 }

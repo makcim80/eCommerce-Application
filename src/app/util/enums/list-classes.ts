@@ -22,7 +22,9 @@ export const enum ListClasses {
   FORM_REGISTRATION = 'form overflow-y-auto form w-80 h-100h rounded-xl bg-form-color absolute top-50% left-50% py-6 px-6',
   DIV = 'flex items-center',
   LABEL_MR = 'text-input-color text-xx-s font-bold mr-2',
+  LABEL_CHECKBOX = 'text-slate-400 text-xx-s font-bold mr-2',
   DIV_CONTAINER = 'flex justify-between w-full items-center',
   LABEL_SELECT = 'text-input-color text-xx-s font-bold w-127px',
   INPUT_SELECT = 'w-full text-white border-0 outline-0 bg-transparent border-b border-white placeholder:text-sm placeholder:opacity-40 caret-white pt-0.7rem',
+  EYE_IMAGE = 'absolute right-9 top-65% w-5 h-5 cursor-pointer',
 }

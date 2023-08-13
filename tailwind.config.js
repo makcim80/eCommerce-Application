@@ -27,6 +27,7 @@ module.exports = {
       inset: {
         '50px': '50px',
         '50%': '50%',
+        '65%': '65%',
         'img-calc': 'calc(50% - 48px)',
       },
       width: {
