@@ -14,7 +14,7 @@ module.exports = {
         'radius-sm': '50%',
       },
       backgroundImage: {
-        'main-background': "url('./assets/img/bg.png')",
+        'main-background': "url('./assets/img/bg.svg')",
       },
       height: {
         '85h': '21rem',

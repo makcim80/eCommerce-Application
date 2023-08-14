@@ -18,7 +18,7 @@ export const enum ListClasses {
   INPUT_NAME = 'mr-5 w-21w text-white border-0 outline-0 bg-transparent border-b border-white placeholder:text-sm placeholder:opacity-40 mb-2 caret-white',
   LABEL = 'text-input-color text-xx-s font-bold',
   LABEL_LOGIN = 'text-input-color text-sm font-bold',
-  SUBMIT_BUTTONS = 'hover:bg-neon-color text-white w-full border-2 rounded-3xl border-neon-color cursor-pointer mt-2',
+  SUBMIT_BUTTONS = 'hover:bg-blue-color text-white w-full border-2 rounded-3xl hover:border-blue-color border-neon-color cursor-pointer mt-2',
   FORM_REGISTRATION = 'form overflow-y-auto form w-80 h-100h rounded-xl bg-form-color absolute top-50% left-50% py-6 px-6',
   DIV = 'flex items-center',
   LABEL_MR = 'text-input-color text-xx-s font-bold mr-2',
