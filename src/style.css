@@ -27,6 +27,26 @@
   src: url('./assets/fonts/Inter-Regular.ttf');
 }
 
+* {
+  box-sizing: border-box;
+}
+
+html {
+  height: 100vh;
+}
+
 body {
   font-family: 'Roboto', 'Arial', 'Inter', sans-serif;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
+
+.form {
+  transform: translate(-50%, -50%);
+}
+
+::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+}
+
