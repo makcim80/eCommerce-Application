@@ -40,7 +40,7 @@ export default class ElementCreator {
     if (this.element) this.element.textContent = text;
   }
 
-  protected setCallback(callback: (event: Event) => void): void {
+  public setCallback(callback: (event: Event) => void): void {
     if (this.element) this.element.addEventListener('click', (event) => callback(event));
   }
 }
