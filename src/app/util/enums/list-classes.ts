@@ -27,4 +27,8 @@ export const enum ListClasses {
   LABEL_SELECT = 'text-input-color text-xx-s font-bold w-127px',
   INPUT_SELECT = 'w-full text-white border-0 outline-0 bg-transparent border-b border-white placeholder:text-sm placeholder:opacity-40 caret-white pt-0.7rem',
   EYE_IMAGE = 'absolute right-9 top-65% w-5 h-5 cursor-pointer',
+  ERROR_404_CONTAINER = 'flex flex-col gap-y-3 error rounded-xl bg-form-color absolute top-50% left-50% py-10 px-5',
+  ERROR_404_HEADING = 'text-white text-center text-5xl flex flex-col',
+  ERROR_404_DESCRIPTION = 'text-white text-sm text-center',
+  ERROR_404_BUTTON = 'mt-5 text-white py-1 px-2 border-2 rounded-2xl border-blue-color hover:bg-blue-color transition-all duration-300 active:bg-footer-color',
 }
