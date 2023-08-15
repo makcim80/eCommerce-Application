@@ -14,4 +14,7 @@ export const enum ListTextContent {
   POST = 'POSTCODE',
   SHIPPING_ADDRESS = 'Shipping address',
   BILLING_ADDRESS = 'Billing address',
+  ERROR_404_HEADING = 'ERROR 404',
+  ERROR_404_DESCRIPTION = 'The requested URL was not found on this server.',
+  ERROR_404_BUTTON = 'Go to main page',
 }

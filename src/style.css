@@ -42,7 +42,8 @@ body {
   flex-direction: column;
 }
 
-.form {
+.form,
+.error {
   transform: translate(-50%, -50%);
 }
 
