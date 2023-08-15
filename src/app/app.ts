@@ -63,6 +63,13 @@ export default class App {
           this.setContent(Pages.REGISTRATION, new RegistrationView());
         },
       },
+      {
+        path: `${Pages.MAIN}`,
+        callback: async (): Promise<void> => {
+          const { default: EmptyMainView } = await import('./view/main/empty-main/empty-main-view');
+          this.setContent(Pages.REGISTRATION, new EmptyMainView());
+        },
+      },
     ];
   }
 
