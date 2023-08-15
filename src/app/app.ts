@@ -29,7 +29,7 @@ export default class App {
   }
 
   private createView(): void {
-    this.header = new HeaderView();
+    this.header = new HeaderView(this.router);
     this.main = new MainView();
     this.footer = new FooterView();
 

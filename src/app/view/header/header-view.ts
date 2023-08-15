@@ -6,17 +6,18 @@ import View from '../view';
 import ElementCreator from '../../util/element-creator';
 import HeaderButtonsView from '../../../components/header-buttons/header-buttons-view';
 import { ListOfValues } from '../../util/enums/list-attributesValues';
+import Router from '../../router/router';
 
 export default class HeaderView extends View {
   public headerButtonsView: HeaderButtonsView | null;
 
-  constructor() {
+  constructor(router: Router) {
     const params = {
       tag: ListTags.HEADER,
       classNames: ListClasses.HEADER,
     };
     super(params);
-    this.headerButtonsView = new HeaderButtonsView();
+    this.headerButtonsView = new HeaderButtonsView(router);
     this.configureView();
   }
 
