@@ -4,7 +4,7 @@ import { ListAttributes } from '../../util/enums/list-attributes';
 import { ListPaths } from '../../util/enums/list-paths';
 import View from '../view';
 import ElementCreator from '../../util/element-creator';
-import HeaderButtonsView from '../../../components/header-buttons/header-buttons-view';
+import HeaderButtonsView from './header-buttons/header-buttons-view';
 import { ListOfValues } from '../../util/enums/list-attributesValues';
 import Router from '../../router/router';
 import { Pages } from '../../util/enums/pages';
