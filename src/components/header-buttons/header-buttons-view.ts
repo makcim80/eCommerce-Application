@@ -5,6 +5,7 @@ import SearchIcon from './search-icon';
 import BasketIcon from './basket-icon';
 import ButtonSignIn from './button-sign-in';
 import ButtonSignUp from './button-sign-up';
+import Router from '../../app/router/router';
 
 export default class HeaderButtonsView extends View {
   public searchIcon: SearchIcon | null;
@@ -15,7 +16,7 @@ export default class HeaderButtonsView extends View {
 
   public buttonSignIn: ButtonSignIn | null;
 
-  constructor() {
+  constructor(router: Router) {
     const params = {
       tag: ListTags.CONTAINER,
       classNames: ListClasses.HEADER_BUTTONS,
@@ -24,8 +25,8 @@ export default class HeaderButtonsView extends View {
 
     this.searchIcon = new SearchIcon();
     this.basketIcon = new BasketIcon();
-    this.buttonSignUp = new ButtonSignUp();
-    this.buttonSignIn = new ButtonSignIn();
+    this.buttonSignUp = new ButtonSignUp(router);
+    this.buttonSignIn = new ButtonSignIn(router);
     this.configureView();
   }
 

@@ -8,5 +8,6 @@ module.exports = {
       directory: path.join(__dirname,
         '../dist'),
     },
+    historyApiFallback: true,
   },
 };

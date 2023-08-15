@@ -10,4 +10,13 @@ export default class MainView extends View {
     };
     super(params);
   }
+
+  public setContent(content: View): void {
+    const htmlElement = this.view.getElement();
+    while (htmlElement?.firstElementChild) {
+      htmlElement?.firstElementChild.remove();
+    }
+    const elem = content.getHTMLElement();
+    if (elem) this.view.addInnerElement(elem);
+  }
 }

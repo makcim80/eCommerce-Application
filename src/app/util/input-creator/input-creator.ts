@@ -23,7 +23,7 @@ export default class InputFieldCreator extends ElementCreator {
     this.labelElement.textContent = text;
   }
 
-  protected setCallback(callback: (event: Event) => void): void {
+  public setCallback(callback: (event: Event) => void): void {
     if (this.element) this.element.addEventListener('keyup', (event) => callback(event));
   }
 
