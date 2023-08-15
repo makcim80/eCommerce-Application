@@ -31,6 +31,7 @@ export default class HeaderView extends View {
     this.view.addInnerElement(headerContainer);
 
     const logo = document.createElement(ListTags.IMG);
+    logo.classList.add(ListClasses.HEADER_LOGO);
     logo.setAttribute(ListAttributes.SRC, ListPaths.LOGO);
     logo.setAttribute(ListAttributes.ALT, ListOfValues.LOGO);
     headerContainer.addInnerElement(logo);
