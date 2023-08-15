@@ -3,9 +3,6 @@ import { ListTags } from '../../../util/enums/list-tags';
 import { ListClasses } from '../../../util/enums/list-classes';
 import ElementCreator from '../../../util/element-creator';
 import { ListTextContent } from '../../../util/enums/list-textContent';
-// import EmailView from "../form-login/login-email-view";
-// import PasswordView from "../form-login/login-password-view";
-// import LoginSubmitView from "../form-login/login-submit-view";
 
 export default class Error404View extends View {
   constructor() {
