@@ -1,6 +1,7 @@
 export const enum ListClasses {
   HEADER = 'bg-blue-color',
   HEADER_CONTAINER = 'flex justify-between items-center w-full p-3',
+  HEADER_LOGO = 'cursor-pointer',
   HEADER_BUTTONS = 'flex w-40 justify-between items-center sm-s:w-52 lg-l:w-56 2xl:w-80',
   BASKET_ICON = 'cursor-pointer h-8 w-8',
   SEARCH_ICON = 'cursor-pointer h-6 w-6',

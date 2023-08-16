@@ -1,9 +1,9 @@
-import Router from '../../app/router/router';
-import { ListClasses } from '../../app/util/enums/list-classes';
-import { ListTags } from '../../app/util/enums/list-tags';
-import { ListTextContent } from '../../app/util/enums/list-textContent';
-import { Pages } from '../../app/util/enums/pages';
-import View from '../../app/view/view';
+import Router from '../../../router/router';
+import { ListClasses } from '../../../util/enums/list-classes';
+import { ListTags } from '../../../util/enums/list-tags';
+import { ListTextContent } from '../../../util/enums/list-textContent';
+import { Pages } from '../../../util/enums/pages';
+import View from '../../view';
 
 export default class ButtonSignIn extends View {
   constructor(router: Router) {

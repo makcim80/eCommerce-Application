@@ -1,11 +1,11 @@
-import { ListTags } from '../../app/util/enums/list-tags';
-import { ListClasses } from '../../app/util/enums/list-classes';
-import View from '../../app/view/view';
-import SearchIcon from './search-icon';
+import Router from '../../../router/router';
+import { ListClasses } from '../../../util/enums/list-classes';
+import { ListTags } from '../../../util/enums/list-tags';
+import View from '../../view';
 import BasketIcon from './basket-icon';
 import ButtonSignIn from './button-sign-in';
 import ButtonSignUp from './button-sign-up';
-import Router from '../../app/router/router';
+import SearchIcon from './search-icon';
 
 export default class HeaderButtonsView extends View {
   public searchIcon: SearchIcon | null;
