@@ -27,7 +27,7 @@ module.exports = {
       inset: {
         '50px': '50px',
         '50%': '50%',
-        '65%': '65%',
+        '65%': '69%',
         'img-calc': 'calc(50% - 48px)',
       },
       width: {
@@ -43,7 +43,7 @@ module.exports = {
         'xx-s': '0.7rem',
       },
       padding: {
-        '0.7rem': '0.7rem',
+        '0.7rem': '0.52rem',
       },
     },
   },
