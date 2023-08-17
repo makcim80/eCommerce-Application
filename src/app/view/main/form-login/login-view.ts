@@ -8,6 +8,8 @@ import { ListAttributes } from '../../../util/enums/list-attributes';
 import { ListPaths } from '../../../util/enums/list-paths';
 import { ListOfValues } from '../../../util/enums/list-attributesValues';
 import { ListTextContent } from '../../../util/enums/list-textContent';
+import Router from '../../../router/router';
+import { Pages } from '../../../util/enums/pages';
 
 export default class LoginView extends View {
   public emailView: EmailView | null;
@@ -16,7 +18,7 @@ export default class LoginView extends View {
 
   public loginSubmitView: LoginSubmitView | null;
 
-  constructor() {
+  constructor(router: Router) {
     const params = {
       tag: ListTags.CONTAINER,
       classNames: ListClasses.FORM_LOGIN,
@@ -26,10 +28,10 @@ export default class LoginView extends View {
     this.emailView = new EmailView();
     this.passwordView = new PasswordView();
     this.loginSubmitView = new LoginSubmitView();
-    this.configureView();
+    this.configureView(router);
   }
 
-  public configureView(): void {
+  public configureView(router: Router): void {
     const loginImage = document.createElement(ListTags.IMG);
     loginImage.setAttribute(ListAttributes.SRC, ListPaths.LOGIN);
     loginImage.setAttribute(ListAttributes.ALT, ListOfValues.LOGIN);
@@ -41,8 +43,9 @@ export default class LoginView extends View {
 
     const linkToSignUp = document.createElement(ListTags.CONTAINER);
     const link = document.createElement(ListTags.LINK);
-    link.setAttribute(ListAttributes.HREF, '#!');
+    link.classList.add(...ListClasses.POINTER.split(' '));
     link.textContent = ListTextContent.GO_TO_REGISTRATION_BUTTON;
+    link.addEventListener('click', () => router.navigate(Pages.REGISTRATION));
     linkToSignUp.classList.add(...ListClasses.LINK_TO_LOG_REG.split(' '));
     linkToSignUp.append(link);
 
