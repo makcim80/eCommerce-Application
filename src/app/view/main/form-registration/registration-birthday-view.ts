@@ -16,10 +16,14 @@ export default class RegistrationBirthdayView {
 
   public label: HTMLElement | null;
 
+  public correctInput: string;
+
   constructor() {
     this.input = this.inputFieldCreator.getInput();
     this.label = this.inputFieldCreator.getLabel();
+    this.correctInput = '';
     this.configureView();
+    this.validationDate();
   }
 
   public configureView(): void {
@@ -35,5 +39,36 @@ export default class RegistrationBirthdayView {
 
   public getElement(): HTMLElement | null {
     return this.inputFieldCreator.getElement();
+  }
+
+  public getCorrectInput(): string {
+    return this.correctInput;
+  }
+
+  public validationDate(): void {
+    const dateMessage = document.createElement(ListTags.CONTAINER);
+    dateMessage.classList.add(...ListClasses.MESSAGE_HIDDEN.split(' '));
+    dateMessage.textContent = 'less than 13 years';
+    this.inputFieldCreator.getElement()?.append(dateMessage);
+
+    if (!(this.input instanceof HTMLInputElement)) throw new Error();
+
+    this.input.addEventListener('input', () => {
+      if (!(this.input instanceof HTMLInputElement)) throw new Error();
+      const age = Math.floor(
+        (new Date().getTime() - new Date(this.input.value).getTime()) / (24 * 3600 * 365.25 * 1000),
+      );
+      if (age >= 13) {
+        this.correctInput = this.input.value;
+        dateMessage?.classList.remove(...ListClasses.MESSAGE_OPEN.split(' '));
+        dateMessage?.classList.add(...ListClasses.MESSAGE_HIDDEN.split(' '));
+      } else if (this.input.value === '') {
+        dateMessage?.classList.remove(...ListClasses.MESSAGE_OPEN.split(' '));
+        dateMessage?.classList.add(...ListClasses.MESSAGE_HIDDEN.split(' '));
+      } else {
+        dateMessage?.classList.remove(...ListClasses.MESSAGE_HIDDEN.split(' '));
+        dateMessage?.classList.add(...ListClasses.MESSAGE_OPEN.split(' '));
+      }
+    });
   }
 }

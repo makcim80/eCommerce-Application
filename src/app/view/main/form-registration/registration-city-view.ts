@@ -16,19 +16,22 @@ export default class RegistrationCityView {
 
   public label: HTMLElement | null;
 
+  public correctInput: string;
+
   constructor() {
     this.input = this.inputFieldCreator.getInput();
     this.label = this.inputFieldCreator.getLabel();
+    this.correctInput = '';
     this.configureView();
+    this.validationCity();
   }
 
   public configureView(): void {
-    this.inputFieldCreator.getElement()?.classList.add(...ListClasses.DIV.split(' '));
     this.input?.setAttribute(ListAttributes.ID, ListOfValues.CITY);
     this.input?.setAttribute(ListAttributes.TYPE, ListOfValues.TEXT);
     this.input?.classList.add(...ListClasses.INPUT_NAME.split(' '));
     this.label?.setAttribute(ListAttributes.FOR, ListOfValues.CITY);
-    this.label?.classList.add(...ListClasses.LABEL_MR.split(' '));
+    this.label?.classList.add(...ListClasses.LABEL.split(' '));
     if (this.label) {
       this.label.textContent = ListTextContent.CITY;
     }
@@ -36,5 +39,34 @@ export default class RegistrationCityView {
 
   public getElement(): HTMLElement | null {
     return this.inputFieldCreator.getElement();
+  }
+
+  public getCorrectInput(): string {
+    return this.correctInput;
+  }
+
+  public validationCity(): void {
+    const cityMessage = document.createElement(ListTags.CONTAINER);
+    cityMessage.classList.add(...ListClasses.MESSAGE_HIDDEN.split(' '));
+    cityMessage.textContent = 'Invalid city';
+    this.inputFieldCreator.getElement()?.append(cityMessage);
+
+    if (!(this.input instanceof HTMLInputElement)) throw new Error();
+
+    this.input.addEventListener('input', () => {
+      if (!(this.input instanceof HTMLInputElement)) throw new Error();
+      const regex = /^[A-Za-z]{1,}$/;
+      if (this.input.value.match(regex)) {
+        cityMessage?.classList.remove(...ListClasses.MESSAGE_OPEN.split(' '));
+        cityMessage?.classList.add(...ListClasses.MESSAGE_HIDDEN.split(' '));
+        this.correctInput = this.input.value;
+      } else if (this.input.value === '') {
+        cityMessage?.classList.remove(...ListClasses.MESSAGE_OPEN.split(' '));
+        cityMessage?.classList.add(...ListClasses.MESSAGE_HIDDEN.split(' '));
+      } else {
+        cityMessage?.classList.remove(...ListClasses.MESSAGE_HIDDEN.split(' '));
+        cityMessage?.classList.add(...ListClasses.MESSAGE_OPEN.split(' '));
+      }
+    });
   }
 }

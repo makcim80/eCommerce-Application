@@ -16,10 +16,14 @@ export default class RegistrationFirstNameView {
 
   public label: HTMLElement | null;
 
+  public correctInput: string;
+
   constructor() {
     this.input = this.inputFieldCreator.getInput();
     this.label = this.inputFieldCreator.getLabel();
+    this.correctInput = '';
     this.configureView();
+    this.validationFirstName();
   }
 
   public configureView(): void {
@@ -35,5 +39,34 @@ export default class RegistrationFirstNameView {
 
   public getElement(): HTMLElement | null {
     return this.inputFieldCreator.getElement();
+  }
+
+  public getCorrectInput(): string {
+    return this.correctInput;
+  }
+
+  public validationFirstName(): void {
+    const nameMessage = document.createElement(ListTags.CONTAINER);
+    nameMessage.classList.add(...ListClasses.MESSAGE_HIDDEN.split(' '));
+    nameMessage.textContent = 'Invalid name';
+    this.inputFieldCreator.getElement()?.append(nameMessage);
+
+    if (!(this.input instanceof HTMLInputElement)) throw new Error();
+
+    this.input.addEventListener('input', () => {
+      if (!(this.input instanceof HTMLInputElement)) throw new Error();
+      const regex = /^[A-Za-z]{1,}$/;
+      if (this.input.value.match(regex)) {
+        nameMessage?.classList.remove(...ListClasses.MESSAGE_OPEN.split(' '));
+        nameMessage?.classList.add(...ListClasses.MESSAGE_HIDDEN.split(' '));
+        this.correctInput = this.input.value;
+      } else if (this.input.value === '') {
+        nameMessage?.classList.remove(...ListClasses.MESSAGE_OPEN.split(' '));
+        nameMessage?.classList.add(...ListClasses.MESSAGE_HIDDEN.split(' '));
+      } else {
+        nameMessage?.classList.remove(...ListClasses.MESSAGE_HIDDEN.split(' '));
+        nameMessage?.classList.add(...ListClasses.MESSAGE_OPEN.split(' '));
+      }
+    });
   }
 }

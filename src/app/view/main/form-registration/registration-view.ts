@@ -72,6 +72,7 @@ export default class RegistrationView extends View {
     this.registrationSubmitView = new RegistrationSubmitView();
     this.configureView();
     this.setAttributesToElement();
+    this.createLink();
   }
 
   public configureView(): void {
@@ -95,7 +96,6 @@ export default class RegistrationView extends View {
 
     const div3 = createDivElement();
     div3?.append(this.shippingCity?.getElement() || '', this.shippingPostCode?.getElement() || '');
-
     const div4 = createDivElement();
     div4?.append(this.billingCity?.getElement() || '', this.billingPostCode?.getElement() || '');
 
@@ -105,8 +105,9 @@ export default class RegistrationView extends View {
     const div6 = document.createElement(ListTags.CONTAINER);
     div6.append(this.billingCheckboxView?.getElement() || '', this.billingStreet?.getElement() || '', div4 || '');
 
-    this.view.getElement()?.append(div1 || '', div2 || '', div5 || '', div6, this.passwordView?.getElement() || '');
-    this.view.getElement()?.append(this.emailView?.getElement() || '', this.registrationSubmitView?.getElement() || '');
+    this.view.getElement()?.append(div1 || '', div2 || '', this.emailView?.getElement() || '');
+    this.view.getElement()?.append(this.passwordView?.getElement() || '', div5 || '', div6);
+    this.view.getElement()?.append(this.registrationSubmitView?.getElement() || '');
     if (this.shippingCheckboxView?.inputFieldCreator.getLabel()) {
       this.shippingCheckboxView.inputFieldCreator.getLabel().textContent = ListTextContent.SHIPPING_ADDRESS;
     }
@@ -133,5 +134,15 @@ export default class RegistrationView extends View {
 
     this.emailView?.input?.removeAttribute(ListAttributes.PLACEHOLDER);
     this.passwordView?.input?.removeAttribute(ListAttributes.PLACEHOLDER);
+  }
+
+  public createLink(): void {
+    const linkToSignIn = document.createElement(ListTags.CONTAINER);
+    const link = document.createElement(ListTags.LINK);
+    link.setAttribute('href', '#!');
+    link.textContent = 'Go to the Login page';
+    linkToSignIn.classList.add(...ListClasses.LINK_TO_LOG_REG.split(' '));
+    linkToSignIn.append(link);
+    this.view.getElement()?.append(linkToSignIn);
   }
 }
