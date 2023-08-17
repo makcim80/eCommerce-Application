@@ -40,6 +40,7 @@ export default class RegistrationCountryView extends View {
 
     for (let i = 0; i < options.length; i += 1) {
       const option = document.createElement(ListTags.OPTION);
+      option.classList.add(...ListClasses.INPUT_SELECT_OPTION.split(' '));
       option.textContent = options[i];
       option.setAttribute(ListAttributes.VALUE, options[i]);
       select.append(option);

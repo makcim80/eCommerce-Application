@@ -1,7 +1,6 @@
 export const enum ListClasses {
   HEADER = 'bg-blue-color',
   HEADER_CONTAINER = 'flex justify-between items-center w-full p-3',
-  HEADER_LOGO = 'cursor-pointer',
   HEADER_BUTTONS = 'flex w-40 justify-between items-center sm-s:w-52 lg-l:w-56 2xl:w-80',
   HEADER_BUTTONS_ICON = 'cursor-pointer hover:scale-125',
   BUTTON_SIGN_UP = 'text-white text-xs sm-s:text-sm lg-l:text-lg 2xl:text-2xl',
@@ -24,6 +23,7 @@ export const enum ListClasses {
   DIV_CONTAINER = 'flex justify-between w-full items-center',
   LABEL_SELECT = 'text-input-color text-xx-s font-bold w-125px',
   INPUT_SELECT = 'w-full text-white border-0 outline-0 bg-transparent border-b border-white placeholder:text-sm placeholder:opacity-40 caret-white pt-0.52rem',
+  INPUT_SELECT_OPTION = 'bg-gray-600',
   EYE_IMAGE = 'absolute right-9 top-69% w-5 h-5 cursor-pointer',
   ERROR_404_CONTAINER = 'flex flex-col gap-y-3 error rounded-xl bg-form-color absolute top-50% left-50% py-10 px-5',
   ERROR_404_HEADING = 'text-white text-center text-5xl flex flex-col',
@@ -32,4 +32,5 @@ export const enum ListClasses {
   MESSAGE_HIDDEN = 'block text-form-color text-xs',
   MESSAGE_OPEN = 'block text-red-500 text-xs',
   LINK_TO_LOG_REG = 'text-xx-s text-slate-400 hover:text-slate-200 hover:decoration-slate-200 underline text-center mt-2',
+  POINTER = 'cursor-pointer',
 }
