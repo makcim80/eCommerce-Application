@@ -9,7 +9,7 @@ export default class BasketIcon extends View {
   constructor() {
     const params = {
       tag: ListTags.IMG,
-      classNames: ListClasses.BASKET_ICON,
+      classNames: ListClasses.HEADER_BUTTONS_ICON,
     };
     super(params);
     this.configureView();

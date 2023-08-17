@@ -16,10 +16,14 @@ export default class EmailView {
 
   public label: HTMLElement | null;
 
+  public correctInput: string;
+
   constructor() {
     this.input = this.inputFieldCreator.getInput();
     this.label = this.inputFieldCreator.getLabel();
+    this.correctInput = '';
     this.configureView();
+    this.validationEmail();
   }
 
   public configureView(): void {
@@ -28,7 +32,7 @@ export default class EmailView {
     this.input?.setAttribute(ListAttributes.PLACEHOLDER, ListOfValues.PLACEHOLDER_EMAIL);
     this.input?.classList.add(...ListClasses.INPUT.split(' '));
     this.label?.setAttribute(ListAttributes.FOR, ListOfValues.EMAIL);
-    this.label?.classList.add(...ListClasses.LABEL_LOGIN.split(' '));
+    this.label?.classList.add(...ListClasses.LABEL.split(' '));
     if (this.label) {
       this.label.textContent = ListTextContent.EMAIL;
     }
@@ -36,5 +40,34 @@ export default class EmailView {
 
   public getElement(): HTMLElement | null {
     return this.inputFieldCreator.getElement();
+  }
+
+  public getCorrectInput(): string {
+    return this.correctInput;
+  }
+
+  public validationEmail(): void {
+    const emailMessage = document.createElement(ListTags.CONTAINER);
+    emailMessage.classList.add(...ListClasses.MESSAGE_HIDDEN.split(' '));
+    emailMessage.textContent = ListTextContent.INVALID_EMAIL;
+    this.inputFieldCreator.getElement()?.append(emailMessage);
+
+    if (!(this.input instanceof HTMLInputElement)) throw new Error();
+
+    this.input.addEventListener('input', () => {
+      if (!(this.input instanceof HTMLInputElement)) throw new Error();
+      const regex = /^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,}$/;
+      if (this.input.value.match(regex)) {
+        emailMessage?.classList.remove(...ListClasses.MESSAGE_OPEN.split(' '));
+        emailMessage?.classList.add(...ListClasses.MESSAGE_HIDDEN.split(' '));
+        this.correctInput = this.input.value;
+      } else if (this.input.value === '') {
+        emailMessage?.classList.remove(...ListClasses.MESSAGE_OPEN.split(' '));
+        emailMessage?.classList.add(...ListClasses.MESSAGE_HIDDEN.split(' '));
+      } else {
+        emailMessage?.classList.remove(...ListClasses.MESSAGE_HIDDEN.split(' '));
+        emailMessage?.classList.add(...ListClasses.MESSAGE_OPEN.split(' '));
+      }
+    });
   }
 }

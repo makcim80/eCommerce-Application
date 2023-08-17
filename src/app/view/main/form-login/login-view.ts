@@ -39,6 +39,13 @@ export default class LoginView extends View {
     loginTitle.textContent = ListTextContent.LOGIN;
     loginTitle.classList.add(...ListClasses.LOGIN_TITLE.split(' '));
 
+    const linkToSignUp = document.createElement(ListTags.CONTAINER);
+    const link = document.createElement(ListTags.LINK);
+    link.setAttribute(ListAttributes.HREF, '#!');
+    link.textContent = ListTextContent.GO_TO_REGISTRATION_BUTTON;
+    linkToSignUp.classList.add(...ListClasses.LINK_TO_LOG_REG.split(' '));
+    linkToSignUp.append(link);
+
     this.view
       .getElement()
       ?.append(
@@ -47,6 +54,7 @@ export default class LoginView extends View {
         this.emailView?.getElement() || '',
         this.passwordView?.getElement() || '',
         this.loginSubmitView?.getElement() || '',
+        linkToSignUp,
       );
   }
 }

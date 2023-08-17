@@ -6,4 +6,5 @@ export const enum ListAttributes {
   PLACEHOLDER = 'placeholder',
   FOR = 'for',
   VALUE = 'value',
+  HREF = 'href',
 }

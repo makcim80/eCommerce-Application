@@ -17,10 +17,14 @@ export default class PasswordView {
 
   public label: HTMLElement | null;
 
+  public correctInput: string;
+
   constructor() {
     this.input = this.inputFieldCreator.getInput();
     this.label = this.inputFieldCreator.getLabel();
+    this.correctInput = '';
     this.configureView();
+    this.validationPassword();
   }
 
   public configureView(): void {
@@ -29,7 +33,7 @@ export default class PasswordView {
     this.input?.setAttribute(ListAttributes.PLACEHOLDER, ListOfValues.PLACEHOLDER_PASSWORD);
     this.input?.classList.add(...ListClasses.INPUT.split(' '));
     this.label?.setAttribute(ListAttributes.FOR, ListOfValues.FORM_PASSWORD);
-    this.label?.classList.add(...ListClasses.LABEL_LOGIN.split(' '));
+    this.label?.classList.add(...ListClasses.LABEL.split(' '));
     if (this.label) {
       this.label.textContent = ListTextContent.PASSWORD;
     }
@@ -52,5 +56,34 @@ export default class PasswordView {
 
   public getElement(): HTMLElement | null {
     return this.inputFieldCreator.getElement();
+  }
+
+  public getCorrectInput(): string {
+    return this.correctInput;
+  }
+
+  public validationPassword(): void {
+    const passwordMessage = document.createElement(ListTags.CONTAINER);
+    passwordMessage.classList.add(...ListClasses.MESSAGE_HIDDEN.split(' '));
+    passwordMessage.textContent = ListTextContent.INVALID_PASSWORD;
+    this.inputFieldCreator.getElement()?.append(passwordMessage);
+
+    if (!(this.input instanceof HTMLInputElement)) throw new Error();
+
+    this.input?.addEventListener('input', () => {
+      if (!(this.input instanceof HTMLInputElement)) throw new Error();
+      const regex = /(?=.*^\S)(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\S$).{8,}/;
+      if (this.input.value.match(regex)) {
+        passwordMessage?.classList.remove(...ListClasses.MESSAGE_OPEN.split(' '));
+        passwordMessage?.classList.add(...ListClasses.MESSAGE_HIDDEN.split(' '));
+        this.correctInput = this.input.value;
+      } else if (this.input.value === '') {
+        passwordMessage?.classList.remove(...ListClasses.MESSAGE_OPEN.split(' '));
+        passwordMessage?.classList.add(...ListClasses.MESSAGE_HIDDEN.split(' '));
+      } else {
+        passwordMessage?.classList.remove(...ListClasses.MESSAGE_HIDDEN.split(' '));
+        passwordMessage?.classList.add(...ListClasses.MESSAGE_OPEN.split(' '));
+      }
+    });
   }
 }

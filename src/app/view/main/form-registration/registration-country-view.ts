@@ -4,8 +4,11 @@ import { ListClasses } from '../../../util/enums/list-classes';
 import View from '../../view';
 import ElementCreator from '../../../util/element-creator';
 import { ListTextContent } from '../../../util/enums/list-textContent';
+import { ListOfValues } from '../../../util/enums/list-attributesValues';
 
 export default class RegistrationCountryView extends View {
+  public correctInput: string;
+
   constructor() {
     const params = {
       tag: ListTags.CONTAINER,
@@ -13,6 +16,7 @@ export default class RegistrationCountryView extends View {
     };
     super(params);
 
+    this.correctInput = '';
     this.configureView();
   }
 
@@ -23,12 +27,16 @@ export default class RegistrationCountryView extends View {
       textContent: ListTextContent.COUNTRY,
     };
     const label = new ElementCreator(params);
+    if (label instanceof HTMLLabelElement) {
+      label.setAttribute(ListAttributes.FOR, ListOfValues.COUNTRY);
+    }
     this.view.addInnerElement(label);
 
     const select = document.createElement(ListTags.SELECT);
     select.classList.add(...ListClasses.INPUT_SELECT.split(' '));
+    select.setAttribute(ListAttributes.ID, ListOfValues.COUNTRY);
 
-    const options = ['', 'DE', 'LV', 'PL'];
+    const options = ['', 'DE', 'FR', 'LT'];
 
     for (let i = 0; i < options.length; i += 1) {
       const option = document.createElement(ListTags.OPTION);
@@ -37,5 +45,13 @@ export default class RegistrationCountryView extends View {
       select.append(option);
     }
     label.addInnerElement(select);
+
+    select.addEventListener('change', () => {
+      this.correctInput = select.value;
+    });
+  }
+
+  public getCorrectInput(): string {
+    return this.correctInput;
   }
 }

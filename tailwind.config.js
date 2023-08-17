@@ -17,7 +17,7 @@ module.exports = {
         'main-background': "url('./assets/img/bg.svg')",
       },
       height: {
-        '85h': '21rem',
+        '21rem': '21rem',
       },
       screens: {
         'sm-s': '640px',
@@ -27,23 +27,23 @@ module.exports = {
       inset: {
         '50px': '50px',
         '50%': '50%',
-        '65%': '65%',
+        '69%': '69%',
         'img-calc': 'calc(50% - 48px)',
       },
       width: {
         '21w': 'calc(100% - 20px)',
-        '40%': '60%',
+        '60%': '60%',
         '1/95': '95%',
-        '127px': '125px',
+        '125px': '125px',
       },
       Height: {
-        '100h': '25rem',
+        '25rem': '25rem',
       },
       fontSize: {
         'xx-s': '0.7rem',
       },
       padding: {
-        '0.7rem': '0.7rem',
+        '0.52rem': '0.52rem',
       },
     },
   },
