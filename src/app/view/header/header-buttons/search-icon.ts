@@ -1,9 +1,9 @@
-import { ListTags } from '../../app/util/enums/list-tags';
-import { ListClasses } from '../../app/util/enums/list-classes';
-import { ListAttributes } from '../../app/util/enums/list-attributes';
-import { ListPaths } from '../../app/util/enums/list-paths';
-import View from '../../app/view/view';
-import { ListOfValues } from '../../app/util/enums/list-attributesValues';
+import { ListAttributes } from '../../../util/enums/list-attributes';
+import { ListOfValues } from '../../../util/enums/list-attributesValues';
+import { ListClasses } from '../../../util/enums/list-classes';
+import { ListPaths } from '../../../util/enums/list-paths';
+import { ListTags } from '../../../util/enums/list-tags';
+import View from '../../view';
 
 export default class SearchIcon extends View {
   constructor() {

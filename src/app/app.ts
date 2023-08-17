@@ -67,7 +67,14 @@ export default class App {
         path: `${Pages.MAIN}`,
         callback: async (): Promise<void> => {
           const { default: EmptyMainView } = await import('./view/main/empty-main/empty-main-view');
-          this.setContent(Pages.REGISTRATION, new EmptyMainView());
+          this.setContent(Pages.MAIN, new EmptyMainView());
+        },
+      },
+      {
+        path: `${Pages.NOT_FOUND}`,
+        callback: async (): Promise<void> => {
+          const { default: Error404View } = await import('./view/main/error-404/error-404-view');
+          this.setContent(Pages.NOT_FOUND, new Error404View(this.router));
         },
       },
     ];
