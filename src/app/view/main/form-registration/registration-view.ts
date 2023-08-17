@@ -16,6 +16,8 @@ import { ListOfValues } from '../../../util/enums/list-attributesValues';
 import CheckboxView from './input-checkbox-view';
 import ElementCreator from '../../../util/element-creator';
 import { ListTextContent } from '../../../util/enums/list-textContent';
+import Router from '../../../router/router';
+import { Pages } from '../../../util/enums/pages';
 
 export default class RegistrationView extends View {
   public registrationFirstNameView: RegistrationFirstNameView | null;
@@ -48,7 +50,7 @@ export default class RegistrationView extends View {
 
   public registrationSubmitView: RegistrationSubmitView | null;
 
-  constructor() {
+  constructor(router: Router) {
     const params = {
       tag: ListTags.CONTAINER,
       classNames: ListClasses.FORM_REGISTRATION,
@@ -72,7 +74,7 @@ export default class RegistrationView extends View {
     this.registrationSubmitView = new RegistrationSubmitView();
     this.configureView();
     this.setAttributesToElement();
-    this.createLink();
+    this.createLink(router);
   }
 
   public configureView(): void {
@@ -136,11 +138,12 @@ export default class RegistrationView extends View {
     this.passwordView?.input?.removeAttribute(ListAttributes.PLACEHOLDER);
   }
 
-  public createLink(): void {
+  public createLink(router: Router): void {
     const linkToSignIn = document.createElement(ListTags.CONTAINER);
     const link = document.createElement(ListTags.LINK);
-    link.setAttribute(ListAttributes.HREF, '#!');
+    link.classList.add(...ListClasses.POINTER.split(' '));
     link.textContent = ListTextContent.GO_TO_LOGIN_BUTTON;
+    link.addEventListener('click', () => router.navigate(Pages.LOGIN));
     linkToSignIn.classList.add(...ListClasses.LINK_TO_LOG_REG.split(' '));
     linkToSignIn.append(link);
     this.view.getElement()?.append(linkToSignIn);

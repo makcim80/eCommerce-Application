@@ -33,4 +33,5 @@ export const enum ListClasses {
   MESSAGE_HIDDEN = 'block text-form-color text-xs',
   MESSAGE_OPEN = 'block text-red-500 text-xs',
   LINK_TO_LOG_REG = 'text-xx-s text-slate-400 hover:text-slate-200 hover:decoration-slate-200 underline text-center mt-2',
+  POINTER = 'cursor-pointer',
 }
