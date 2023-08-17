@@ -1,7 +1,6 @@
 export const enum ListClasses {
   HEADER = 'bg-blue-color',
   HEADER_CONTAINER = 'flex justify-between items-center w-full p-3',
-  HEADER_LOGO = 'cursor-pointer',
   HEADER_BUTTONS = 'flex w-40 justify-between items-center sm-s:w-52 lg-l:w-56 2xl:w-80',
   HEADER_BUTTONS_ICON = 'cursor-pointer hover:scale-125',
   BUTTON_SIGN_UP = 'text-white text-xs sm-s:text-sm lg-l:text-lg 2xl:text-2xl',
