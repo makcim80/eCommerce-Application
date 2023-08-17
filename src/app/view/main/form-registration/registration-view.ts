@@ -139,8 +139,8 @@ export default class RegistrationView extends View {
   public createLink(): void {
     const linkToSignIn = document.createElement(ListTags.CONTAINER);
     const link = document.createElement(ListTags.LINK);
-    link.setAttribute('href', '#!');
-    link.textContent = 'Go to the Login page';
+    link.setAttribute(ListAttributes.HREF, '#!');
+    link.textContent = ListTextContent.GO_TO_LOGIN_BUTTON;
     linkToSignIn.classList.add(...ListClasses.LINK_TO_LOG_REG.split(' '));
     linkToSignIn.append(link);
     this.view.getElement()?.append(linkToSignIn);

@@ -41,8 +41,8 @@ export default class LoginView extends View {
 
     const linkToSignUp = document.createElement(ListTags.CONTAINER);
     const link = document.createElement(ListTags.LINK);
-    link.setAttribute('href', '#!');
-    link.textContent = `Don't have an account? Sign up`;
+    link.setAttribute(ListAttributes.HREF, '#!');
+    link.textContent = ListTextContent.GO_TO_REGISTRATION_BUTTON;
     linkToSignUp.classList.add(...ListClasses.LINK_TO_LOG_REG.split(' '));
     linkToSignUp.append(link);
 

@@ -65,7 +65,7 @@ export default class PasswordView {
   public validationPassword(): void {
     const passwordMessage = document.createElement(ListTags.CONTAINER);
     passwordMessage.classList.add(...ListClasses.MESSAGE_HIDDEN.split(' '));
-    passwordMessage.textContent = 'Invalid password';
+    passwordMessage.textContent = ListTextContent.INVALID_PASSWORD;
     this.inputFieldCreator.getElement()?.append(passwordMessage);
 
     if (!(this.input instanceof HTMLInputElement)) throw new Error();

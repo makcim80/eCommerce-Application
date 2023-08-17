@@ -48,7 +48,7 @@ export default class RegistrationFirstNameView {
   public validationFirstName(): void {
     const nameMessage = document.createElement(ListTags.CONTAINER);
     nameMessage.classList.add(...ListClasses.MESSAGE_HIDDEN.split(' '));
-    nameMessage.textContent = 'Invalid name';
+    nameMessage.textContent = ListTextContent.INVALID_NAME;
     this.inputFieldCreator.getElement()?.append(nameMessage);
 
     if (!(this.input instanceof HTMLInputElement)) throw new Error();

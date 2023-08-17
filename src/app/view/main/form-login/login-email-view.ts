@@ -49,7 +49,7 @@ export default class EmailView {
   public validationEmail(): void {
     const emailMessage = document.createElement(ListTags.CONTAINER);
     emailMessage.classList.add(...ListClasses.MESSAGE_HIDDEN.split(' '));
-    emailMessage.textContent = 'Invalid email';
+    emailMessage.textContent = ListTextContent.INVALID_EMAIL;
     this.inputFieldCreator.getElement()?.append(emailMessage);
 
     if (!(this.input instanceof HTMLInputElement)) throw new Error();

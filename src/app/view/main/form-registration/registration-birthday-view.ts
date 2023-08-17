@@ -48,7 +48,7 @@ export default class RegistrationBirthdayView {
   public validationDate(): void {
     const dateMessage = document.createElement(ListTags.CONTAINER);
     dateMessage.classList.add(...ListClasses.MESSAGE_HIDDEN.split(' '));
-    dateMessage.textContent = 'less than 13 years';
+    dateMessage.textContent = ListTextContent.INVALID_AGE;
     this.inputFieldCreator.getElement()?.append(dateMessage);
 
     if (!(this.input instanceof HTMLInputElement)) throw new Error();

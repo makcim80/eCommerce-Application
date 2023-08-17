@@ -48,7 +48,7 @@ export default class RegistrationCityView {
   public validationCity(): void {
     const cityMessage = document.createElement(ListTags.CONTAINER);
     cityMessage.classList.add(...ListClasses.MESSAGE_HIDDEN.split(' '));
-    cityMessage.textContent = 'Invalid city';
+    cityMessage.textContent = ListTextContent.INVALID_CITY;
     this.inputFieldCreator.getElement()?.append(cityMessage);
 
     if (!(this.input instanceof HTMLInputElement)) throw new Error();

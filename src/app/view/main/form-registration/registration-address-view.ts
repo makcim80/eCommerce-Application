@@ -48,7 +48,7 @@ export default class RegistrationAddressView {
   public validationStreet(): void {
     const streetMessage = document.createElement(ListTags.CONTAINER);
     streetMessage.classList.add(...ListClasses.MESSAGE_HIDDEN.split(' '));
-    streetMessage.textContent = 'Invalid street';
+    streetMessage.textContent = ListTextContent.INVALID_STREET;
     this.inputFieldCreator.getElement()?.append(streetMessage);
 
     if (!(this.input instanceof HTMLInputElement)) throw new Error();

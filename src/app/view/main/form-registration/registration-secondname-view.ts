@@ -48,7 +48,7 @@ export default class RegistrationSecondNameView {
   public validationLasttName(): void {
     const lastNameMessage = document.createElement(ListTags.CONTAINER);
     lastNameMessage.classList.add(...ListClasses.MESSAGE_HIDDEN.split(' '));
-    lastNameMessage.textContent = 'Invalid last name';
+    lastNameMessage.textContent = ListTextContent.INVALID_LASTNAME;
     this.inputFieldCreator.getElement()?.append(lastNameMessage);
 
     if (!(this.input instanceof HTMLInputElement)) throw new Error();
