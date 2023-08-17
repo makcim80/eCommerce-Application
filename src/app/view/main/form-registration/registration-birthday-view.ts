@@ -18,6 +18,8 @@ export default class RegistrationBirthdayView {
 
   public correctInput: string;
 
+  public readonly oneYearInMilliseconds = 24 * 3600 * 365.25 * 1000;
+
   constructor() {
     this.input = this.inputFieldCreator.getInput();
     this.label = this.inputFieldCreator.getLabel();
@@ -56,7 +58,7 @@ export default class RegistrationBirthdayView {
     this.input.addEventListener('input', () => {
       if (!(this.input instanceof HTMLInputElement)) throw new Error();
       const age = Math.floor(
-        (new Date().getTime() - new Date(this.input.value).getTime()) / (24 * 3600 * 365.25 * 1000),
+        (new Date().getTime() - new Date(this.input.value).getTime()) / this.oneYearInMilliseconds,
       );
       if (age >= 13) {
         this.correctInput = this.input.value;
