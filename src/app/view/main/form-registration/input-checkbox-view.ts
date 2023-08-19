@@ -11,7 +11,7 @@ const params = {
 export default class CheckboxView {
   public inputFieldCreator = new InputFieldCreator(params);
 
-  public input: HTMLElement | null;
+  public input: HTMLInputElement | null;
 
   public label: HTMLElement | null;
 
