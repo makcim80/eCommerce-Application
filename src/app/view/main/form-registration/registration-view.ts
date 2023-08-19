@@ -1,3 +1,5 @@
+import { ByProjectKeyRequestBuilder } from '@commercetools/platform-sdk/dist/declarations/src/generated/client/by-project-key-request-builder';
+import { ClientResponse, CustomerSignInResult, createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
 import View from '../../view';
 import { ListClasses } from '../../../util/enums/list-classes';
 import { ListTags } from '../../../util/enums/list-tags';
@@ -18,6 +20,8 @@ import ElementCreator from '../../../util/element-creator';
 import { ListTextContent } from '../../../util/enums/list-textContent';
 import Router from '../../../router/router';
 import { Pages } from '../../../util/enums/pages';
+import { client } from '../../../../components/BuildClientReg';
+import { Api } from '../../../util/enums/api';
 
 export default class RegistrationView extends View {
   public registrationFirstNameView: RegistrationFirstNameView | null;
@@ -50,6 +54,8 @@ export default class RegistrationView extends View {
 
   public registrationSubmitView: RegistrationSubmitView | null;
 
+  public apiRoot: ByProjectKeyRequestBuilder;
+
   constructor(router: Router) {
     const params = {
       tag: ListTags.CONTAINER,
@@ -75,6 +81,8 @@ export default class RegistrationView extends View {
     this.configureView();
     this.setAttributesToElement();
     this.createLink(router);
+    this.apiRoot = createApiBuilderFromCtpClient(client).withProjectKey({ projectKey: Api.PROJECT_KEY });
+    this.submit(router);
   }
 
   public configureView(): void {
@@ -147,5 +155,49 @@ export default class RegistrationView extends View {
     linkToSignIn.classList.add(...ListClasses.LINK_TO_LOG_REG.split(' '));
     linkToSignIn.append(link);
     this.view.getElement()?.append(linkToSignIn);
+  }
+
+  public async createCustomer(): Promise<ClientResponse<CustomerSignInResult>> {
+    const customer = await this.apiRoot
+      .customers()
+      .post({
+        body: {
+          email: this.emailView?.getCorrectInput() || '',
+          password: this.passwordView?.getCorrectInput() || '',
+          firstName: this.registrationFirstNameView?.getCorrectInput() || '',
+          lastName: this.registrationSecondNameView?.getCorrectInput() || '',
+          dateOfBirth: this.registrationBirthdayView?.getCorrectInput() || '',
+          addresses: [
+            {
+              streetName: this.shippingStreet?.getCorrectInput() || '',
+              postalCode: this.shippingPostCode?.getCorrectInput() || '',
+              city: this.shippingCity?.getCorrectInput() || '',
+              country: this.registrationCountryView?.getCorrectInput() || '',
+            },
+            {
+              streetName: this.billingStreet?.getCorrectInput() || '',
+              postalCode: this.billingPostCode?.getCorrectInput() || '',
+              city: this.billingCity?.getCorrectInput() || '',
+              country: this.registrationCountryView?.getCorrectInput() || '',
+            },
+          ],
+          defaultShippingAddress: this.shippingCheckboxView?.input?.checked ? 0 : undefined,
+          defaultBillingAddress: this.billingCheckboxView?.input?.checked ? 1 : undefined,
+          shippingAddresses: [0],
+          billingAddresses: [1],
+        },
+      })
+      .execute();
+    return customer;
+  }
+
+  public submit(router: Router): void {
+    this.registrationSubmitView?.getElement()?.addEventListener('click', () => {
+      this.createCustomer()
+        .then(() => {
+          router.navigate(Pages.MAIN);
+        })
+        .catch((e) => console.log('Error', e));
+    });
   }
 }
