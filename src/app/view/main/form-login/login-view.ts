@@ -119,12 +119,12 @@ export default class LoginView extends View {
 
     this.tOptions = tOptions;
 
-    let ttt: TokenStore;
+    let tokenStoreT: TokenStore;
 
     const tokenCache: TokenCache = {
-      get: () => ttt,
+      get: () => tokenStoreT,
       set: (tokenStore, tokenCacheOptions?: TokenCacheOptions) => {
-        ttt = tokenStore;
+        tokenStoreT = tokenStore;
         tOptions = tokenCacheOptions;
       },
     };
