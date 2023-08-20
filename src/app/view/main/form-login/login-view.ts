@@ -153,6 +153,11 @@ export default class LoginView extends View {
           document.body.append(new ModalWindow(modalWindowParameters).getHTMLElement() || '');
         })
         .catch((e) => {
+          const modalWindowParameters: ModalWindowParams = {
+            type: 'login',
+            status: 'error',
+          };
+          document.body.append(new ModalWindow(modalWindowParameters).getHTMLElement() || '');
           console.log('Error1', e);
         });
     });
