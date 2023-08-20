@@ -27,4 +27,8 @@ export const enum ListTextContent {
   INVALID_NAME = 'Invalid name',
   INVALID_POSTCODE = 'Invalid postcode',
   INVALID_LASTNAME = 'Invalid last name',
+  HEADING_MODAL_SUCCESSFUL = 'Authenticated',
+  DESCRIPTION_MODAL_SUCCESSFUL = 'Login successful!',
+  HEADING_MODAL_ERROR = 'Invalid credentials',
+  DESCRIPTION_MODAL_ERROR = 'Incorrect email or password!',
 }
