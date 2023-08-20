@@ -33,7 +33,7 @@ const baseConfig = {
   },
   output: {
     filename: 'index.js',
-    path: path.resolve(__dirname, '../dist'),
+    path: path.resolve(__dirname, 'dist'),
   },
   plugins: [
     new EslintPlugin({
@@ -49,7 +49,7 @@ const baseConfig = {
       patterns: [
         {
           from: path.resolve(__dirname, './src/assets'),
-          to: path.resolve(__dirname, '../dist/assets')
+          to: path.resolve(__dirname, 'dist/assets')
         }
       ]
     })
