@@ -29,7 +29,6 @@ export default class ElementCreator {
       .join(' ')
       .split(' ')
       .filter((element) => element !== '');
-    // this.setCssClasses(typeof params.classNames === 'string' ? params.classNames.split(' ') : params.classNames);
     this.setCssClasses(cssClassesArr);
     if (params.textContent) this.setTextContent(params.textContent);
     if (typeof params.callback === 'function') this.setCallback(params.callback);
