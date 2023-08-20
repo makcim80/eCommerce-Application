@@ -7,11 +7,12 @@ import ElementCreator from '../../../util/element-creator';
 import { ListAttributes } from '../../../util/enums/list-attributes';
 import { ListPaths } from '../../../util/enums/list-paths';
 import { ListTextContent } from '../../../util/enums/list-textContent';
+import { ListOfValues } from '../../../util/enums/list-attributesValues';
 
 export default class ModalWindow extends View {
-  private headingElements: ElementCreator;
+  private headingElements: ElementCreator | null;
 
-  private content: ElementCreator;
+  private content: ElementCreator | null;
 
   constructor() {
     const params = {
@@ -19,6 +20,9 @@ export default class ModalWindow extends View {
       classNames: ListClasses.MODAL_WINDOW_CONTAINER,
     };
     super(params);
+
+    this.content = null;
+    this.headingElements = null;
 
     this.configureView();
   }
@@ -28,7 +32,7 @@ export default class ModalWindow extends View {
 
     this.createContentComponents();
 
-    this.view.getElement()?.append(this.headingElements.getElement() || '', this.content.getElement() || '');
+    this.view.getElement()?.append(this.headingElements?.getElement() || '', this.content?.getElement() || '');
   }
 
   private createHeadingComponents(): void {
@@ -43,7 +47,6 @@ export default class ModalWindow extends View {
       classNames: ListClasses.MODAL_ICON_WRP,
     };
     const statusIconWrapper = new ElementCreator(statusIconWrapperParams);
-
     const statusIconParams = {
       tag: ListTags.IMG,
       classNames: ListClasses.MODAL_ICON_SUCCESSFUL,
@@ -51,8 +54,26 @@ export default class ModalWindow extends View {
     const statusIcon = new ElementCreator(statusIconParams);
     statusIcon.getElement()?.setAttribute(ListAttributes.SRC, ListPaths.CHECK_MARK);
 
+    const headingTextParams = {
+      tag: ListTags.CONTAINER,
+      classNames: ListClasses.MODAL_WINDOW_HEADING_TEXT,
+      textContent: ListTextContent.MODAL_HEADING_SUCCESSFUL,
+    };
+    const headingText = new ElementCreator(headingTextParams);
+
+    const closeBtnParams = {
+      tag: ListTags.BUTTON,
+      classNames: ListClasses.MODAL_BUTTON_SUCCESSFUL,
+      textContent: 'x',
+    };
+    const closeBtn = new ElementCreator(closeBtnParams);
+    closeBtn.setCallback(() => {
+      this.view.getElement()?.setAttribute(ListAttributes.STYLE, ListOfValues.HIDDEN_HARD);
+    });
     statusIconWrapper.addInnerElement(statusIcon);
     this.headingElements.addInnerElement(statusIconWrapper);
+    this.headingElements.addInnerElement(headingText);
+    this.headingElements.addInnerElement(closeBtn);
   }
 
   private createContentComponents(): void {

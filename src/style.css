@@ -64,3 +64,14 @@ body {
   border-radius: 9em;
   height: 20px;
 }
+
+.modalWindow {
+  --modal-window-w: 448px;
+  --modal-window-h: 128px;
+  position: absolute;
+  z-index: 1;
+  bottom: 96px;
+  left: calc(50% - var(--modal-window-w) / 2);
+  width: var(--modal-window-w);
+  min-height: var(--modal-window-h);
+}

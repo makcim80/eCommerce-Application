@@ -7,4 +7,5 @@ export const enum ListAttributes {
   FOR = 'for',
   VALUE = 'value',
   HREF = 'href',
+  STYLE = 'style',
 }
