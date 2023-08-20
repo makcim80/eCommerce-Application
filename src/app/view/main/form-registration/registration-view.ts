@@ -203,13 +203,12 @@ export default class RegistrationView extends View {
           };
           document.body.append(new ModalWindow(modalWindowParameters).getHTMLElement() || '');
         })
-        .catch((e) => {
+        .catch(() => {
           const modalWindowParameters: ModalWindowParams = {
             type: 'registration',
             status: 'error',
           };
           document.body.append(new ModalWindow(modalWindowParameters).getHTMLElement() || '');
-          console.log('Error', e);
         });
     });
   }

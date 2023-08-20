@@ -1,3 +1,4 @@
+import './modal-window.css';
 import View from '../../view';
 import { ListTags } from '../../../util/enums/list-tags';
 import { ListClasses } from '../../../util/enums/list-classes';
