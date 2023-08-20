@@ -46,6 +46,12 @@ export default class ModalWindow extends View {
       ?.append(this.headingElements?.getElement() || '', this.content?.getElement() || '');
 
     this.view.getElement()?.append(this.modalWindowContainer.getElement() || '');
+
+    this.modalWindowContainer.setCallback((event) => {
+      event.stopPropagation();
+    });
+
+    this.setCloseCallback(this.view);
   }
 
   private createHeadingComponents(): void {
@@ -89,10 +95,8 @@ export default class ModalWindow extends View {
     };
     const closeBtn = new ElementCreator(closeBtnParams);
 
-    closeBtn.setCallback((events) => {
-      events.stopPropagation();
-      this.view.getElement()?.setAttribute(ListAttributes.STYLE, ListOfValues.HIDDEN_HARD);
-    });
+    this.setCloseCallback(closeBtn);
+
     this.headingElements?.addInnerElement(closeBtn);
   }
 
@@ -111,5 +115,12 @@ export default class ModalWindow extends View {
     const contentText = new ElementCreator(contentTextParams);
 
     this.content.addInnerElement(contentText);
+  }
+
+  private setCloseCallback(component: ElementCreator): void {
+    component.setCallback((events) => {
+      events.stopPropagation();
+      this.view.getElement()?.setAttribute(ListAttributes.STYLE, ListOfValues.HIDDEN_HARD);
+    });
   }
 }
