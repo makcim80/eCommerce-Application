@@ -22,7 +22,7 @@ import { ListTextContent } from '../../../util/enums/list-textContent';
 import Router from '../../../router/router';
 import { Pages } from '../../../util/enums/pages';
 import { Api } from '../../../util/enums/api';
-import ModalWindow from '../modal-window/modal-window';
+import ModalWindow, { ModalWindowParams } from '../modal-window/modal-window';
 
 export default class LoginView extends View {
   public emailView: EmailView | null;
@@ -146,9 +146,15 @@ export default class LoginView extends View {
       this.getCustomer()
         .then(() => {
           router.navigate(Pages.MAIN);
-          document.body.append(new ModalWindow().getHTMLElement() || '');
+          const modalWindowParameters: ModalWindowParams = {
+            type: 'login',
+            status: 'success',
+          };
+          document.body.append(new ModalWindow(modalWindowParameters).getHTMLElement() || '');
         })
-        .catch((e) => console.log('Error1', e));
+        .catch((e) => {
+          console.log('Error1', e);
+        });
     });
   }
 }

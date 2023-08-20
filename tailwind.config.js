@@ -13,6 +13,10 @@ module.exports = {
         'error-color': '#F74339',
         'modal-window-bg': '#FFFFFF',
       },
+      borderWidth: {
+        // eslint-disable-next-line prettier/prettier
+        '3': '3px',
+      },
       borderRadius: {
         'radius-sm': '50%',
       },
