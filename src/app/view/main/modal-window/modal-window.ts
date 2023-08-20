@@ -10,6 +10,8 @@ import { ListTextContent } from '../../../util/enums/list-textContent';
 import { ListOfValues } from '../../../util/enums/list-attributesValues';
 
 export default class ModalWindow extends View {
+  private modalWindowContainer: ElementCreator | null;
+
   private headingElements: ElementCreator | null;
 
   private content: ElementCreator | null;
@@ -17,22 +19,33 @@ export default class ModalWindow extends View {
   constructor() {
     const params = {
       tag: ListTags.CONTAINER,
-      classNames: ListClasses.MODAL_WINDOW_CONTAINER,
+      classNames: ListClasses.MODAL_WINDOW_FADE,
     };
     super(params);
 
-    this.content = null;
+    this.modalWindowContainer = null;
     this.headingElements = null;
+    this.content = null;
 
     this.configureView();
   }
 
   private configureView(): void {
+    const modalWindowContainerParams = {
+      tag: ListTags.CONTAINER,
+      classNames: ListClasses.MODAL_WINDOW_CONTAINER,
+    };
+    this.modalWindowContainer = new ElementCreator(modalWindowContainerParams);
+
     this.createHeadingComponents();
 
     this.createContentComponents();
 
-    this.view.getElement()?.append(this.headingElements?.getElement() || '', this.content?.getElement() || '');
+    this.modalWindowContainer
+      .getElement()
+      ?.append(this.headingElements?.getElement() || '', this.content?.getElement() || '');
+
+    this.view.getElement()?.append(this.modalWindowContainer.getElement() || '');
   }
 
   private createHeadingComponents(): void {
@@ -61,19 +74,26 @@ export default class ModalWindow extends View {
     };
     const headingText = new ElementCreator(headingTextParams);
 
+    statusIconWrapper.addInnerElement(statusIcon);
+    this.headingElements.addInnerElement(statusIconWrapper);
+    this.headingElements.addInnerElement(headingText);
+
+    this.createCloseBtnComponent();
+  }
+
+  private createCloseBtnComponent(): void {
     const closeBtnParams = {
       tag: ListTags.BUTTON,
       classNames: ListClasses.MODAL_BUTTON_SUCCESSFUL,
       textContent: 'x',
     };
     const closeBtn = new ElementCreator(closeBtnParams);
-    closeBtn.setCallback(() => {
+
+    closeBtn.setCallback((events) => {
+      events.stopPropagation();
       this.view.getElement()?.setAttribute(ListAttributes.STYLE, ListOfValues.HIDDEN_HARD);
     });
-    statusIconWrapper.addInnerElement(statusIcon);
-    this.headingElements.addInnerElement(statusIconWrapper);
-    this.headingElements.addInnerElement(headingText);
-    this.headingElements.addInnerElement(closeBtn);
+    this.headingElements?.addInnerElement(closeBtn);
   }
 
   private createContentComponents(): void {

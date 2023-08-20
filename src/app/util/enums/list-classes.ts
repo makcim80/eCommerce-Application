@@ -33,6 +33,7 @@ export const enum ListClasses {
   MESSAGE_OPEN = 'block text-red-500 text-xs',
   LINK_TO_LOG_REG = 'text-xx-s text-slate-400 hover:text-slate-200 hover:decoration-slate-200 underline text-center mt-2',
   POINTER = 'cursor-pointer',
+  MODAL_WINDOW_FADE = 'screen-fade',
   MODAL_WINDOW_CONTAINER = 'modalWindow flex flex-col gap-y-16px bg-modal-window-bg border-2 border-successful-color px-5 pt-5 pb-10',
   MODAL_WINDOW_HEADING = 'flex flex-row gap-x-18px justify-between items-center',
   MODAL_WINDOW_HEADING_TEXT = 'grow text-2xl',
