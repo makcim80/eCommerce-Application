@@ -25,7 +25,11 @@ export default class ElementCreator {
 
   protected createElement(params: ISource): void {
     this.element = document.createElement(params.tag);
-    this.setCssClasses(typeof params.classNames === 'string' ? params.classNames.split(' ') : params.classNames);
+    const cssClassesArr = (Array.isArray(params.classNames) ? params.classNames : [params.classNames])
+      .join(' ')
+      .split(' ')
+      .filter((element) => element !== '');
+    this.setCssClasses(cssClassesArr);
     if (params.textContent) this.setTextContent(params.textContent);
     if (typeof params.callback === 'function') this.setCallback(params.callback);
   }

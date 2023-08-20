@@ -23,4 +23,5 @@ export const enum ListOfValues {
   POST = 'post',
   SEARCH_ICON = 'search-icon',
   BASKET_ICON = 'basket-icon',
+  HIDDEN_HARD = 'display: none',
 }
