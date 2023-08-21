@@ -22,6 +22,7 @@ import Router from '../../../router/router';
 import { Pages } from '../../../util/enums/pages';
 import { client } from '../../../../components/BuildClientReg';
 import { Api } from '../../../util/enums/api';
+import ModalWindow, { ModalWindowParams } from '../modal-window/modal-window';
 
 export default class RegistrationView extends View {
   public registrationFirstNameView: RegistrationFirstNameView | null;
@@ -219,15 +220,23 @@ export default class RegistrationView extends View {
         .execute();
 
       this.router.navigate(Pages.MAIN);
-    } catch (error) {
-      console.log('Error', error);
+      const modalWindowParameters: ModalWindowParams = {
+        type: 'registration',
+        status: 'success',
+      };
+      document.body.append(new ModalWindow(modalWindowParameters).getHTMLElement() || '');
+    } catch (err) {
+      const modalWindowParameters: ModalWindowParams = {
+        type: 'registration',
+        status: 'error',
+      };
+      document.body.append(new ModalWindow(modalWindowParameters).getHTMLElement() || '');
     }
   }
 
   public submit(): void {
     this.registrationSubmitView?.getElement()?.addEventListener('click', () => {
       this.createCustomer();
-      console.log(this.registrationFirstNameView?.getCorrectInput());
     });
   }
 

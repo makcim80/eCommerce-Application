@@ -9,6 +9,13 @@ module.exports = {
         'form-color': '#21364A',
         'neon-color': '#7df9ff',
         'input-color': '#FFE76E',
+        'successful-color': '#3EB972',
+        'error-color': '#F74339',
+        'modal-window-bg': '#FFFFFF',
+      },
+      borderWidth: {
+        // eslint-disable-next-line prettier/prettier
+        '3': '3px',
       },
       borderRadius: {
         'radius-sm': '50%',
@@ -17,6 +24,7 @@ module.exports = {
         'main-background': "url('./assets/img/bg.svg')",
       },
       height: {
+        '36px': '36px',
         '21rem': '21rem',
       },
       screens: {
@@ -35,6 +43,7 @@ module.exports = {
         '20w': 'calc(100% - 90px)',
         '60%': '60%',
         '1/95': '95%',
+        '36px': '36px',
         '125px': '125px',
       },
       Height: {
@@ -45,6 +54,10 @@ module.exports = {
       },
       padding: {
         '0.26rem': '0.26rem',
+      },
+      spacing: {
+        '16px': '16px',
+        '18px': '18px',
       },
     },
   },
