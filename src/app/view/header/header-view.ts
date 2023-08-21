@@ -39,4 +39,8 @@ export default class HeaderView extends View {
 
     headerContainer.getElement()?.append(this.headerButtonsView?.getHTMLElement() || '');
   }
+
+  public setSelectedItem(namePage: string): void {
+    this.headerButtonsView?.setSelectedItem(namePage);
+  }
 }
