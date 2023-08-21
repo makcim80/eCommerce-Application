@@ -23,8 +23,6 @@ import { Pages } from '../../../util/enums/pages';
 import { client } from '../../../../components/BuildClientReg';
 import { Api } from '../../../util/enums/api';
 import ModalWindow, { ModalWindowParams } from '../modal-window/modal-window';
-import ButtonLogout from '../../header/header-buttons/button-logout';
-import ButtonSignIn from '../../header/header-buttons/button-sign-in';
 
 export default class RegistrationView extends View {
   public registrationFirstNameView: RegistrationFirstNameView | null;
@@ -63,10 +61,6 @@ export default class RegistrationView extends View {
 
   public apiRoot: ByProjectKeyRequestBuilder;
 
-  public buttonLogout: ButtonLogout | null;
-
-  public buttonSignIn: ButtonSignIn | null;
-
   constructor(private router: Router) {
     const params = {
       tag: ListTags.CONTAINER,
@@ -91,8 +85,6 @@ export default class RegistrationView extends View {
     this.emailView = new EmailView();
     this.passwordView = new PasswordView();
     this.registrationSubmitView = new RegistrationSubmitView();
-    this.buttonLogout = new ButtonLogout();
-    this.buttonSignIn = new ButtonSignIn(router);
     this.configureView();
     this.setAttributesToElement();
     this.textContentToElement();
@@ -219,6 +211,11 @@ export default class RegistrationView extends View {
     const isFormValid = this.checkFormValidity();
 
     if (!isFormValid) {
+      const modalWindowParameters: ModalWindowParams = {
+        type: 'registration',
+        status: 'error',
+      };
+      document.body.append(new ModalWindow(modalWindowParameters).getHTMLElement() || '');
       return;
     }
     try {
@@ -229,16 +226,14 @@ export default class RegistrationView extends View {
         })
         .execute();
       this.router.navigate(Pages.MAIN);
-      this.buttonLogout?.getHTMLElement()?.classList.add(...ListClasses.BUTTON_LOGOUT.split(' '));
-      this.buttonLogout?.getHTMLElement()?.classList.remove(...ListClasses.HIDDEN.split(' '));
-      this.buttonSignIn?.getHTMLElement()?.classList.add(ListClasses.HIDDEN);
-      this.buttonSignIn?.getHTMLElement()?.classList.remove(...ListClasses.BUTTON_SIGN_IN.split(' '));
+      localStorage.setItem('tokenQwerty152', 'true');
       const modalWindowParameters: ModalWindowParams = {
         type: 'registration',
         status: 'success',
       };
       document.body.append(new ModalWindow(modalWindowParameters).getHTMLElement() || '');
     } catch (err) {
+      localStorage.removeItem('tokenQwerty152');
       const modalWindowParameters: ModalWindowParams = {
         type: 'registration',
         status: 'error',
