@@ -183,26 +183,34 @@ export default class RegistrationView extends View {
       if (this.bothAddressCheckboxView?.input?.checked) {
         if (this.billingCity?.input) {
           this.billingCity.input.value = this.shippingCity?.input?.value || '';
+          this.billingCity.setCorrectInput(this.billingCity.input.value);
         }
         if (this.billingStreet?.input) {
           this.billingStreet.input.value = this.shippingStreet?.input?.value || '';
+          this.billingStreet.setCorrectInput(this.billingStreet.input.value);
         }
         if (this.billingPostCode?.input) {
           this.billingPostCode.input.value = this.shippingPostCode?.input?.value || '';
+          this.billingPostCode.setCorrectInput(this.billingPostCode.input.value);
         }
         this.billingCountryView?.setSelect(this.shippingCountryView?.getSelect() || '');
+        this.billingCountryView?.setCorrectInput(this.shippingCountryView?.getSelect() || '');
       }
       if (this.bothAddressCheckboxView?.input?.checked === false) {
         if (this.billingCity?.input) {
           this.billingCity.input.value = '';
+          this.billingCity.setCorrectInput('');
         }
         if (this.billingStreet?.input) {
           this.billingStreet.input.value = '';
+          this.billingStreet.setCorrectInput('');
         }
         if (this.billingPostCode?.input) {
           this.billingPostCode.input.value = '';
+          this.billingPostCode.setCorrectInput('');
         }
         this.billingCountryView?.setSelect('');
+        this.billingCountryView?.setCorrectInput('');
       }
     });
   }

@@ -45,6 +45,10 @@ export default class RegistrationCityView {
     return this.correctInput;
   }
 
+  public setCorrectInput(city: string): void {
+    this.correctInput = city;
+  }
+
   public validationCity(): void {
     const cityMessage = document.createElement(ListTags.CONTAINER);
     cityMessage.classList.add(...ListClasses.MESSAGE_HIDDEN.split(' '));

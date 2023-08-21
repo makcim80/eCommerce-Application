@@ -60,6 +60,10 @@ export default class RegistrationCountryView extends View {
     return this.correctInput;
   }
 
+  public setCorrectInput(country: string): void {
+    this.correctInput = country;
+  }
+
   public getSelect(): string {
     if (this.select instanceof HTMLSelectElement) {
       return this.select.value;

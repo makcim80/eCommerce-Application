@@ -45,6 +45,10 @@ export default class RegistrationPostCodeView {
     return this.correctInput;
   }
 
+  public setCorrectInput(postCode: string): void {
+    this.correctInput = postCode;
+  }
+
   public validationPostalCode(): void {
     const postMessage = document.createElement(ListTags.CONTAINER);
     postMessage.classList.add(...ListClasses.MESSAGE_HIDDEN.split(' '));
