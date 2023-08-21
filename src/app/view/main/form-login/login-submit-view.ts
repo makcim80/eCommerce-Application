@@ -11,9 +11,9 @@ const params = {
 export default class LoginSubmitView {
   public inputFieldCreator = new InputFieldCreator(params);
 
-  public input: HTMLElement | null;
+  public input: HTMLInputElement | null;
 
-  public label: HTMLElement | null;
+  public label: HTMLLabelElement | null;
 
   constructor() {
     this.input = this.inputFieldCreator.getInput();

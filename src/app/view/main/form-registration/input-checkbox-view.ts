@@ -13,7 +13,7 @@ export default class CheckboxView {
 
   public input: HTMLInputElement | null;
 
-  public label: HTMLElement | null;
+  public label: HTMLLabelElement | null;
 
   constructor() {
     this.input = this.inputFieldCreator.getInput();

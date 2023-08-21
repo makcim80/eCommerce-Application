@@ -12,9 +12,9 @@ const params = {
 export default class RegistrationCityView {
   public inputFieldCreator = new InputFieldCreator(params);
 
-  public input: HTMLElement | null;
+  public input: HTMLInputElement | null;
 
-  public label: HTMLElement | null;
+  public label: HTMLLabelElement | null;
 
   public correctInput: string;
 
@@ -60,12 +60,11 @@ export default class RegistrationCityView {
         cityMessage?.classList.remove(...ListClasses.MESSAGE_OPEN.split(' '));
         cityMessage?.classList.add(...ListClasses.MESSAGE_HIDDEN.split(' '));
         this.correctInput = this.input.value;
-      } else if (this.input.value === '') {
-        cityMessage?.classList.remove(...ListClasses.MESSAGE_OPEN.split(' '));
-        cityMessage?.classList.add(...ListClasses.MESSAGE_HIDDEN.split(' '));
+        this.input.setCustomValidity('');
       } else {
         cityMessage?.classList.remove(...ListClasses.MESSAGE_HIDDEN.split(' '));
         cityMessage?.classList.add(...ListClasses.MESSAGE_OPEN.split(' '));
+        this.input.setCustomValidity(ListTextContent.INVALID_CITY);
       }
     });
   }

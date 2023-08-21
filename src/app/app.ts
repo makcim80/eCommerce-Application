@@ -67,7 +67,7 @@ export default class App {
         path: `${Pages.MAIN}`,
         callback: async (): Promise<void> => {
           const { default: EmptyMainView } = await import('./view/main/empty-main/empty-main-view');
-          this.setContent(Pages.MAIN, new EmptyMainView());
+          this.setContent(Pages.MAIN, new EmptyMainView(this.router));
         },
       },
       {
@@ -82,5 +82,6 @@ export default class App {
 
   public setContent(page: string, view: View): void {
     this.main?.setContent(view);
+    this.header?.setSelectedItem(page);
   }
 }

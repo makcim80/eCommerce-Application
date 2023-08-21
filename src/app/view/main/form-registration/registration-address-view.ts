@@ -12,9 +12,9 @@ const params = {
 export default class RegistrationAddressView {
   public inputFieldCreator = new InputFieldCreator(params);
 
-  public input: HTMLElement | null;
+  public input: HTMLInputElement | null;
 
-  public label: HTMLElement | null;
+  public label: HTMLLabelElement | null;
 
   public correctInput: string;
 
@@ -45,6 +45,13 @@ export default class RegistrationAddressView {
     return this.correctInput;
   }
 
+  public setValueInput(value: string): void {
+    if (this.input?.value) {
+      this.input.value = value;
+      this.correctInput = value;
+    }
+  }
+
   public validationStreet(): void {
     const streetMessage = document.createElement(ListTags.CONTAINER);
     streetMessage.classList.add(...ListClasses.MESSAGE_HIDDEN.split(' '));
@@ -60,9 +67,11 @@ export default class RegistrationAddressView {
         streetMessage?.classList.remove(...ListClasses.MESSAGE_OPEN.split(' '));
         streetMessage?.classList.add(...ListClasses.MESSAGE_HIDDEN.split(' '));
         this.correctInput = this.input.value;
+        this.input.setCustomValidity('');
       } else {
         streetMessage?.classList.remove(...ListClasses.MESSAGE_HIDDEN.split(' '));
         streetMessage?.classList.add(...ListClasses.MESSAGE_OPEN.split(' '));
+        this.input.setCustomValidity(ListTextContent.INVALID_STREET);
       }
     });
   }

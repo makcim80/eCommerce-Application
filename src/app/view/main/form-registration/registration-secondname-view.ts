@@ -12,9 +12,9 @@ const params = {
 export default class RegistrationSecondNameView {
   public inputFieldCreator = new InputFieldCreator(params);
 
-  public input: HTMLElement | null;
+  public input: HTMLInputElement | null;
 
-  public label: HTMLElement | null;
+  public label: HTMLLabelElement | null;
 
   public correctInput: string;
 
@@ -23,7 +23,7 @@ export default class RegistrationSecondNameView {
     this.label = this.inputFieldCreator.getLabel();
     this.correctInput = '';
     this.configureView();
-    this.validationLasttName();
+    this.validationLastName();
   }
 
   public configureView(): void {
@@ -45,7 +45,7 @@ export default class RegistrationSecondNameView {
     return this.correctInput;
   }
 
-  public validationLasttName(): void {
+  public validationLastName(): void {
     const lastNameMessage = document.createElement(ListTags.CONTAINER);
     lastNameMessage.classList.add(...ListClasses.MESSAGE_HIDDEN.split(' '));
     lastNameMessage.textContent = ListTextContent.INVALID_LASTNAME;
@@ -60,12 +60,11 @@ export default class RegistrationSecondNameView {
         lastNameMessage?.classList.remove(...ListClasses.MESSAGE_OPEN.split(' '));
         lastNameMessage?.classList.add(...ListClasses.MESSAGE_HIDDEN.split(' '));
         this.correctInput = this.input.value;
-      } else if (this.input.value === '') {
-        lastNameMessage?.classList.remove(...ListClasses.MESSAGE_OPEN.split(' '));
-        lastNameMessage?.classList.add(...ListClasses.MESSAGE_HIDDEN.split(' '));
+        this.input.setCustomValidity('');
       } else {
         lastNameMessage?.classList.remove(...ListClasses.MESSAGE_HIDDEN.split(' '));
         lastNameMessage?.classList.add(...ListClasses.MESSAGE_OPEN.split(' '));
+        this.input.setCustomValidity(ListTextContent.INVALID_LASTNAME);
       }
     });
   }

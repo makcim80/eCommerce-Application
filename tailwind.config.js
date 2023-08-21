@@ -40,6 +40,7 @@ module.exports = {
       },
       width: {
         '21w': 'calc(100% - 20px)',
+        '20w': 'calc(100% - 90px)',
         '60%': '60%',
         '1/95': '95%',
         '36px': '36px',
@@ -52,7 +53,7 @@ module.exports = {
         'xx-s': '0.7rem',
       },
       padding: {
-        '0.52rem': '0.52rem',
+        '0.26rem': '0.26rem',
       },
       spacing: {
         '16px': '16px',

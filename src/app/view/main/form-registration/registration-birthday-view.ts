@@ -12,9 +12,9 @@ const params = {
 export default class RegistrationBirthdayView {
   public inputFieldCreator = new InputFieldCreator(params);
 
-  public input: HTMLElement | null;
+  public input: HTMLInputElement | null;
 
-  public label: HTMLElement | null;
+  public label: HTMLLabelElement | null;
 
   public correctInput: string;
 
@@ -31,7 +31,7 @@ export default class RegistrationBirthdayView {
   public configureView(): void {
     this.input?.setAttribute(ListAttributes.ID, ListOfValues.DATE);
     this.input?.setAttribute(ListAttributes.TYPE, ListOfValues.DATE);
-    this.input?.classList.add(...ListClasses.INPUT_NAME.split(' '));
+    this.input?.classList.add(...ListClasses.INPUT_BIRTHDAY.split(' '));
     this.label?.setAttribute(ListAttributes.FOR, ListOfValues.DATE);
     this.label?.classList.add(...ListClasses.LABEL.split(' '));
     if (this.label) {
@@ -62,14 +62,13 @@ export default class RegistrationBirthdayView {
       );
       if (age >= 13) {
         this.correctInput = this.input.value;
-        dateMessage?.classList.remove(...ListClasses.MESSAGE_OPEN.split(' '));
-        dateMessage?.classList.add(...ListClasses.MESSAGE_HIDDEN.split(' '));
-      } else if (this.input.value === '') {
+        this.input.setCustomValidity('');
         dateMessage?.classList.remove(...ListClasses.MESSAGE_OPEN.split(' '));
         dateMessage?.classList.add(...ListClasses.MESSAGE_HIDDEN.split(' '));
       } else {
         dateMessage?.classList.remove(...ListClasses.MESSAGE_HIDDEN.split(' '));
         dateMessage?.classList.add(...ListClasses.MESSAGE_OPEN.split(' '));
+        this.input.setCustomValidity(ListTextContent.INVALID_AGE);
       }
     });
   }

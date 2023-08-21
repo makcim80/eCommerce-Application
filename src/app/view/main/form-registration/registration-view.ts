@@ -1,5 +1,5 @@
 import { ByProjectKeyRequestBuilder } from '@commercetools/platform-sdk/dist/declarations/src/generated/client/by-project-key-request-builder';
-import { ClientResponse, CustomerSignInResult, createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
+import { CustomerDraft, createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
 import View from '../../view';
 import { ListClasses } from '../../../util/enums/list-classes';
 import { ListTags } from '../../../util/enums/list-tags';
@@ -23,6 +23,8 @@ import { Pages } from '../../../util/enums/pages';
 import { client } from '../../../../components/BuildClientReg';
 import { Api } from '../../../util/enums/api';
 import ModalWindow, { ModalWindowParams } from '../modal-window/modal-window';
+import ButtonLogout from '../../header/header-buttons/button-logout';
+import ButtonSignIn from '../../header/header-buttons/button-sign-in';
 
 export default class RegistrationView extends View {
   public registrationFirstNameView: RegistrationFirstNameView | null;
@@ -31,9 +33,13 @@ export default class RegistrationView extends View {
 
   public registrationBirthdayView: RegistrationBirthdayView | null;
 
-  public registrationCountryView: RegistrationCountryView | null;
+  public shippingCountryView: RegistrationCountryView | null;
+
+  public billingCountryView: RegistrationCountryView | null;
 
   public shippingCheckboxView: CheckboxView | null;
+
+  public bothAddressCheckboxView: CheckboxView | null;
 
   public shippingStreet: RegistrationAddressView | null;
 
@@ -57,7 +63,11 @@ export default class RegistrationView extends View {
 
   public apiRoot: ByProjectKeyRequestBuilder;
 
-  constructor(router: Router) {
+  public buttonLogout: ButtonLogout | null;
+
+  public buttonSignIn: ButtonSignIn | null;
+
+  constructor(private router: Router) {
     const params = {
       tag: ListTags.CONTAINER,
       classNames: ListClasses.FORM_REGISTRATION,
@@ -67,23 +77,31 @@ export default class RegistrationView extends View {
     this.registrationFirstNameView = new RegistrationFirstNameView();
     this.registrationSecondNameView = new RegistrationSecondNameView();
     this.registrationBirthdayView = new RegistrationBirthdayView();
-    this.registrationCountryView = new RegistrationCountryView();
+    this.shippingCountryView = new RegistrationCountryView();
     this.shippingCheckboxView = new CheckboxView();
+    this.bothAddressCheckboxView = new CheckboxView();
     this.shippingStreet = new RegistrationAddressView();
     this.shippingCity = new RegistrationCityView();
     this.shippingPostCode = new RegistrationPostCodeView();
     this.billingCheckboxView = new CheckboxView();
+    this.billingCountryView = new RegistrationCountryView();
     this.billingStreet = new RegistrationAddressView();
     this.billingCity = new RegistrationCityView();
     this.billingPostCode = new RegistrationPostCodeView();
     this.emailView = new EmailView();
     this.passwordView = new PasswordView();
     this.registrationSubmitView = new RegistrationSubmitView();
+    this.buttonLogout = new ButtonLogout();
+    this.buttonSignIn = new ButtonSignIn(router);
     this.configureView();
     this.setAttributesToElement();
+    this.textContentToElement();
     this.createLink(router);
+    this.chooseDefaultAddress();
+    this.getFormValue();
+    this.checkFormValidity();
     this.apiRoot = createApiBuilderFromCtpClient(client).withProjectKey({ projectKey: Api.PROJECT_KEY });
-    this.submit(router);
+    this.submit();
   }
 
   public configureView(): void {
@@ -100,31 +118,29 @@ export default class RegistrationView extends View {
     );
 
     const div2 = createDivElement();
-    div2?.append(
-      this.registrationBirthdayView?.getElement() || '',
-      this.registrationCountryView?.getHTMLElement() || '',
-    );
+    div2?.append(this.registrationBirthdayView?.getElement() || '');
 
     const div3 = createDivElement();
-    div3?.append(this.shippingCity?.getElement() || '', this.shippingPostCode?.getElement() || '');
+    div3?.append(this.shippingCountryView?.getHTMLElement() || '', this.shippingPostCode?.getElement() || '');
+
     const div4 = createDivElement();
-    div4?.append(this.billingCity?.getElement() || '', this.billingPostCode?.getElement() || '');
+    div4?.append(this.billingCountryView?.getHTMLElement() || '', this.billingPostCode?.getElement() || '');
 
-    const div5 = document.createElement(ListTags.CONTAINER);
-    div5.append(this.shippingCheckboxView?.getElement() || '', this.shippingStreet?.getElement() || '', div3 || '');
+    const div5 = createDivElement();
+    div5?.append(this.shippingCity?.getElement() || '', this.shippingStreet?.getElement() || '');
 
-    const div6 = document.createElement(ListTags.CONTAINER);
-    div6.append(this.billingCheckboxView?.getElement() || '', this.billingStreet?.getElement() || '', div4 || '');
+    const div6 = createDivElement();
+    div6?.append(this.shippingCheckboxView?.getElement() || '', this.bothAddressCheckboxView?.getElement() || '');
+
+    const div7 = createDivElement();
+    div7?.append(this.billingCity?.getElement() || '', this.billingStreet?.getElement() || '');
+
+    const div8 = document.createElement(ListTags.CONTAINER);
+    div8.append(this.billingCheckboxView?.getElement() || '', div4 || '', div7 || '');
 
     this.view.getElement()?.append(div1 || '', div2 || '', this.emailView?.getElement() || '');
-    this.view.getElement()?.append(this.passwordView?.getElement() || '', div5 || '', div6);
+    this.view.getElement()?.append(this.passwordView?.getElement() || '', div6 || '', div3 || '', div5 || '', div8);
     this.view.getElement()?.append(this.registrationSubmitView?.getElement() || '');
-    if (this.shippingCheckboxView?.inputFieldCreator.getLabel()) {
-      this.shippingCheckboxView.inputFieldCreator.getLabel().textContent = ListTextContent.SHIPPING_ADDRESS;
-    }
-    if (this.billingCheckboxView?.inputFieldCreator.getLabel()) {
-      this.billingCheckboxView.inputFieldCreator.getLabel().textContent = ListTextContent.BILLING_ADDRESS;
-    }
   }
 
   public setAttributesToElement(): void {
@@ -147,6 +163,18 @@ export default class RegistrationView extends View {
     this.passwordView?.input?.removeAttribute(ListAttributes.PLACEHOLDER);
   }
 
+  public textContentToElement(): void {
+    if (this.shippingCheckboxView?.inputFieldCreator.getLabel()) {
+      this.shippingCheckboxView.inputFieldCreator.getLabel().textContent = ListTextContent.SHIPPING_ADDRESS;
+    }
+    if (this.billingCheckboxView?.inputFieldCreator.getLabel()) {
+      this.billingCheckboxView.inputFieldCreator.getLabel().textContent = ListTextContent.BILLING_ADDRESS;
+    }
+    if (this.bothAddressCheckboxView?.inputFieldCreator.getLabel()) {
+      this.bothAddressCheckboxView.inputFieldCreator.getLabel().textContent = ListTextContent.BOTH_ADDRESS;
+    }
+  }
+
   public createLink(router: Router): void {
     const linkToSignIn = document.createElement(ListTags.CONTAINER);
     const link = document.createElement(ListTags.LINK);
@@ -158,58 +186,144 @@ export default class RegistrationView extends View {
     this.view.getElement()?.append(linkToSignIn);
   }
 
-  public async createCustomer(): Promise<ClientResponse<CustomerSignInResult>> {
-    const customer = await this.apiRoot
-      .customers()
-      .post({
-        body: {
-          email: this.emailView?.getCorrectInput() || '',
-          password: this.passwordView?.getCorrectInput() || '',
-          firstName: this.registrationFirstNameView?.getCorrectInput() || '',
-          lastName: this.registrationSecondNameView?.getCorrectInput() || '',
-          dateOfBirth: this.registrationBirthdayView?.getCorrectInput() || '',
-          addresses: [
-            {
-              streetName: this.shippingStreet?.getCorrectInput() || '',
-              postalCode: this.shippingPostCode?.getCorrectInput() || '',
-              city: this.shippingCity?.getCorrectInput() || '',
-              country: this.registrationCountryView?.getCorrectInput() || '',
-            },
-            {
-              streetName: this.billingStreet?.getCorrectInput() || '',
-              postalCode: this.billingPostCode?.getCorrectInput() || '',
-              city: this.billingCity?.getCorrectInput() || '',
-              country: this.registrationCountryView?.getCorrectInput() || '',
-            },
-          ],
-          defaultShippingAddress: this.shippingCheckboxView?.input?.checked ? 0 : undefined,
-          defaultBillingAddress: this.billingCheckboxView?.input?.checked ? 1 : undefined,
-          shippingAddresses: [0],
-          billingAddresses: [1],
-        },
-      })
-      .execute();
-    return customer;
+  public chooseDefaultAddress(): void {
+    this.bothAddressCheckboxView?.input?.addEventListener('change', () => {
+      if (this.bothAddressCheckboxView?.input?.checked) {
+        if (this.billingCity?.input) {
+          this.billingCity.input.value = this.shippingCity?.input?.value || '';
+        }
+        if (this.billingStreet?.input) {
+          this.billingStreet.input.value = this.shippingStreet?.input?.value || '';
+        }
+        if (this.billingPostCode?.input) {
+          this.billingPostCode.input.value = this.shippingPostCode?.input?.value || '';
+        }
+        this.billingCountryView?.setSelect(this.shippingCountryView?.getSelect() || '');
+      }
+      if (this.bothAddressCheckboxView?.input?.checked === false) {
+        if (this.billingCity?.input) {
+          this.billingCity.input.value = '';
+        }
+        if (this.billingStreet?.input) {
+          this.billingStreet.input.value = '';
+        }
+        if (this.billingPostCode?.input) {
+          this.billingPostCode.input.value = '';
+        }
+        this.billingCountryView?.setSelect('');
+      }
+    });
   }
 
-  public submit(router: Router): void {
-    this.registrationSubmitView?.getElement()?.addEventListener('click', () => {
-      this.createCustomer()
-        .then(() => {
-          router.navigate(Pages.MAIN);
-          const modalWindowParameters: ModalWindowParams = {
-            type: 'registration',
-            status: 'success',
-          };
-          document.body.append(new ModalWindow(modalWindowParameters).getHTMLElement() || '');
+  public async createCustomer(): Promise<void> {
+    const isFormValid = this.checkFormValidity();
+
+    if (!isFormValid) {
+      return;
+    }
+    try {
+      await this.apiRoot
+        .customers()
+        .post({
+          body: this.getFormValue(),
         })
-        .catch(() => {
-          const modalWindowParameters: ModalWindowParams = {
-            type: 'registration',
-            status: 'error',
-          };
-          document.body.append(new ModalWindow(modalWindowParameters).getHTMLElement() || '');
-        });
+        .execute();
+      this.router.navigate(Pages.MAIN);
+      this.buttonLogout?.getHTMLElement()?.classList.add(...ListClasses.BUTTON_LOGOUT.split(' '));
+      this.buttonLogout?.getHTMLElement()?.classList.remove(...ListClasses.HIDDEN.split(' '));
+      this.buttonSignIn?.getHTMLElement()?.classList.add(ListClasses.HIDDEN);
+      this.buttonSignIn?.getHTMLElement()?.classList.remove(...ListClasses.BUTTON_SIGN_IN.split(' '));
+      const modalWindowParameters: ModalWindowParams = {
+        type: 'registration',
+        status: 'success',
+      };
+      document.body.append(new ModalWindow(modalWindowParameters).getHTMLElement() || '');
+    } catch (err) {
+      const modalWindowParameters: ModalWindowParams = {
+        type: 'registration',
+        status: 'error',
+      };
+      document.body.append(new ModalWindow(modalWindowParameters).getHTMLElement() || '');
+    }
+  }
+
+  public submit(): void {
+    this.registrationSubmitView?.getElement()?.addEventListener('click', () => {
+      this.createCustomer();
     });
+  }
+
+  // eslint-disable-next-line
+  private checkFormValidity(): boolean {
+    let isFormValid = true;
+    const isFirstNameValid = this.registrationFirstNameView?.input?.checkValidity();
+    const isSecondNameValid = this.registrationSecondNameView?.input?.checkValidity();
+    const isBirthdayValid = this.registrationBirthdayView?.input?.checkValidity();
+    const isEmailValid = this.emailView?.input?.checkValidity();
+    const isPasswordValid = this.passwordView?.input?.checkValidity();
+    const isShippingCityValid = this.shippingCity?.input?.checkValidity();
+    const isShippingStreetValid = this.shippingStreet?.input?.checkValidity();
+    const isShippingPostcodeValid = this.shippingPostCode?.input?.checkValidity();
+    const isBillingCityValid = this.billingCity?.input?.checkValidity();
+    const isBillingStreetValid = this.billingStreet?.input?.checkValidity();
+    const isBillingPostcodeValid = this.billingPostCode?.input?.checkValidity();
+
+    if (
+      !isSecondNameValid ||
+      !isFirstNameValid ||
+      !isBirthdayValid ||
+      !isEmailValid ||
+      !isPasswordValid ||
+      !isShippingCityValid ||
+      !isShippingStreetValid ||
+      !isShippingPostcodeValid ||
+      !isBillingCityValid ||
+      !isBillingStreetValid ||
+      !isBillingPostcodeValid ||
+      this.registrationFirstNameView?.getCorrectInput() === '' ||
+      this.registrationSecondNameView?.getCorrectInput() === '' ||
+      this.registrationBirthdayView?.getCorrectInput() === '' ||
+      this.emailView?.getCorrectInput() === '' ||
+      this.passwordView?.getCorrectInput() === '' ||
+      this.shippingStreet?.getCorrectInput() === '' ||
+      this.shippingPostCode?.getCorrectInput() === '' ||
+      this.shippingCity?.getCorrectInput() === '' ||
+      this.shippingCountryView?.getCorrectInput() === '' ||
+      this.billingStreet?.getCorrectInput() === '' ||
+      this.billingPostCode?.getCorrectInput() === '' ||
+      this.billingCity?.getCorrectInput() === '' ||
+      this.billingCountryView?.getCorrectInput() === ''
+    ) {
+      isFormValid = false;
+    }
+    return isFormValid;
+  }
+
+  private getFormValue(): CustomerDraft {
+    return {
+      email: this.emailView?.getCorrectInput() || '',
+      password: this.passwordView?.getCorrectInput() || '',
+      firstName: this.registrationFirstNameView?.getCorrectInput() || '',
+      lastName: this.registrationSecondNameView?.getCorrectInput() || '',
+      dateOfBirth: this.registrationBirthdayView?.getCorrectInput() || '',
+      addresses: [
+        {
+          streetName: this.shippingStreet?.getCorrectInput() || '',
+          postalCode: this.shippingPostCode?.getCorrectInput() || '',
+          city: this.shippingCity?.getCorrectInput() || '',
+          country: this.shippingCountryView?.getCorrectInput() || '',
+        },
+        {
+          streetName: this.billingStreet?.getCorrectInput() || '',
+          postalCode: this.billingPostCode?.getCorrectInput() || '',
+          city: this.billingCity?.getCorrectInput() || '',
+          country: this.billingCountryView?.getCorrectInput() || '',
+        },
+      ],
+      defaultShippingAddress: this.shippingCheckboxView?.input?.checked ? 0 : undefined,
+      defaultBillingAddress: this.billingCheckboxView?.input?.checked ? 1 : undefined,
+      shippingAddresses: [0],
+      billingAddresses: [1],
+    };
   }
 }
