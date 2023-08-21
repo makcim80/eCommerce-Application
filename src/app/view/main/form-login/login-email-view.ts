@@ -12,9 +12,9 @@ const params = {
 export default class EmailView {
   public inputFieldCreator = new InputFieldCreator(params);
 
-  public input: HTMLElement | null;
+  public input: HTMLInputElement | null;
 
-  public label: HTMLElement | null;
+  public label: HTMLLabelElement | null;
 
   public correctInput: string;
 
@@ -61,12 +61,15 @@ export default class EmailView {
         emailMessage?.classList.remove(...ListClasses.MESSAGE_OPEN.split(' '));
         emailMessage?.classList.add(...ListClasses.MESSAGE_HIDDEN.split(' '));
         this.correctInput = this.input.value;
+        this.input.setCustomValidity('');
       } else if (this.input.value === '') {
         emailMessage?.classList.remove(...ListClasses.MESSAGE_OPEN.split(' '));
         emailMessage?.classList.add(...ListClasses.MESSAGE_HIDDEN.split(' '));
+        this.input.setCustomValidity(ListTextContent.INVALID_EMAIL);
       } else {
         emailMessage?.classList.remove(...ListClasses.MESSAGE_HIDDEN.split(' '));
         emailMessage?.classList.add(...ListClasses.MESSAGE_OPEN.split(' '));
+        this.input.setCustomValidity(ListTextContent.INVALID_EMAIL);
       }
     });
   }

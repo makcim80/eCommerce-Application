@@ -36,7 +36,7 @@ export default class RegistrationCountryView extends View {
     select.classList.add(...ListClasses.INPUT_SELECT.split(' '));
     select.setAttribute(ListAttributes.ID, ListOfValues.COUNTRY);
 
-    const options = ['', 'DE', 'FR', 'LT'];
+    const options = ['', 'BE', 'BG', 'DK', 'CY'];
 
     for (let i = 0; i < options.length; i += 1) {
       const option = document.createElement(ListTags.OPTION);

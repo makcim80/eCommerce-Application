@@ -12,9 +12,9 @@ const params = {
 export default class RegistrationPostCodeView {
   public inputFieldCreator = new InputFieldCreator(params);
 
-  public input: HTMLElement | null;
+  public input: HTMLInputElement | null;
 
-  public label: HTMLElement | null;
+  public label: HTMLLabelElement | null;
 
   public correctInput: string;
 
@@ -60,12 +60,15 @@ export default class RegistrationPostCodeView {
         postMessage?.classList.remove(...ListClasses.MESSAGE_OPEN.split(' '));
         postMessage?.classList.add(...ListClasses.MESSAGE_HIDDEN.split(' '));
         this.correctInput = this.input.value;
+        this.input.setCustomValidity('');
       } else if (this.input.value === '') {
         postMessage?.classList.remove(...ListClasses.MESSAGE_OPEN.split(' '));
         postMessage?.classList.add(...ListClasses.MESSAGE_HIDDEN.split(' '));
+        this.input.setCustomValidity(ListTextContent.INVALID_POSTCODE);
       } else {
         postMessage?.classList.remove(...ListClasses.MESSAGE_HIDDEN.split(' '));
         postMessage?.classList.add(...ListClasses.MESSAGE_OPEN.split(' '));
+        this.input.setCustomValidity(ListTextContent.INVALID_POSTCODE);
       }
     });
   }
