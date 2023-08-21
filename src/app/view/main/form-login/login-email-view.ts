@@ -66,10 +66,12 @@ export default class EmailView {
         emailMessage?.classList.remove(...ListClasses.MESSAGE_OPEN.split(' '));
         emailMessage?.classList.add(...ListClasses.MESSAGE_HIDDEN.split(' '));
         this.input.setCustomValidity(ListTextContent.INVALID_EMAIL);
+        this.correctInput = '';
       } else {
         emailMessage?.classList.remove(...ListClasses.MESSAGE_HIDDEN.split(' '));
         emailMessage?.classList.add(...ListClasses.MESSAGE_OPEN.split(' '));
         this.input.setCustomValidity(ListTextContent.INVALID_EMAIL);
+        this.correctInput = '';
       }
     });
   }
