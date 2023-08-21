@@ -23,7 +23,7 @@ export default class RegistrationSecondNameView {
     this.label = this.inputFieldCreator.getLabel();
     this.correctInput = '';
     this.configureView();
-    this.validationLasttName();
+    this.validationLastName();
   }
 
   public configureView(): void {
@@ -45,7 +45,7 @@ export default class RegistrationSecondNameView {
     return this.correctInput;
   }
 
-  public validationLasttName(): void {
+  public validationLastName(): void {
     const lastNameMessage = document.createElement(ListTags.CONTAINER);
     lastNameMessage.classList.add(...ListClasses.MESSAGE_HIDDEN.split(' '));
     lastNameMessage.textContent = ListTextContent.INVALID_LASTNAME;
@@ -66,11 +66,6 @@ export default class RegistrationSecondNameView {
         lastNameMessage?.classList.add(...ListClasses.MESSAGE_OPEN.split(' '));
         this.input.setCustomValidity(ListTextContent.INVALID_LASTNAME);
       }
-      // else if (this.input.value === '') {
-      //   lastNameMessage?.classList.remove(...ListClasses.MESSAGE_OPEN.split(' '));
-      //   lastNameMessage?.classList.add(...ListClasses.MESSAGE_HIDDEN.split(' '));
-      //   this.input.setCustomValidity(ListTextContent.INVALID_LASTNAME);
-      // }
     });
   }
 }

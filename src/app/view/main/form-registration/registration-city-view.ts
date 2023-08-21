@@ -61,10 +61,6 @@ export default class RegistrationCityView {
         cityMessage?.classList.add(...ListClasses.MESSAGE_HIDDEN.split(' '));
         this.correctInput = this.input.value;
         this.input.setCustomValidity('');
-      } else if (this.input.value === '') {
-        cityMessage?.classList.remove(...ListClasses.MESSAGE_OPEN.split(' '));
-        cityMessage?.classList.add(...ListClasses.MESSAGE_HIDDEN.split(' '));
-        this.input.setCustomValidity(ListTextContent.INVALID_CITY);
       } else {
         cityMessage?.classList.remove(...ListClasses.MESSAGE_HIDDEN.split(' '));
         cityMessage?.classList.add(...ListClasses.MESSAGE_OPEN.split(' '));

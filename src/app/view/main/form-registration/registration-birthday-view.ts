@@ -65,10 +65,6 @@ export default class RegistrationBirthdayView {
         this.input.setCustomValidity('');
         dateMessage?.classList.remove(...ListClasses.MESSAGE_OPEN.split(' '));
         dateMessage?.classList.add(...ListClasses.MESSAGE_HIDDEN.split(' '));
-      } else if (this.input.value === '') {
-        dateMessage?.classList.remove(...ListClasses.MESSAGE_OPEN.split(' '));
-        dateMessage?.classList.add(...ListClasses.MESSAGE_HIDDEN.split(' '));
-        this.input.setCustomValidity(ListTextContent.INVALID_AGE);
       } else {
         dateMessage?.classList.remove(...ListClasses.MESSAGE_HIDDEN.split(' '));
         dateMessage?.classList.add(...ListClasses.MESSAGE_OPEN.split(' '));

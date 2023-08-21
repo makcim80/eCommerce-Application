@@ -50,4 +50,6 @@ export const enum ListClasses {
   MODAL_BUTTON_BASE = 'border-2 rounded-full w-36px h-36px hover:text-white transition-all duration-300',
   MODAL_BUTTON_SUCCESSFUL = 'border-successful-color hover:bg-successful-color',
   MODAL_BUTTON_ERROR = 'border-error-color hover:bg-error-color',
+  BUTTON_LOGOUT = 'block text-black text-xs sm-s:text-sm lg-l:text-lg 2xl:text-2xl hover:border-b-2 hover:border-input-color hover:border-solid hover:text-input-color',
+  HIDDEN = 'hidden',
 }

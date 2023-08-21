@@ -23,6 +23,8 @@ import { Pages } from '../../../util/enums/pages';
 import { client } from '../../../../components/BuildClientReg';
 import { Api } from '../../../util/enums/api';
 import ModalWindow, { ModalWindowParams } from '../modal-window/modal-window';
+import ButtonLogout from '../../header/header-buttons/button-logout';
+import ButtonSignIn from '../../header/header-buttons/button-sign-in';
 
 export default class RegistrationView extends View {
   public registrationFirstNameView: RegistrationFirstNameView | null;
@@ -61,6 +63,10 @@ export default class RegistrationView extends View {
 
   public apiRoot: ByProjectKeyRequestBuilder;
 
+  public buttonLogout: ButtonLogout | null;
+
+  public buttonSignIn: ButtonSignIn | null;
+
   constructor(private router: Router) {
     const params = {
       tag: ListTags.CONTAINER,
@@ -85,11 +91,15 @@ export default class RegistrationView extends View {
     this.emailView = new EmailView();
     this.passwordView = new PasswordView();
     this.registrationSubmitView = new RegistrationSubmitView();
+    this.buttonLogout = new ButtonLogout();
+    this.buttonSignIn = new ButtonSignIn(router);
     this.configureView();
     this.setAttributesToElement();
     this.textContentToElement();
     this.createLink(router);
     this.chooseDefaultAddress();
+    this.getFormValue();
+    this.checkFormValidity();
     this.apiRoot = createApiBuilderFromCtpClient(client).withProjectKey({ projectKey: Api.PROJECT_KEY });
     this.submit();
   }
@@ -188,6 +198,7 @@ export default class RegistrationView extends View {
         if (this.billingPostCode?.input) {
           this.billingPostCode.input.value = this.shippingPostCode?.input?.value || '';
         }
+        this.billingCountryView?.setSelect(this.shippingCountryView?.getSelect() || '');
       }
       if (this.bothAddressCheckboxView?.input?.checked === false) {
         if (this.billingCity?.input) {
@@ -199,6 +210,7 @@ export default class RegistrationView extends View {
         if (this.billingPostCode?.input) {
           this.billingPostCode.input.value = '';
         }
+        this.billingCountryView?.setSelect('');
       }
     });
   }
@@ -207,10 +219,8 @@ export default class RegistrationView extends View {
     const isFormValid = this.checkFormValidity();
 
     if (!isFormValid) {
-      console.error('Form is not valid');
       return;
     }
-
     try {
       await this.apiRoot
         .customers()
@@ -218,8 +228,11 @@ export default class RegistrationView extends View {
           body: this.getFormValue(),
         })
         .execute();
-
       this.router.navigate(Pages.MAIN);
+      this.buttonLogout?.getHTMLElement()?.classList.add(...ListClasses.BUTTON_LOGOUT.split(' '));
+      this.buttonLogout?.getHTMLElement()?.classList.remove(...ListClasses.HIDDEN.split(' '));
+      this.buttonSignIn?.getHTMLElement()?.classList.add(ListClasses.HIDDEN);
+      this.buttonSignIn?.getHTMLElement()?.classList.remove(...ListClasses.BUTTON_SIGN_IN.split(' '));
       const modalWindowParameters: ModalWindowParams = {
         type: 'registration',
         status: 'success',
@@ -240,9 +253,9 @@ export default class RegistrationView extends View {
     });
   }
 
+  // eslint-disable-next-line
   private checkFormValidity(): boolean {
     let isFormValid = true;
-
     const isFirstNameValid = this.registrationFirstNameView?.input?.checkValidity();
     const isSecondNameValid = this.registrationSecondNameView?.input?.checkValidity();
     const isBirthdayValid = this.registrationBirthdayView?.input?.checkValidity();
@@ -266,12 +279,23 @@ export default class RegistrationView extends View {
       !isShippingPostcodeValid ||
       !isBillingCityValid ||
       !isBillingStreetValid ||
-      !isBillingPostcodeValid
+      !isBillingPostcodeValid ||
+      this.registrationFirstNameView?.getCorrectInput() === '' ||
+      this.registrationSecondNameView?.getCorrectInput() === '' ||
+      this.registrationBirthdayView?.getCorrectInput() === '' ||
+      this.emailView?.getCorrectInput() === '' ||
+      this.passwordView?.getCorrectInput() === '' ||
+      this.shippingStreet?.getCorrectInput() === '' ||
+      this.shippingPostCode?.getCorrectInput() === '' ||
+      this.shippingCity?.getCorrectInput() === '' ||
+      this.shippingCountryView?.getCorrectInput() === '' ||
+      this.billingStreet?.getCorrectInput() === '' ||
+      this.billingPostCode?.getCorrectInput() === '' ||
+      this.billingCity?.getCorrectInput() === '' ||
+      this.billingCountryView?.getCorrectInput() === ''
     ) {
       isFormValid = false;
-      this.registrationFirstNameView?.input?.classList.add('border-b', 'border-red-500');
     }
-
     return isFormValid;
   }
 

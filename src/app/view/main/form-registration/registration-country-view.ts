@@ -9,6 +9,8 @@ import { ListOfValues } from '../../../util/enums/list-attributesValues';
 export default class RegistrationCountryView extends View {
   public correctInput: string;
 
+  public select: HTMLSelectElement | string;
+
   constructor() {
     const params = {
       tag: ListTags.CONTAINER,
@@ -17,6 +19,7 @@ export default class RegistrationCountryView extends View {
     super(params);
 
     this.correctInput = '';
+    this.select = '';
     this.configureView();
   }
 
@@ -35,6 +38,7 @@ export default class RegistrationCountryView extends View {
     const select = document.createElement(ListTags.SELECT);
     select.classList.add(...ListClasses.INPUT_SELECT.split(' '));
     select.setAttribute(ListAttributes.ID, ListOfValues.COUNTRY);
+    this.select = select;
 
     const options = ['', 'BE', 'BG', 'DK', 'CY'];
 
@@ -54,5 +58,18 @@ export default class RegistrationCountryView extends View {
 
   public getCorrectInput(): string {
     return this.correctInput;
+  }
+
+  public getSelect(): string {
+    if (this.select instanceof HTMLSelectElement) {
+      return this.select.value;
+    }
+    return '';
+  }
+
+  public setSelect(country: string): void {
+    if (this.select instanceof HTMLSelectElement) {
+      this.select.value = country;
+    }
   }
 }

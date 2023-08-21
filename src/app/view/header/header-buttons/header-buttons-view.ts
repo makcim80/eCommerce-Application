@@ -7,6 +7,7 @@ import BasketIcon from './basket-icon';
 import ButtonSignIn from './button-sign-in';
 import ButtonSignUp from './button-sign-up';
 import SearchIcon from './search-icon';
+import ButtonLogout from './button-logout';
 
 export default class HeaderButtonsView extends View {
   public searchIcon: SearchIcon | null;
@@ -17,6 +18,8 @@ export default class HeaderButtonsView extends View {
 
   public buttonSignIn: ButtonSignIn | null;
 
+  public buttonLogout: ButtonLogout | null;
+
   constructor(router: Router) {
     const params = {
       tag: ListTags.CONTAINER,
@@ -26,6 +29,7 @@ export default class HeaderButtonsView extends View {
 
     this.searchIcon = new SearchIcon();
     this.basketIcon = new BasketIcon();
+    this.buttonLogout = new ButtonLogout();
     this.buttonSignUp = new ButtonSignUp(router);
     this.buttonSignIn = new ButtonSignIn(router);
     this.configureView();
@@ -39,6 +43,7 @@ export default class HeaderButtonsView extends View {
         this.basketIcon?.getHTMLElement() || '',
         this.buttonSignUp?.getHTMLElement() || '',
         this.buttonSignIn?.getHTMLElement() || '',
+        this.buttonLogout?.getHTMLElement() || '',
       );
   }
 
