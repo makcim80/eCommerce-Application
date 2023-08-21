@@ -146,6 +146,7 @@ export default class LoginView extends View {
       this.getCustomer()
         .then(() => {
           router.navigate(Pages.MAIN);
+          localStorage.setItem(Api.STORAGE, 'true');
           const modalWindowParameters: ModalWindowParams = {
             type: 'login',
             status: 'success',
@@ -153,6 +154,7 @@ export default class LoginView extends View {
           document.body.append(new ModalWindow(modalWindowParameters).getHTMLElement() || '');
         })
         .catch(() => {
+          localStorage.removeItem(Api.STORAGE);
           const modalWindowParameters: ModalWindowParams = {
             type: 'login',
             status: 'error',

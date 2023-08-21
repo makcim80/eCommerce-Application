@@ -45,6 +45,10 @@ export default class RegistrationAddressView {
     return this.correctInput;
   }
 
+  public setCorrectInput(street: string): void {
+    this.correctInput = street;
+  }
+
   public setValueInput(value: string): void {
     if (this.input?.value) {
       this.input.value = value;

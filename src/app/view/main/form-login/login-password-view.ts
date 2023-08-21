@@ -82,10 +82,12 @@ export default class PasswordView {
         passwordMessage?.classList.remove(...ListClasses.MESSAGE_OPEN.split(' '));
         passwordMessage?.classList.add(...ListClasses.MESSAGE_HIDDEN.split(' '));
         this.input.setCustomValidity(ListTextContent.INVALID_PASSWORD);
+        this.correctInput = '';
       } else {
         passwordMessage?.classList.remove(...ListClasses.MESSAGE_HIDDEN.split(' '));
         passwordMessage?.classList.add(...ListClasses.MESSAGE_OPEN.split(' '));
         this.input.setCustomValidity(ListTextContent.INVALID_PASSWORD);
+        this.correctInput = '';
       }
     });
   }
