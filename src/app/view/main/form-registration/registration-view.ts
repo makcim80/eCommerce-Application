@@ -234,14 +234,14 @@ export default class RegistrationView extends View {
         })
         .execute();
       this.router.navigate(Pages.MAIN);
-      localStorage.setItem('tokenQwerty152', 'true');
+      localStorage.setItem(Api.STORAGE, 'true');
       const modalWindowParameters: ModalWindowParams = {
         type: 'registration',
         status: 'success',
       };
       document.body.append(new ModalWindow(modalWindowParameters).getHTMLElement() || '');
     } catch (err) {
-      localStorage.removeItem('tokenQwerty152');
+      localStorage.removeItem(Api.STORAGE);
       const modalWindowParameters: ModalWindowParams = {
         type: 'registration',
         status: 'error',

@@ -1,4 +1,5 @@
 import Router from '../../../router/router';
+import { Api } from '../../../util/enums/api';
 import { ListClasses } from '../../../util/enums/list-classes';
 import { ListTags } from '../../../util/enums/list-tags';
 import { ListTextContent } from '../../../util/enums/list-textContent';
@@ -17,9 +18,7 @@ export default class ButtonSignUp extends View {
   }
 
   private configureView(router: Router): void {
-    this.view.setCallback(() =>
-      router.navigate(localStorage.getItem('tokenQwerty152') ? Pages.MAIN : Pages.REGISTRATION),
-    );
+    this.view.setCallback(() => router.navigate(localStorage.getItem(Api.STORAGE) ? Pages.MAIN : Pages.REGISTRATION));
   }
 
   public hideButton(): void {

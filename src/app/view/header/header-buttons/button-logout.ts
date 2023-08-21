@@ -1,4 +1,5 @@
 import Router from '../../../router/router';
+import { Api } from '../../../util/enums/api';
 import { ListClasses } from '../../../util/enums/list-classes';
 import { ListTags } from '../../../util/enums/list-tags';
 import { ListTextContent } from '../../../util/enums/list-textContent';
@@ -18,7 +19,7 @@ export default class ButtonLogout extends View {
 
   private configureView(router: Router): void {
     this.view.setCallback(() => {
-      localStorage.removeItem('tokenQwerty152');
+      localStorage.removeItem(Api.STORAGE);
       router.navigate(Pages.MAIN);
     });
   }

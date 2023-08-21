@@ -1,4 +1,5 @@
 import Router from './router/router';
+import { Api } from './util/enums/api';
 import { Pages } from './util/enums/pages';
 import FooterView from './view/footer/footer-view';
 import HeaderView from './view/header/header-view';
@@ -83,7 +84,7 @@ export default class App {
   public setContent(page: string, view: View): void {
     this.main?.setContent(view);
     this.header?.setSelectedItem(page);
-    if (localStorage.getItem('tokenQwerty152')) {
+    if (localStorage.getItem(Api.STORAGE)) {
       this.header?.showButtonLogout();
     } else {
       this.header?.showButtonSignUpAndSignIn();
