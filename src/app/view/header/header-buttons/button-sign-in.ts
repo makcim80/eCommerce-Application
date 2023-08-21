@@ -17,6 +17,16 @@ export default class ButtonSignIn extends View {
   }
 
   private configureView(router: Router): void {
-    this.view.setCallback(() => router.navigate(Pages.LOGIN));
+    this.view.setCallback(() => router.navigate(localStorage.getItem('tokenQwerty152') ? Pages.MAIN : Pages.LOGIN));
+  }
+
+  public hideButton(): void {
+    this.view?.getElement()?.classList.remove(...ListClasses.BUTTON_SIGN_IN.split(' '));
+    this.view?.getElement()?.classList.add(...ListClasses.HIDDEN.split(' '));
+  }
+
+  public showButton(): void {
+    this.view?.getElement()?.classList.remove(...ListClasses.HIDDEN.split(' '));
+    this.view?.getElement()?.classList.add(...ListClasses.BUTTON_SIGN_IN.split(' '));
   }
 }

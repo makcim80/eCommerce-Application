@@ -29,7 +29,7 @@ export default class HeaderButtonsView extends View {
 
     this.searchIcon = new SearchIcon();
     this.basketIcon = new BasketIcon();
-    this.buttonLogout = new ButtonLogout();
+    this.buttonLogout = new ButtonLogout(router);
     this.buttonSignUp = new ButtonSignUp(router);
     this.buttonSignIn = new ButtonSignIn(router);
     this.configureView();
@@ -56,5 +56,17 @@ export default class HeaderButtonsView extends View {
     if (namePage === Pages.REGISTRATION) {
       this.buttonSignUp?.getHTMLElement()?.classList.add(...ListClasses.BUTTON_ACTIVE.split(' '));
     }
+  }
+
+  public showButtonLogout(): void {
+    this.buttonLogout?.showButton();
+    this.buttonSignIn?.hideButton();
+    this.buttonSignUp?.hideButton();
+  }
+
+  public showButtonSignUpAndSignIn(): void {
+    this.buttonLogout?.hideButton();
+    this.buttonSignIn?.showButton();
+    this.buttonSignUp?.showButton();
   }
 }

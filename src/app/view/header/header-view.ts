@@ -43,4 +43,12 @@ export default class HeaderView extends View {
   public setSelectedItem(namePage: string): void {
     this.headerButtonsView?.setSelectedItem(namePage);
   }
+
+  public showButtonLogout(): void {
+    this.headerButtonsView?.showButtonLogout();
+  }
+
+  public showButtonSignUpAndSignIn(): void {
+    this.headerButtonsView?.showButtonSignUpAndSignIn();
+  }
 }

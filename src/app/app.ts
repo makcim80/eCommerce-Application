@@ -83,5 +83,10 @@ export default class App {
   public setContent(page: string, view: View): void {
     this.main?.setContent(view);
     this.header?.setSelectedItem(page);
+    if (localStorage.getItem('tokenQwerty152')) {
+      this.header?.showButtonLogout();
+    } else {
+      this.header?.showButtonSignUpAndSignIn();
+    }
   }
 }

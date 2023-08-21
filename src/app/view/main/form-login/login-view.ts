@@ -146,6 +146,7 @@ export default class LoginView extends View {
       this.getCustomer()
         .then(() => {
           router.navigate(Pages.MAIN);
+          localStorage.setItem('tokenQwerty152', 'true');
           const modalWindowParameters: ModalWindowParams = {
             type: 'login',
             status: 'success',
@@ -153,6 +154,7 @@ export default class LoginView extends View {
           document.body.append(new ModalWindow(modalWindowParameters).getHTMLElement() || '');
         })
         .catch(() => {
+          localStorage.removeItem('tokenQwerty152');
           const modalWindowParameters: ModalWindowParams = {
             type: 'login',
             status: 'error',
