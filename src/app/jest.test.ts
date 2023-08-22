@@ -1,7 +1,7 @@
-import App from '../app';
-import { ListTags } from '../util/enums/list-tags';
-import RegistrationFirstNameView from './main/form-registration/registration-firstname-view';
-import View from './view';
+import ElementCreator from './util/element-creator';
+import { ListTags } from './util/enums/list-tags';
+import RegistrationFirstNameView from './view/main/form-registration/registration-firstname-view';
+import View from './view/view';
 
 const params = {
   tag: ListTags.CONTAINER,
@@ -16,8 +16,8 @@ describe('test', () => {
     const name = new RegistrationFirstNameView();
     expect(name).toBeTruthy();
   });
-  it('should check if property exist', () => {
-    const elem = new App();
+  it('should check property exist', () => {
+    const elem = new ElementCreator(params);
     expect(elem).toHaveProperty(['constructor']);
   });
 });
