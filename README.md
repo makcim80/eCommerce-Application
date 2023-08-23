@@ -35,6 +35,7 @@ of the functionality of the code
 - `build`: Running the development server using webpack
 - `lint`: Parses TypeScript files using ESLint and airbnb-base rules
 - `lint:fix`: Automatically fixes problems in TypeScript files.
+- `prettier`: Formats the TypeScript, JavaScript, and CSS files using Prettier.
 - `test`: Runs Jest tests
 
 run scripts using `npm run`
