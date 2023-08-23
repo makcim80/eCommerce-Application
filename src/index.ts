@@ -1,2 +1,5 @@
-const greeting = document.querySelector('body');
-if (greeting) greeting.textContent = 'Hello World!!!';
+import App from './app/app';
+import './style.css';
+
+const app = new App();
+console.log(app);

@@ -1,0 +1,66 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'MonospaceRegular';
+  src: url('./assets/fonts/Monospace-Regular.ttf');
+}
+
+@font-face {
+  font-family: 'Rubik Wet Paint', cursive;
+  src: url('./assets/fonts/Beginner.ttf');
+}
+
+@font-face {
+  font-family: 'Roboto', sans-serif;
+  src: url('./assets/fonts/Roboto-Regular.ttf');
+}
+
+@font-face {
+  font-family: 'Arial', sans-serif;
+  src: url('./assets/fonts/Arial-Regular.ttf');
+}
+
+@font-face {
+  font-family: 'Inter', sans-serif;
+  src: url('./assets/fonts/Inter-Regular.ttf');
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  height: 100vh;
+}
+
+body {
+  font-family: 'Roboto', 'Arial', 'Inter', sans-serif;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.form,
+.form-reg,
+.error {
+  transform: translate(-50%, -50%);
+}
+
+::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+}
+
+.form-reg::-webkit-scrollbar {
+  width: 3px;
+  height: 3px;
+  background-color: #706f6f;
+  border-radius: 5em;
+}
+
+.form-reg::-webkit-scrollbar-thumb {
+  background-color: #8EB2C6;
+  border-radius: 9em;
+  height: 20px;
+}
