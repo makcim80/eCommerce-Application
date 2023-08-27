@@ -4,20 +4,21 @@ import View from '../../view';
 import ButtonCatalog from './button-catalog';
 import ButtonAboutUs from './button-about-us';
 import ElementCreator from '../../../util/element-creator';
+import Router from '../../../router/router';
 
 export default class CatalogAndAboutUsButtonsContainer extends View {
   public buttonCatalog: ButtonCatalog | null;
 
   public buttonAboutUs: ButtonAboutUs | null;
 
-  constructor() {
+  constructor(router: Router) {
     const params = {
       tag: ListTags.CONTAINER,
       classNames: ListClasses.HEADER_NAV,
     };
     super(params);
 
-    this.buttonCatalog = new ButtonCatalog();
+    this.buttonCatalog = new ButtonCatalog(router);
     this.buttonAboutUs = new ButtonAboutUs();
     this.configureView();
   }
