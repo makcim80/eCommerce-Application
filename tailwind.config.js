@@ -28,6 +28,7 @@ module.exports = {
         '21rem': '21rem',
       },
       screens: {
+        'sm-sm': '320px',
         'sm-s': '640px',
         'lg-l': '1024px',
         '2xl': '1536px',
@@ -45,6 +46,8 @@ module.exports = {
         '1/95': '95%',
         '36px': '36px',
         '125px': '125px',
+        '30rem': '30rem',
+        '35rem': '35rem',
       },
       Height: {
         '25rem': '25rem',

@@ -37,4 +37,7 @@ export const enum ListTextContent {
   MODAL_REGISTRATION_HEADING_ERROR = 'Invalid user data',
   MODAL_REGISTRATION_DESCRIPTION_ERROR = 'Error while filling fields!',
   LOGOUT = 'Logout',
+  MY_PROFILE = 'Profile',
+  CATALOG = 'Catalog',
+  ABOUT_US = 'About us',
 }
