@@ -64,3 +64,23 @@ body {
   border-radius: 9em;
   height: 20px;
 }
+
+.burger-menu {
+  transition: 0.3s linear;
+}
+
+.burger-line {
+  transition: opacity .2s ease-out;
+}
+
+.burger-menu-active {
+  transform: rotate(90deg);
+}
+
+.header-nav {
+  transform: translateX(100%)
+}
+
+.header-nav-active {
+  transform: translateX(0);
+}
