@@ -6,7 +6,7 @@ export default class ImgCardView extends View {
   constructor() {
     const params = {
       tag: ListTags.IMG,
-      classNames: ListClasses.SIZE_IMAGE,
+      classNames: ListClasses.CARD_IMAGE,
     };
     super(params);
   }

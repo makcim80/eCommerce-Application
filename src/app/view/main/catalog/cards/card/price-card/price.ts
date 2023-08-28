@@ -6,6 +6,7 @@ export default class PriceCardView extends View {
   constructor() {
     const params = {
       tag: ListTags.H6,
+      classNames: ListClasses.CARD_PRICE,
     };
     super(params);
   }

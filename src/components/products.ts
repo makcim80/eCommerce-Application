@@ -14,12 +14,11 @@ export default class Products {
     this.apiRoot = createApiBuilderFromCtpClient(client).withProjectKey({ projectKey: Api.PROJECT_KEY });
     const products = await this.apiRoot
       .productProjections()
-      .get()
-      // {
-      //   queryArgs: {
-      //     where: ['name = 'American-Shorthair Cat''],
-      //   },
-      // }
+      .get({
+        queryArgs: {
+          limit: 35,
+        },
+      })
       .execute();
     return products;
   }

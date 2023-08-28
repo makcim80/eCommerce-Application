@@ -2,11 +2,13 @@ import { ClientResponse, ProductProjectionPagedQueryResponse } from '@commerceto
 import { ListTags } from '../../../../util/enums/list-tags';
 import View from '../../../view';
 import CardView from './card/card-view';
+import { ListClasses } from '../../../../util/enums/list-classes';
 
 export default class CardsView extends View {
   constructor() {
     const params = {
       tag: ListTags.CONTAINER,
+      classNames: ListClasses.CARDS,
     };
     super(params);
   }

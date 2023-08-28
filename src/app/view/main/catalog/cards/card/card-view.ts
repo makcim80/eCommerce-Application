@@ -1,3 +1,4 @@
+import { ListClasses } from '../../../../../util/enums/list-classes';
 import { ListTags } from '../../../../../util/enums/list-tags';
 import View from '../../../../view';
 import DescriptionCardView from './description-card/description';
@@ -20,6 +21,7 @@ export default class CardView extends View {
   constructor() {
     const params = {
       tag: ListTags.CONTAINER,
+      classNames: ListClasses.CARD,
     };
     super(params);
     this.img = new ImgCardView();
@@ -63,10 +65,10 @@ export default class CardView extends View {
       .getElement()
       ?.append(
         this.img.getHTMLElement() || '',
-        this.discountedPrice.getHTMLElement() || '',
-        this.price.getHTMLElement() || '',
         this.name.getHTMLElement() || '',
         this.description.getHTMLElement() || '',
+        this.discountedPrice.getHTMLElement() || '',
+        this.price.getHTMLElement() || '',
       );
   }
 }
