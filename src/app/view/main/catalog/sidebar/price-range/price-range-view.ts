@@ -19,7 +19,6 @@ export default class PriceRangeView extends View {
     this.minInput = new PriceInputView(ListOfValues.PLACEHOLDER_FROM);
     this.maxInput = new PriceInputView(ListOfValues.PLACEHOLDER_TO);
     this.configureView();
-    // this.getValueInputMin(); ///
   }
 
   public getValueInputMin(): string {
