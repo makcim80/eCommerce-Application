@@ -3,6 +3,7 @@ import { ListTags } from '../../../../util/enums/list-tags';
 import View from '../../../view';
 import AgeRangeView from './age/age-view';
 import ButtonApply from './button-apply/button-apply-view';
+import ColorView from './color/color-view';
 import PriceRangeView from './price-range/price-range-view';
 import SexView from './sex/sex-view';
 
@@ -15,6 +16,8 @@ export default class SidebarView extends View {
 
   private buttonApply: ButtonApply;
 
+  private color: ColorView;
+
   constructor() {
     const params = {
       tag: ListTags.CONTAINER,
@@ -24,6 +27,7 @@ export default class SidebarView extends View {
     this.priceRange = new PriceRangeView();
     this.sex = new SexView();
     this.age = new AgeRangeView();
+    this.color = new ColorView();
     this.buttonApply = new ButtonApply();
     this.configureView();
   }
@@ -48,13 +52,17 @@ export default class SidebarView extends View {
     return this.age.getValueInputMax();
   }
 
+  public getColorValue(): string {
+    return this.color.getValueInput();
+  }
+
   public getButtonApply(): ButtonApply {
     return this.buttonApply;
   }
 
   private configureView(): void {
     this.getHTMLElement()?.append(this.priceRange.getHTMLElement() || '', this.sex.getHTMLElement() || '');
-    this.getHTMLElement()?.append(this.age.getHTMLElement() || '');
+    this.getHTMLElement()?.append(this.age.getHTMLElement() || '', this.color.getHTMLElement() || '');
     this.getHTMLElement()?.append(this.buttonApply.getHTMLElement() || '');
   }
 }

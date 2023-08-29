@@ -29,9 +29,15 @@ export default class CatalogView extends View {
     this.optionsFilteringPrice(filterArr);
     this.optionsFilteringSex(filterArr);
     this.optionsFilteringAge(filterArr);
+    this.optionsFilteringColor(filterArr);
 
-    const products = await new ProductsFiltering().getProducts(filterArr);
-    this.cards.configureView(products);
+    if (filterArr.length) {
+      const products = await new ProductsFiltering().getProducts(filterArr);
+      this.cards.configureView(products);
+    } else {
+      const products = await new Products().getProducts();
+      this.cards.configureView(products);
+    }
   }
 
   private optionsFilteringPrice(filterArr: string[]): void {
@@ -64,6 +70,12 @@ export default class CatalogView extends View {
     } else if (ageMin !== '0' && ageMax !== '0') {
       filterArr.push(`variants.attributes.age:range (${ageMin} to ${ageMax})`);
     }
+  }
+
+  private optionsFilteringColor(filterArr: string[]): void {
+    const colorValue = this.sidebar.getColorValue();
+
+    if (colorValue) filterArr.push(`variants.attributes.color:"${colorValue}"`);
   }
 
   private async configureView(): Promise<void> {
