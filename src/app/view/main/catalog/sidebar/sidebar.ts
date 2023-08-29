@@ -32,6 +32,10 @@ export default class SidebarView extends View {
     return this.priceRange.getValueInputMax();
   }
 
+  public getSexSelectionValue(): string {
+    return this.sex.getSelectValue();
+  }
+
   public getButtonApply(): ButtonApply {
     return this.buttonApply;
   }

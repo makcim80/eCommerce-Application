@@ -27,14 +27,16 @@ export default class CatalogView extends View {
     const filterArr: string[] = [];
     const valueInputMin = (+this.sidebar.getValueInputMin() * 100).toString();
     const valueInputMax = (+this.sidebar.getValueInputMax() * 100).toString();
+    const sexSelectionValue = this.sidebar.getSexSelectionValue();
 
-    if (valueInputMin === '' && valueInputMax !== '') {
+    if (valueInputMin === '0' && valueInputMax !== '0') {
       filterArr.push(`variants.price.centAmount:range (* to ${valueInputMax})`);
-    } else if (valueInputMin !== '' && valueInputMax === '') {
+    } else if (valueInputMin !== '0' && valueInputMax === '0') {
       filterArr.push(`variants.price.centAmount:range (${valueInputMin} to *)`);
-    } else if (valueInputMin !== '' && valueInputMax !== '') {
+    } else if (valueInputMin !== '0' && valueInputMax !== '0') {
       filterArr.push(`variants.price.centAmount:range (${valueInputMin} to ${valueInputMax})`);
     }
+    if (sexSelectionValue) filterArr.push(`variants.attributes.sex:"${sexSelectionValue}"`);
 
     const products = await new ProductsFiltering().getProducts(filterArr);
     this.cards.configureView(products);
