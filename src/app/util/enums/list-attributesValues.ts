@@ -6,6 +6,7 @@ export const enum ListOfValues {
   STEP_VALUE = '0.01',
   NUMBER_VALUE_MIN = '0',
   NUMBER_VALUE_MAX = '5000',
+  AGE_NUMBER_VALUE_MAX = '100',
   FORM_PASSWORD = 'form-password',
   PLACEHOLDER_EMAIL = 'Enter your email',
   PLACEHOLDER_PASSWORD = 'Enter your password',

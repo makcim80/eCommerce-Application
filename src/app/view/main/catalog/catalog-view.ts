@@ -25,9 +25,18 @@ export default class CatalogView extends View {
 
   public async productsFilteringView(): Promise<void> {
     const filterArr: string[] = [];
+
+    this.optionsFilteringPrice(filterArr);
+    this.optionsFilteringSex(filterArr);
+    this.optionsFilteringAge(filterArr);
+
+    const products = await new ProductsFiltering().getProducts(filterArr);
+    this.cards.configureView(products);
+  }
+
+  private optionsFilteringPrice(filterArr: string[]): void {
     const valueInputMin = (+this.sidebar.getValueInputMin() * 100).toString();
     const valueInputMax = (+this.sidebar.getValueInputMax() * 100).toString();
-    const sexSelectionValue = this.sidebar.getSexSelectionValue();
 
     if (valueInputMin === '0' && valueInputMax !== '0') {
       filterArr.push(`variants.price.centAmount:range (* to ${valueInputMax})`);
@@ -36,10 +45,25 @@ export default class CatalogView extends View {
     } else if (valueInputMin !== '0' && valueInputMax !== '0') {
       filterArr.push(`variants.price.centAmount:range (${valueInputMin} to ${valueInputMax})`);
     }
-    if (sexSelectionValue) filterArr.push(`variants.attributes.sex:"${sexSelectionValue}"`);
+  }
 
-    const products = await new ProductsFiltering().getProducts(filterArr);
-    this.cards.configureView(products);
+  private optionsFilteringSex(filterArr: string[]): void {
+    const sexSelectionValue = this.sidebar.getSexSelectionValue();
+
+    if (sexSelectionValue) filterArr.push(`variants.attributes.sex:"${sexSelectionValue}"`);
+  }
+
+  private optionsFilteringAge(filterArr: string[]): void {
+    const ageMin = (+this.sidebar.getAgeMin()).toString();
+    const ageMax = (+this.sidebar.getAgeMax()).toString();
+
+    if (ageMin === '0' && ageMax !== '0') {
+      filterArr.push(`variants.attributes.age:range (* to ${ageMax})`);
+    } else if (ageMin !== '0' && ageMax === '0') {
+      filterArr.push(`variants.attributes.age:range (${ageMin} to *)`);
+    } else if (ageMin !== '0' && ageMax !== '0') {
+      filterArr.push(`variants.attributes.age:range (${ageMin} to ${ageMax})`);
+    }
   }
 
   private async configureView(): Promise<void> {

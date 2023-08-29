@@ -43,4 +43,5 @@ export const enum ListTextContent {
   PRICE = 'Price',
   SEX = 'Sex',
   APPLY = 'Apply',
+  AGE = 'Age',
 }
