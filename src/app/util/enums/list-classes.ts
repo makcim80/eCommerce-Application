@@ -74,4 +74,5 @@ export const enum ListClasses {
   PADDING_LIFT_1REM = 'pl-4',
   CARD_TITLE = 'text-2xl text-center',
   CARD_PRICE = 'text-center',
+  BUTTON_APPLY = 'bg-red-400 text-white block m-3 p-1 rounded-md hover:text-white hover:decoration-white hover:underline',
 }

@@ -16,7 +16,6 @@ export default class DescriptionCardView extends View {
 
     if (elemDescription instanceof HTMLHeadingElement) {
       elemDescription.innerHTML = description.split(';').join('<br>');
-      console.log(elemDescription.textContent);
     }
   }
 }
