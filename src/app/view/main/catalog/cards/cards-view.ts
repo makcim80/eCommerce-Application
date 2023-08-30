@@ -22,14 +22,15 @@ export default class CardsView extends View {
 
     if (container instanceof HTMLDivElement) container.innerHTML = '';
 
+    let routerGuarded: Router;
+    if (router) {
+      routerGuarded = router;
+    } else {
+      throw new Error('Error: Missing router in CardsView component!');
+    }
+
     products.body.results.forEach((product) => {
-      let routerGuarded;
-      if (router) {
-        routerGuarded = router;
-      } else {
-        throw new Error('Error: Missing router in CardsView component!');
-      }
-      const card = new CardView(routerGuarded);
+      const card = new CardView(routerGuarded, product.masterVariant.sku ? product.masterVariant.sku : 'corrupted-sku');
       if (product.masterVariant.images) card.setSrcImg(product.masterVariant.images[0].url);
       card.setAltImg(product.name['en-US']);
       if (product.masterVariant.prices) {

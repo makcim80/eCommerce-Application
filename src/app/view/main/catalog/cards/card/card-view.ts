@@ -10,6 +10,8 @@ import { Pages } from '../../../../../util/enums/pages';
 import Router from '../../../../../router/router';
 
 export default class CardView extends View {
+  private readonly sku: string;
+
   private img: ImgCardView;
 
   private discountedPrice: DiscountedPriceCardView;
@@ -20,12 +22,14 @@ export default class CardView extends View {
 
   private description: DescriptionCardView;
 
-  constructor(router: Router) {
+  constructor(router: Router, sku: string) {
     const params = {
       tag: ListTags.CONTAINER,
       classNames: ListClasses.CARD,
     };
     super(params);
+
+    this.sku = sku;
     this.img = new ImgCardView();
     this.discountedPrice = new DiscountedPriceCardView();
     this.price = new PriceCardView();
@@ -72,6 +76,6 @@ export default class CardView extends View {
         this.discountedPrice.getHTMLElement() || '',
         this.price.getHTMLElement() || '',
       );
-    this.view.setCallback(() => router.navigate(Pages.CAT_DETAILS));
+    this.view.setCallback(() => router.navigate(`${Pages.CAT_DETAILS}/${this.sku}`));
   }
 }
