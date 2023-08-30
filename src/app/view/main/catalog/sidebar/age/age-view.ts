@@ -1,14 +1,14 @@
-import { ListOfValues } from '../../../../../util/enums/list-attributesValues';
+// import { ListOfValues } from '../../../../../util/enums/list-attributesValues';
 import { ListTags } from '../../../../../util/enums/list-tags';
-import { ListTextContent } from '../../../../../util/enums/list-textContent';
+// import { ListTextContent } from '../../../../../util/enums/list-textContent';
 import View from '../../../../view';
 
 export default class AgeRangeView extends View {
   private title!: HTMLElement | null;
 
-//   private minInput: AgeInputView;
+  //   private minInput: AgeInputView;
 
-//   private maxInput: AgeInputView;
+  //   private maxInput: AgeInputView;
 
   constructor() {
     const params = {
@@ -20,29 +20,29 @@ export default class AgeRangeView extends View {
     // this.configureView();
   }
 
-//   public getValueInputMin(): string {
-//     return this.minInput.getValueInput();
-//   }
+  //   public getValueInputMin(): string {
+  //     return this.minInput.getValueInput();
+  //   }
 
-//   public getValueInputMax(): string {
-//     return this.maxInput.getValueInput();
-//   }
+  //   public getValueInputMax(): string {
+  //     return this.maxInput.getValueInput();
+  //   }
 
-//   private configureView(): void {
-//     this.getHTMLElement()?.append(
-//       this.titleView(),
-//       this.minInput.getHTMLElement() || '',
-//       this.maxInput.getHTMLElement() || '',
-//     );
-//   }
+  //   private configureView(): void {
+  //     this.getHTMLElement()?.append(
+  //       this.titleView(),
+  //       this.minInput.getHTMLElement() || '',
+  //       this.maxInput.getHTMLElement() || '',
+  //     );
+  //   }
 
-//   private titleView(): HTMLHeadingElement | string {
-//     const params = {
-//       tag: ListTags.H3,
-//       textContent: ListTextContent.AGE,
-//     };
-//     const title = new View(params).getHTMLElement();
-//     this.title = title;
-//     return title instanceof HTMLHeadingElement ? title : '';
-//   }
+  //   private titleView(): HTMLHeadingElement | string {
+  //     const params = {
+  //       tag: ListTags.H3,
+  //       textContent: ListTextContent.AGE,
+  //     };
+  //     const title = new View(params).getHTMLElement();
+  //     this.title = title;
+  //     return title instanceof HTMLHeadingElement ? title : '';
+  //   }
 }

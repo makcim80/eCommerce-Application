@@ -41,6 +41,7 @@ export default class App {
     );
   }
 
+  // eslint-disable-next-line max-lines-per-function
   public createRoutes(): Route[] {
     return [
       {
@@ -76,6 +77,13 @@ export default class App {
         callback: async (): Promise<void> => {
           const { default: Error404View } = await import('./view/main/error-404/error-404-view');
           this.setContent(Pages.NOT_FOUND, new Error404View(this.router));
+        },
+      },
+      {
+        path: `${Pages.CATALOG}`,
+        callback: async (): Promise<void> => {
+          const { default: CatalogView } = await import('./view/main/catalog/catalog-view');
+          this.setContent(Pages.CATALOG, new CatalogView());
         },
       },
     ];
