@@ -5,18 +5,24 @@ import Products from '../../../../components/products';
 import SidebarView from './sidebar/sidebar';
 import { ListClasses } from '../../../util/enums/list-classes';
 import ProductsFiltering from '../../../../components/products-filtering';
+import Router from '../../../router/router';
 
 export default class CatalogView extends View {
   private cards: CardsView;
 
   private sidebar: SidebarView;
 
-  constructor() {
+  private router: Router;
+
+  constructor(router: Router) {
     const params = {
       tag: ListTags.CONTAINER,
       classNames: ListClasses.CATALOG,
     };
     super(params);
+
+    this.router = router;
+
     this.sidebar = new SidebarView();
     this.cards = new CardsView();
     this.configureView();
@@ -39,12 +45,12 @@ export default class CatalogView extends View {
     if (sexSelectionValue) filterArr.push(`variants.attributes.sex:"${sexSelectionValue}"`);
 
     const products = await new ProductsFiltering().getProducts(filterArr);
-    this.cards.configureView(products);
+    this.cards.configureView(products, this.router);
   }
 
   private async configureView(): Promise<void> {
     const products = await new Products().getProducts();
-    this.cards.configureView(products);
+    this.cards.configureView(products, this.router);
 
     this.getHTMLElement()?.append(this.sidebar.getHTMLElement() || '', this.cards.getHTMLElement() || '');
   }

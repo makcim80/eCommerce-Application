@@ -3,6 +3,7 @@ import { ListTags } from '../../../../util/enums/list-tags';
 import View from '../../../view';
 import CardView from './card/card-view';
 import { ListClasses } from '../../../../util/enums/list-classes';
+import Router from '../../../../router/router';
 
 export default class CardsView extends View {
   constructor() {
@@ -13,13 +14,22 @@ export default class CardsView extends View {
     super(params);
   }
 
-  public async configureView(products: ClientResponse<ProductProjectionPagedQueryResponse>): Promise<void> {
+  public async configureView(
+    products: ClientResponse<ProductProjectionPagedQueryResponse>,
+    router?: Router,
+  ): Promise<void> {
     const container = this.getHTMLElement();
 
     if (container instanceof HTMLDivElement) container.innerHTML = '';
 
     products.body.results.forEach((product) => {
-      const card = new CardView();
+      let routerGuarded;
+      if (router) {
+        routerGuarded = router;
+      } else {
+        throw new Error('Error: Missing router in CardsView component!');
+      }
+      const card = new CardView(routerGuarded);
       if (product.masterVariant.images) card.setSrcImg(product.masterVariant.images[0].url);
       card.setAltImg(product.name['en-US']);
       if (product.masterVariant.prices) {

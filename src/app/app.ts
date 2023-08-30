@@ -83,7 +83,14 @@ export default class App {
         path: `${Pages.CATALOG}`,
         callback: async (): Promise<void> => {
           const { default: CatalogView } = await import('./view/main/catalog/catalog-view');
-          this.setContent(Pages.CATALOG, new CatalogView());
+          this.setContent(Pages.CATALOG, new CatalogView(this.router));
+        },
+      },
+      {
+        path: `${Pages.CAT_DETAILS}`,
+        callback: async (): Promise<void> => {
+          const { default: CatDetailsView } = await import('./view/main/cat-details/cat-details-view');
+          this.setContent(Pages.CAT_DETAILS, new CatDetailsView());
         },
       },
     ];
