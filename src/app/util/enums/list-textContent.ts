@@ -40,4 +40,8 @@ export const enum ListTextContent {
   MY_PROFILE = 'Profile',
   CATALOG = 'Catalog',
   ABOUT_US = 'About us',
+  PRICE = 'Price',
+  SEX = 'Sex',
+  APPLY = 'Apply',
+  AGE = 'Age',
 }
