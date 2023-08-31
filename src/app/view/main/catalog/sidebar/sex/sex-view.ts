@@ -27,6 +27,14 @@ export default class SexView extends View {
     return '';
   }
 
+  public resetValueSelect(): void {
+    const { selectElement } = this;
+
+    if (selectElement instanceof HTMLSelectElement) {
+      selectElement.value = '';
+    }
+  }
+
   private configureView(): void {
     this.getHTMLElement()?.append(this.titleView(), this.selectElement);
   }

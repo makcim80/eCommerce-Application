@@ -77,6 +77,17 @@ export default class TypeView extends View {
     return this.breedSemiLongCheckbox.getBreedsChecked();
   }
 
+  public resetAllBreedsChecked(): void {
+    this.shortHairedCheckbox.resetCheckbox();
+    this.longHairedCheckbox.resetCheckbox();
+    this.siameseOrientalShortHairCheckbox.resetCheckbox();
+    this.semiLongHairCheckbox.resetCheckbox();
+    this.breedShortHairedCheckbox.setAllBreedsChecked(false);
+    this.breedLongHairedCheckbox.setAllBreedsChecked(false);
+    this.breedSiameseCheckbox.setAllBreedsChecked(false);
+    this.breedSemiLongCheckbox.setAllBreedsChecked(false);
+  }
+
   private configureView(): void {
     this.getHTMLElement()?.append(
       this.titleView(),

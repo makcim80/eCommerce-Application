@@ -29,6 +29,11 @@ export default class AgeRangeView extends View {
     return this.maxInput.getValueInput();
   }
 
+  public resetValuesAge(): void {
+    this.minInput.resetValueInput();
+    this.maxInput.resetValueInput();
+  }
+
   private configureView(): void {
     this.getHTMLElement()?.append(
       this.titleView(),

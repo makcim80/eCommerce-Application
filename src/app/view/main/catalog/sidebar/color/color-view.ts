@@ -10,11 +10,14 @@ export default class ColorView extends View {
 
   private valueInput: string;
 
+  private inputElement: string | HTMLInputElement;
+
   constructor() {
     const params = {
       tag: ListTags.CONTAINER,
     };
     super(params);
+    this.inputElement = this.inputView();
     this.valueInput = '';
     this.configureView();
   }
@@ -23,8 +26,17 @@ export default class ColorView extends View {
     return this.valueInput;
   }
 
+  public resetValueInput(): void {
+    const { inputElement } = this;
+
+    if (inputElement instanceof HTMLInputElement) {
+      this.valueInput = '';
+      inputElement.value = this.valueInput;
+    }
+  }
+
   private configureView(): void {
-    this.getHTMLElement()?.append(this.titleView(), this.inputView());
+    this.getHTMLElement()?.append(this.titleView(), this.inputElement);
   }
 
   private titleView(): HTMLHeadingElement | string {

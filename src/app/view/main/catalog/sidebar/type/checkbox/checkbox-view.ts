@@ -39,6 +39,10 @@ export default class TypeCheckboxView {
     return this.inputFieldCreator.getElement();
   }
 
+  public resetCheckbox(): void {
+    if (this.input) this.input.checked = false;
+  }
+
   public getArrowElement(): '' | HTMLSpanElement | null {
     return this.arrow;
   }

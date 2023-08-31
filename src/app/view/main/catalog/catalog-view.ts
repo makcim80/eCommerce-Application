@@ -34,6 +34,7 @@ export default class CatalogView extends View {
     this.cards = new CardsView();
     this.configureView();
     this.sidebar.getButtonApply().view.setCallback(this.productsFilteringView.bind(this));
+    this.sidebar.getButtonReset().view.setCallback(this.resetFilteringView.bind(this));
   }
 
   public async productsFilteringView(): Promise<void> {
@@ -143,6 +144,20 @@ export default class CatalogView extends View {
     }
 
     return result;
+  }
+
+  public async resetFilteringView(): Promise<void> {
+    this.resetFiltering();
+    const products = await new Products().getProducts();
+    this.cards.configureView(products);
+  }
+
+  private resetFiltering(): void {
+    this.sidebar.resetPrice();
+    this.sidebar.resetAllBreedsChecked();
+    this.sidebar.resetSexSelection();
+    this.sidebar.resetAge();
+    this.sidebar.resetColorValue();
   }
 
   private async configureView(): Promise<void> {

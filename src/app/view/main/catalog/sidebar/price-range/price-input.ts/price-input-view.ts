@@ -5,7 +5,7 @@ import { ListTags } from '../../../../../../util/enums/list-tags';
 import View from '../../../../../view';
 
 export default class PriceInputView extends View {
-  private readonly INITIAL_VALUE_INPUT = '0';
+  private readonly INITIAL_VALUE_INPUT = '';
 
   private valueInput: string;
 
@@ -21,6 +21,15 @@ export default class PriceInputView extends View {
 
   public getValueInput(): string {
     return this.valueInput;
+  }
+
+  public resetValueInput(): void {
+    const inputElement = this.getHTMLElement();
+
+    if (inputElement instanceof HTMLInputElement) {
+      this.valueInput = this.INITIAL_VALUE_INPUT;
+      inputElement.value = this.valueInput;
+    }
   }
 
   public configureView(placeholder: string): void {

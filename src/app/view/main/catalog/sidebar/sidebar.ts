@@ -52,6 +52,10 @@ export default class SidebarView extends View {
     return this.priceRange.getValueInputMax();
   }
 
+  public resetPrice(): void {
+    this.priceRange.resetValuesPrice();
+  }
+
   public getShortHairedChecked(): boolean | undefined {
     return this.type.getShortHairedChecked();
   }
@@ -84,8 +88,16 @@ export default class SidebarView extends View {
     return this.type.getBreedsCheckedSemiLong();
   }
 
+  public resetAllBreedsChecked(): void {
+    this.type.resetAllBreedsChecked();
+  }
+
   public getSexSelectionValue(): string {
     return this.sex.getSelectValue();
+  }
+
+  public resetSexSelection(): void {
+    this.sex.resetValueSelect();
   }
 
   public getAgeMin(): string {
@@ -96,8 +108,16 @@ export default class SidebarView extends View {
     return this.age.getValueInputMax();
   }
 
+  public resetAge(): void {
+    this.age.resetValuesAge();
+  }
+
   public getColorValue(): string {
     return this.color.getValueInput();
+  }
+
+  public resetColorValue(): void {
+    this.color.resetValueInput();
   }
 
   public getSortingValue(): string {
@@ -106,6 +126,10 @@ export default class SidebarView extends View {
 
   public getButtonApply(): ButtonApply {
     return this.buttonApply;
+  }
+
+  public getButtonReset(): ButtonApply {
+    return this.buttonReset;
   }
 
   private configureView(): void {

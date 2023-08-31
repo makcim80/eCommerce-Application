@@ -29,6 +29,11 @@ export default class PriceRangeView extends View {
     return this.maxInput.getValueInput();
   }
 
+  public resetValuesPrice(): void {
+    this.minInput.resetValueInput();
+    this.maxInput.resetValueInput();
+  }
+
   private configureView(): void {
     this.getHTMLElement()?.append(
       this.titleView(),
