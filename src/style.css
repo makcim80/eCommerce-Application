@@ -84,3 +84,26 @@ body {
 .header-nav-active {
   transform: translateX(0);
 }
+
+.field {
+  flex: 1 1 calc(50% - 86px);
+}
+
+.overlay {
+  transition: 0.2s;
+  z-index:
+}
+
+.popup {
+    transform: scale(0);
+    transition: transform 0.2s;
+}
+
+.overlay.open {
+  visibility: visible;
+  opacity: 1;
+}
+
+.overlay.open .popup {
+  transform: scale(1);
+}

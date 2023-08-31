@@ -3,4 +3,5 @@ export const enum Pages {
   LOGIN = 'login',
   REGISTRATION = 'registration',
   NOT_FOUND = 'not-found',
+  PROFILE = 'profile',
 }
