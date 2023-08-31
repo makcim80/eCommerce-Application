@@ -58,7 +58,7 @@ export default class TypeCheckboxView {
   private arrowElementShow(): HTMLSpanElement | '' {
     const paramsArrow = {
       tag: ListTags.SPAN,
-      classNames: [ListClasses.PADDING_LIFT_1REM, ListClasses.POINTER],
+      classNames: [ListClasses.PADDING_LEFT_1REM, ListClasses.POINTER],
       textContent: ListTextContent.ARROW_DOWN,
     };
 

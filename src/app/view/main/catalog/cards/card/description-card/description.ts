@@ -6,7 +6,7 @@ export default class DescriptionCardView extends View {
   constructor() {
     const params = {
       tag: ListTags.H6,
-      classNames: ListClasses.PADDING_LIFT_1REM,
+      classNames: ListClasses.PADDING_LEFT_1REM,
     };
     super(params);
   }

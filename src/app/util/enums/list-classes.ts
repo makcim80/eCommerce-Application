@@ -71,8 +71,9 @@ export const enum ListClasses {
   SIDEBAR_PRICE_INPUT = 'w-24 mr-2.5 border-2 border-black rounded px-1',
   CARDS = 'flex flex-wrap justify-evenly gap-2.5',
   CARD = 'bg-gray-200 rounded-2xl',
-  PADDING_LIFT_1REM = 'pl-4',
+  PADDING_LEFT_1REM = 'pl-4',
   CARD_TITLE = 'text-2xl text-center',
   CARD_PRICE = 'text-center',
-  BUTTON_APPLY = 'bg-red-400 text-white block m-3 p-1 rounded-md hover:text-white hover:decoration-white hover:underline',
+  BUTTON_APPLY_RESET = 'bg-red-400 text-white m-3 p-1 rounded-md hover:text-white hover:decoration-white hover:underline',
+  PADDING_TOP_075REM = 'pt-3',
 }

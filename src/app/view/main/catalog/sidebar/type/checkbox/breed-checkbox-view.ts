@@ -10,7 +10,7 @@ export default class BreedsView extends View {
   constructor(breedsArr: DataBreed[]) {
     const params = {
       tag: ListTags.CONTAINER,
-      classNames: [ListClasses.PADDING_LIFT_1REM, ListClasses.HIDDEN],
+      classNames: [ListClasses.PADDING_LEFT_1REM, ListClasses.HIDDEN],
     };
     super(params);
     this.breeds = this.getBreeds(breedsArr);
