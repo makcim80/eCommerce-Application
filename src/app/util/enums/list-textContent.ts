@@ -43,6 +43,7 @@ export const enum ListTextContent {
   PRICE = 'Price',
   SEX = 'Sex',
   APPLY = 'Apply',
+  RESET = 'Reset',
   AGE = 'Age',
   COLOR = 'Color',
   TYPE = 'Type',
@@ -52,4 +53,5 @@ export const enum ListTextContent {
   SEMI_LONG_HAIR = 'Semi-Longhair',
   ARROW_DOWN = '▼',
   ARROW_UP = '▲',
+  SORTING = 'Sorting:',
 }

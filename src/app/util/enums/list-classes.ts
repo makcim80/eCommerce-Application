@@ -76,4 +76,5 @@ export const enum ListClasses {
   CARD_PRICE = 'text-center',
   BUTTON_APPLY_RESET = 'bg-red-400 text-white m-3 p-1 rounded-md hover:text-white hover:decoration-white hover:underline',
   PADDING_TOP_075REM = 'pt-3',
+  BACKGROUND_TRANSPARENT = 'bg-transparent',
 }

@@ -8,6 +8,18 @@ import ProductsFiltering from '../../../../components/products-filtering';
 import { breeds } from '../../../util/breed';
 
 export default class CatalogView extends View {
+  private readonly SORTING_ALPHABETICALLY = 'abc...';
+
+  private readonly SORTING_ALPHABETICALLY_REVERSE = 'zyx...';
+
+  private readonly SORT_PRICE = 'cheap';
+
+  private readonly SORT_PRICE_REVERSE = 'expensive';
+
+  private readonly ASC = 'asc';
+
+  private readonly DESC = 'desc';
+
   private cards: CardsView;
 
   private sidebar: SidebarView;
@@ -33,8 +45,14 @@ export default class CatalogView extends View {
     this.optionsFilteringAge(filterArr);
     this.optionsFilteringColor(filterArr);
 
-    if (filterArr.length) {
+    if (filterArr.length && this.optionSorting()) {
+      const products = await new ProductsFiltering().getProducts(filterArr, this.optionSorting());
+      this.cards.configureView(products);
+    } else if (filterArr.length) {
       const products = await new ProductsFiltering().getProducts(filterArr);
+      this.cards.configureView(products);
+    } else if (this.optionSorting()) {
+      const products = await new ProductsFiltering().getProducts(filterArr, this.optionSorting());
       this.cards.configureView(products);
     } else {
       const products = await new Products().getProducts();
@@ -110,10 +128,26 @@ export default class CatalogView extends View {
     if (colorValue) filterArr.push(`variants.attributes.color:"${colorValue}"`);
   }
 
+  private optionSorting(): string {
+    const sortingValue = this.sidebar.getSortingValue();
+    let result = '';
+
+    if (sortingValue === this.SORTING_ALPHABETICALLY) {
+      result = `name.en-us ${this.ASC}`;
+    } else if (sortingValue === this.SORTING_ALPHABETICALLY_REVERSE) {
+      result = `name.en-us ${this.DESC}`;
+    } else if (sortingValue === this.SORT_PRICE) {
+      result = `price ${this.ASC}`;
+    } else if (sortingValue === this.SORT_PRICE_REVERSE) {
+      result = `price ${this.DESC}`;
+    }
+
+    return result;
+  }
+
   private async configureView(): Promise<void> {
     const products = await new Products().getProducts();
     this.cards.configureView(products);
-    console.log(products); ///
 
     this.getHTMLElement()?.append(this.sidebar.getHTMLElement() || '', this.cards.getHTMLElement() || '');
   }
