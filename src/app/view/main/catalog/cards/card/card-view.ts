@@ -21,7 +21,7 @@ export default class CardView extends View {
   constructor() {
     const params = {
       tag: ListTags.CONTAINER,
-      classNames: ListClasses.CARD,
+      classNames: [ListClasses.CARD, ListClasses.POINTER],
     };
     super(params);
     this.img = new ImgCardView();

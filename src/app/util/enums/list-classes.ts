@@ -70,7 +70,7 @@ export const enum ListClasses {
   SIDEBAR = 'min-w-max',
   SIDEBAR_PRICE_INPUT = 'w-24 mr-2.5 border-2 border-black rounded px-1',
   CARDS = 'flex flex-wrap justify-evenly gap-2.5',
-  CARD = 'bg-gray-200 rounded-2xl',
+  CARD = 'bg-gray-200 rounded-2xl hover:scale-125',
   PADDING_LEFT_1REM = 'pl-4',
   CARD_TITLE = 'text-2xl text-center',
   CARD_PRICE = 'text-center',
