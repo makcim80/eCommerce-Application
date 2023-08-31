@@ -158,6 +158,7 @@ export default class CatalogView extends View {
     this.sidebar.resetSexSelection();
     this.sidebar.resetAge();
     this.sidebar.resetColorValue();
+    this.sidebar.resetSorting();
   }
 
   private async configureView(): Promise<void> {

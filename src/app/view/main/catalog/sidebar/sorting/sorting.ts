@@ -32,6 +32,13 @@ export default class SortingView extends View {
     return '';
   }
 
+  public resetSelectValue(): void {
+    if (this.selectElement instanceof HTMLSelectElement) {
+      this.selectElement.value = '';
+      this.showPlaceholder();
+    }
+  }
+
   private configureView(): void {
     this.getHTMLElement()?.append(this.selectElement);
   }

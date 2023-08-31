@@ -124,6 +124,10 @@ export default class SidebarView extends View {
     return this.sorting.getSelectValue();
   }
 
+  public resetSorting(): void {
+    this.sorting.resetSelectValue();
+  }
+
   public getButtonApply(): ButtonApply {
     return this.buttonApply;
   }
