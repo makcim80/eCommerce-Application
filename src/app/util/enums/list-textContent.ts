@@ -45,4 +45,11 @@ export const enum ListTextContent {
   APPLY = 'Apply',
   AGE = 'Age',
   COLOR = 'Color',
+  TYPE = 'Type',
+  SHORT_HAIRED = 'Shorthaired',
+  LONG_HAIRED = 'Longhaired',
+  SIAMESE_ORIENTAL_SHORT_HAIR = 'Siamese Oriental Shorthair',
+  SEMI_LONG_HAIR = 'Semi-Longhair',
+  ARROW_DOWN = '▼',
+  ARROW_UP = '▲',
 }

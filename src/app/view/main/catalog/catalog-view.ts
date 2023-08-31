@@ -5,6 +5,7 @@ import Products from '../../../../components/products';
 import SidebarView from './sidebar/sidebar';
 import { ListClasses } from '../../../util/enums/list-classes';
 import ProductsFiltering from '../../../../components/products-filtering';
+import { breeds } from '../../../util/breed';
 
 export default class CatalogView extends View {
   private cards: CardsView;
@@ -27,6 +28,7 @@ export default class CatalogView extends View {
     const filterArr: string[] = [];
 
     this.optionsFilteringPrice(filterArr);
+    this.optionsFilteringType(filterArr);
     this.optionsFilteringSex(filterArr);
     this.optionsFilteringAge(filterArr);
     this.optionsFilteringColor(filterArr);
@@ -51,6 +53,36 @@ export default class CatalogView extends View {
     } else if (valueInputMin !== '0' && valueInputMax !== '0') {
       filterArr.push(`variants.price.centAmount:range (${valueInputMin} to ${valueInputMax})`);
     }
+  }
+
+  private optionsFilteringType(filterArr: string[]): void {
+    const fieldOption: string[] = [];
+    const breedsCheckedShort = this.sidebar.getBreedsCheckedShort();
+    const breedsCheckedLong = this.sidebar.getBreedsCheckedLong();
+    const breedsCheckedSiamese = this.sidebar.getBreedsCheckedSiamese();
+    const breedsCheckedSemiLong = this.sidebar.getBreedsCheckedSemiLong();
+
+    breedsCheckedShort.forEach((breed, ind) => {
+      if (breed) {
+        fieldOption.push(`subtree("${breeds.shortHaired[ind].id}")`);
+      }
+    });
+    breedsCheckedLong.forEach((breed, ind) => {
+      if (breed) {
+        fieldOption.push(`subtree("${breeds.longHaired[ind].id}")`);
+      }
+    });
+    breedsCheckedSiamese.forEach((breed, ind) => {
+      if (breed) {
+        fieldOption.push(`subtree("${breeds.siameseOrientalShortHair[ind].id}")`);
+      }
+    });
+    breedsCheckedSemiLong.forEach((breed, ind) => {
+      if (breed) {
+        fieldOption.push(`subtree("${breeds.semiLongHair[ind].id}")`);
+      }
+    });
+    if (fieldOption.length) filterArr.push(`categories.id: ${fieldOption.join(', ')}`);
   }
 
   private optionsFilteringSex(filterArr: string[]): void {
@@ -81,6 +113,7 @@ export default class CatalogView extends View {
   private async configureView(): Promise<void> {
     const products = await new Products().getProducts();
     this.cards.configureView(products);
+    console.log(products); ///
 
     this.getHTMLElement()?.append(this.sidebar.getHTMLElement() || '', this.cards.getHTMLElement() || '');
   }
