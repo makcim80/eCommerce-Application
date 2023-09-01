@@ -4,9 +4,9 @@ import { ListTags } from '../../../util/enums/list-tags';
 import { ListClasses } from '../../../util/enums/list-classes';
 import View from '../../view';
 import Product from '../../../../components/product';
+import Errors, { CatDetailsViewErrors } from './utils/errors';
 import ElementCreator from '../../../util/element-creator';
 import { ListAttributes } from '../../../util/enums/list-attributes';
-import Errors, { CatDetailsViewErrors } from './utils/errors';
 
 export default class CatDetailsView extends View {
   private errors: CatDetailsViewErrors;
@@ -30,7 +30,7 @@ export default class CatDetailsView extends View {
   constructor(id: string) {
     const params: ISource = {
       tag: ListTags.CONTAINER,
-      classNames: ListClasses.CATALOG,
+      classNames: ListClasses.CAT_DETAILS_CONTAINER,
       textContent: id,
     };
     super(params);
@@ -60,7 +60,7 @@ export default class CatDetailsView extends View {
       .then(
         () => {
           this.saveAllInfoFromResponse();
-          this.configureView().then(() => {});
+          this.configureView();
         },
         (err) => {
           throw this.errors.generalClassError(err);
@@ -129,23 +129,51 @@ export default class CatDetailsView extends View {
     }
   }
 
-  private async configureView(): Promise<void> {
+  private configureView(): void {
     if (this.response === null) {
       throw this.errors.responseIsNull();
     }
 
-    const catImgParams = {
-      tag: ListTags.IMG,
-      classNames: ListClasses.PLACEHOLDER,
-    };
-    const catImg = new ElementCreator(catImgParams);
+    this.makeImages();
+    // const catImgParams = {
+    //   tag: ListTags.IMG,
+    //   classNames: ListClasses.PLACEHOLDER,
+    // };
+    // const catImg = new ElementCreator(catImgParams);
+    //
+    // if (this.response.body.results[0].masterVariant.images) {
+    //   catImg.getElement()?.setAttribute(ListAttributes.SRC, this.response.body.results[0].masterVariant.images[0].url);
+    // } else {
+    //   throw new Error(`Error in CatDetailsView: masterVariant.images is undefined.`);
+    // }
 
-    if (this.response.body.results[0].masterVariant.images) {
-      catImg.getElement()?.setAttribute(ListAttributes.SRC, this.response.body.results[0].masterVariant.images[0].url);
-    } else {
-      throw new Error(`Error in CatDetailsView: masterVariant.images is undefined.`);
+    // this.view.addInnerElement(catImg);
+  }
+
+  private makeImages(): void {
+    if (!this.imagesObjectsArr) {
+      throw this.errors.imagesNotExist();
     }
 
-    this.view.addInnerElement(catImg);
+    const sliderContainerParams: ISource = {
+      tag: ListTags.CONTAINER,
+      classNames: ListClasses.CAT_DETAILS_SLIDER,
+    };
+    const sliderContainer = new ElementCreator(sliderContainerParams);
+
+    this.imagesObjectsArr.forEach((imgObj) => {
+      console.log(imgObj);
+      const catImgParams: ISource = {
+        tag: ListTags.IMG,
+        classNames: ListClasses.PLACEHOLDER,
+      };
+      const catImg = new ElementCreator(catImgParams);
+
+      catImg.getElement()?.setAttribute(ListAttributes.SRC, imgObj.url);
+
+      sliderContainer.addInnerElement(catImg);
+    });
+
+    this.view.addInnerElement(sliderContainer);
   }
 }
