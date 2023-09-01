@@ -34,7 +34,7 @@ export default class SortingView extends View {
 
   public resetSelectValue(): void {
     if (this.selectElement instanceof HTMLSelectElement) {
-      this.selectElement.value = '';
+      if (this.selectElement.value !== ListTextContent.SORTING) this.selectElement.value = '';
       this.showPlaceholder();
     }
   }
