@@ -6,11 +6,16 @@ import ButtonApply from './button-apply/button-apply-view';
 import ButtonReset from './button-reset/button-reset-view';
 import ColorView from './color/color-view';
 import PriceRangeView from './price-range/price-range-view';
+import SearchView from './search/search-view';
 import SexView from './sex/sex-view';
 import SortingView from './sorting/sorting';
 import TypeView from './type/type-view';
 
 export default class SidebarView extends View {
+  private container: string | HTMLDivElement;
+
+  private search: SearchView;
+
   private priceRange: PriceRangeView;
 
   private type: TypeView;
@@ -33,6 +38,8 @@ export default class SidebarView extends View {
       classNames: ListClasses.SIDEBAR,
     };
     super(params);
+    this.container = this.containerElement();
+    this.search = new SearchView();
     this.priceRange = new PriceRangeView();
     this.type = new TypeView();
     this.sex = new SexView();
@@ -42,6 +49,10 @@ export default class SidebarView extends View {
     this.buttonApply = new ButtonApply();
     this.buttonReset = new ButtonReset();
     this.configureView();
+  }
+
+  public getSearch(): SearchView {
+    return this.search;
   }
 
   public getValueInputMin(): string {
@@ -137,9 +148,22 @@ export default class SidebarView extends View {
   }
 
   private configureView(): void {
+    this.getHTMLElement()?.append(this.search.getHTMLElement() || '');
     this.getHTMLElement()?.append(this.priceRange.getHTMLElement() || '', this.type.getHTMLElement() || '');
     this.getHTMLElement()?.append(this.sex.getHTMLElement() || '', this.age.getHTMLElement() || '');
     this.getHTMLElement()?.append(this.color.getHTMLElement() || '', this.sorting.getHTMLElement() || '');
-    this.getHTMLElement()?.append(this.buttonApply.getHTMLElement() || '', this.buttonReset.getHTMLElement() || '');
+    if (this.container instanceof HTMLDivElement)
+      this.container.append(this.buttonApply.getHTMLElement() || '', this.buttonReset.getHTMLElement() || '');
+    this.getHTMLElement()?.append(this.container);
+  }
+
+  private containerElement(): HTMLDivElement | string {
+    const params = {
+      tag: ListTags.CONTAINER,
+    };
+    const container = new View(params).getHTMLElement();
+    if (container instanceof HTMLDivElement) this.container = container;
+
+    return container instanceof HTMLDivElement ? container : '';
   }
 }

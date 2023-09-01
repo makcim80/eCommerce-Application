@@ -6,6 +6,7 @@ import SidebarView from './sidebar/sidebar';
 import { ListClasses } from '../../../util/enums/list-classes';
 import ProductsFiltering from '../../../../components/products-filtering';
 import { breeds } from '../../../util/breed';
+import ProductsSearch from '../../../../components/products-search';
 
 export default class CatalogView extends View {
   private readonly SORTING_ALPHABETICALLY = 'abc...';
@@ -35,6 +36,7 @@ export default class CatalogView extends View {
     this.configureView();
     this.sidebar.getButtonApply().view.setCallback(this.productsFilteringView.bind(this));
     this.sidebar.getButtonReset().view.setCallback(this.resetFilteringView.bind(this));
+    this.sidebar.getSearch().setCallback(this.searchView.bind(this));
   }
 
   public async productsFilteringView(): Promise<void> {
@@ -45,6 +47,7 @@ export default class CatalogView extends View {
     this.optionsFilteringSex(filterArr);
     this.optionsFilteringAge(filterArr);
     this.optionsFilteringColor(filterArr);
+    this.sidebar.getSearch().setInputValue('');
 
     if (filterArr.length && this.optionSorting()) {
       const products = await new ProductsFiltering().getProducts(filterArr, this.optionSorting());
@@ -147,6 +150,7 @@ export default class CatalogView extends View {
   }
 
   public async resetFilteringView(): Promise<void> {
+    this.sidebar.getSearch().setInputValue('');
     this.resetFiltering();
     const products = await new Products().getProducts();
     this.cards.configureView(products);
@@ -159,6 +163,15 @@ export default class CatalogView extends View {
     this.sidebar.resetAge();
     this.sidebar.resetColorValue();
     this.sidebar.resetSorting();
+  }
+
+  public async searchView(): Promise<void> {
+    const searchInput = this.sidebar.getSearch().getInputValue();
+    if (searchInput !== '') {
+      this.resetFiltering();
+      const products = await new ProductsSearch().getProducts(searchInput);
+      this.cards.configureView(products);
+    }
   }
 
   private async configureView(): Promise<void> {

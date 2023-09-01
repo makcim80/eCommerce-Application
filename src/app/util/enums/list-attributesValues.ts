@@ -32,4 +32,5 @@ export const enum ListOfValues {
   SEARCH_ICON = 'search-icon',
   BASKET_ICON = 'basket-icon',
   HIDDEN_HARD = 'display: none',
+  SEARCH = 'Enter Name',
 }

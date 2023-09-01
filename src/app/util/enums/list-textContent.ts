@@ -54,4 +54,5 @@ export const enum ListTextContent {
   ARROW_DOWN = '▼',
   ARROW_UP = '▲',
   SORTING = 'Sorting:',
+  SEARCH = 'Search:',
 }

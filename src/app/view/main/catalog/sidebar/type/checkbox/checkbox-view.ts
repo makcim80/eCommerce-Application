@@ -29,7 +29,7 @@ export default class TypeCheckboxView {
   public configureView(label: string, hasArrow?: boolean): void {
     this.inputFieldCreator.getElement()?.classList.add(...ListClasses.DIV.split(' '));
     this.input?.setAttribute(ListAttributes.TYPE, ListOfValues.CHECKBOX);
-    this.label?.classList.add(...ListClasses.LABEL_CHECKBOX.split(' '));
+    this.label?.classList.add(...ListClasses.LABEL_TYPE.split(' '));
     if (this.label) this.label.textContent = label;
 
     if (hasArrow) this.getElement()?.append(this.arrowElementShow());
