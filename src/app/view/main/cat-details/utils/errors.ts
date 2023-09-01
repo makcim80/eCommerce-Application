@@ -10,6 +10,7 @@ export interface CatDetailsViewErrors {
   priceDefaultNotExist: () => Error;
   priceDiscountNotExist: () => Error;
   contentIsNull: () => Error;
+  contentRightIsNull: () => Error;
 }
 
 const Errors: CatDetailsViewErrors = {
@@ -40,13 +41,16 @@ const Errors: CatDetailsViewErrors = {
   priceDefaultNotExist: () => {
     return new Error('Error in CatDetailsView: price object or price in cents does not exist.');
   },
-  contentIsNull: () => {
-    return new Error('Error in CatDetailsView: content container is null.');
-  },
   priceDiscountNotExist: () => {
     return new Error(
       'Error in CatDetailsView: price discount does not exist, despite the fact that the item is on sale.',
     );
+  },
+  contentIsNull: () => {
+    return new Error('Error in CatDetailsView: content container is null.');
+  },
+  contentRightIsNull: () => {
+    return new Error('Error in CatDetailsView: content right container is null.');
   },
 };
 
