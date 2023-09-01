@@ -1,4 +1,5 @@
 export const enum ListClasses {
+  PLACEHOLDER = 'placeholder',
   HEADER = 'bg-blue-color',
   HEADER_CONTAINER = 'flex justify-between items-center w-full p-3',
   HEADER_BUTTONS = 'flex justify-between items-center sm-s:w-96 lg-l:w-30rem 2xl:w-35rem',
