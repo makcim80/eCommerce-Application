@@ -5,8 +5,10 @@ export interface CatDetailsViewErrors {
   nameNotExist: () => Error;
   imagesNotExist: () => Error;
   descriptionNotExist: () => Error;
+  priceObject: () => Error;
   currencyCodeNotExist: () => Error;
   priceDefaultNotExist: () => Error;
+  priceDiscountNotExist: () => Error;
   contentIsNull: () => Error;
 }
 
@@ -29,6 +31,9 @@ const Errors: CatDetailsViewErrors = {
   descriptionNotExist: () => {
     return new Error('Error in CatDetailsView: description in en-US locale does not exist.');
   },
+  priceObject: () => {
+    return new Error('Error in CatDetailsView: price object in cents does not exist.');
+  },
   currencyCodeNotExist: () => {
     return new Error('Error in CatDetailsView: price object or currency code does not exist.');
   },
@@ -37,6 +42,11 @@ const Errors: CatDetailsViewErrors = {
   },
   contentIsNull: () => {
     return new Error('Error in CatDetailsView: content container is null.');
+  },
+  priceDiscountNotExist: () => {
+    return new Error(
+      'Error in CatDetailsView: price discount does not exist, despite the fact that the item is on sale.',
+    );
   },
 };
 
