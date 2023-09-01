@@ -8,16 +8,22 @@ import ElementCreator from '../../../util/element-creator';
 import { ListAttributes } from '../../../util/enums/list-attributes';
 
 interface CatDetailsViewErrors {
-  getResponseError: (err?: Error) => Error;
+  getResponseError: (err: Error) => Error;
+  generalClassError: (err: Error) => Error;
   responseIsNull: () => Error;
   nameNotExist: () => Error;
   imagesNotExist: () => Error;
   descriptionNotExist: () => Error;
+  currencyCodeNotExist: () => Error;
+  priceDefaultNotExist: () => Error;
 }
 
 const Errors: CatDetailsViewErrors = {
   getResponseError: (err) => {
     return new Error(`Error in CatDetailsView: error while receiving product: ${err}`);
+  },
+  generalClassError: (err) => {
+    return new Error(`Error in CatDetailsView: ${err}`);
   },
   responseIsNull: () => {
     return new Error('Error in CatDetailsView: response is null.');
@@ -31,6 +37,12 @@ const Errors: CatDetailsViewErrors = {
   descriptionNotExist: () => {
     return new Error('Error in CatDetailsView: description in en-US locale does not exist.');
   },
+  currencyCodeNotExist: () => {
+    return new Error('Error in CatDetailsView: price object or currency code does not exist.');
+  },
+  priceDefaultNotExist: () => {
+    return new Error('Error in CatDetailsView: price object or price in cents does not exist.');
+  },
 };
 
 export default class CatDetailsView extends View {
@@ -38,6 +50,8 @@ export default class CatDetailsView extends View {
 
   private readonly productId: string;
 
+  // suppression reason: false-positive, this field is not readonly.
+  // noinspection TypeScriptFieldCanBeMadeReadonly
   private response: ClientResponse<ProductProjectionPagedQueryResponse> | null;
 
   private nameEnUS: string | null;
@@ -45,6 +59,10 @@ export default class CatDetailsView extends View {
   private imagesObjectsArr: Image[] | null;
 
   private descriptionEnUS: string | null;
+
+  private priceCurrencyCode: string | null;
+
+  private priceDefault: number | null;
 
   constructor(id: string) {
     const params: ISource = {
@@ -63,19 +81,43 @@ export default class CatDetailsView extends View {
     this.nameEnUS = null;
     this.imagesObjectsArr = null;
     this.descriptionEnUS = null;
+    this.priceCurrencyCode = null;
+    this.priceDefault = null;
 
-    this.getResponseWithProduct().then(
-      (response) => {
-        this.response = response;
-        this.saveName(this.response);
-        this.saveImagesObjectsArr(this.response);
-        this.saveDescription(this.response);
-        this.configureView().then(() => {});
-      },
-      (err) => {
-        throw this.errors.getResponseError(err);
-      },
-    );
+    this.getResponseWithProduct()
+      .then(
+        (response) => {
+          this.response = response;
+          console.log(this.response);
+        },
+        (err) => {
+          throw this.errors.getResponseError(err);
+        },
+      )
+      .then(
+        () => {
+          this.saveAllInfoFromResponse();
+          this.configureView().then(() => {});
+        },
+        (err) => {
+          throw this.errors.generalClassError(err);
+        },
+      );
+  }
+
+  private async getResponseWithProduct(): Promise<ClientResponse<ProductProjectionPagedQueryResponse>> {
+    return new Product().getProduct(this.productId).then((response) => response);
+  }
+
+  private saveAllInfoFromResponse(): void {
+    if (this.response === null) {
+      throw this.errors.responseIsNull();
+    }
+    this.saveName(this.response);
+    this.saveImagesObjectsArr(this.response);
+    this.saveDescription(this.response);
+    this.saveCurrencyCode(this.response);
+    this.savePriceDefault(this.response);
   }
 
   private saveName(response: ClientResponse<ProductProjectionPagedQueryResponse>): void {
@@ -102,8 +144,26 @@ export default class CatDetailsView extends View {
     }
   }
 
-  private async getResponseWithProduct(): Promise<ClientResponse<ProductProjectionPagedQueryResponse>> {
-    return new Product().getProduct(this.productId).then((response) => response);
+  private saveCurrencyCode(response: ClientResponse<ProductProjectionPagedQueryResponse>): void {
+    if (
+      response.body.results[0].masterVariant.prices &&
+      response.body.results[0].masterVariant.prices[0].value.currencyCode
+    ) {
+      this.priceCurrencyCode = response.body.results[0].masterVariant.prices[0].value.currencyCode;
+    } else {
+      throw this.errors.currencyCodeNotExist();
+    }
+  }
+
+  private savePriceDefault(response: ClientResponse<ProductProjectionPagedQueryResponse>): void {
+    if (
+      response.body.results[0].masterVariant.prices &&
+      response.body.results[0].masterVariant.prices[0].value.centAmount
+    ) {
+      this.priceDefault = response.body.results[0].masterVariant.prices[0].value.centAmount;
+    } else {
+      throw this.errors.priceDefaultNotExist();
+    }
   }
 
   private async configureView(): Promise<void> {
@@ -116,7 +176,6 @@ export default class CatDetailsView extends View {
       classNames: ListClasses.PLACEHOLDER,
     };
     const catImg = new ElementCreator(catImgParams);
-    console.log(this.response);
 
     if (this.response.body.results[0].masterVariant.images) {
       catImg.getElement()?.setAttribute(ListAttributes.SRC, this.response.body.results[0].masterVariant.images[0].url);
