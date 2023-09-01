@@ -37,7 +37,7 @@ export default class HeaderButtonsView extends View {
     };
     super(params);
 
-    this.catalogAndAboutUsContainer = new CatalogAndAboutUsButtonsContainer();
+    this.catalogAndAboutUsContainer = new CatalogAndAboutUsButtonsContainer(router);
     this.searchIcon = new SearchIcon();
     this.basketIcon = new BasketIcon();
     this.buttonUserProfile = new ButtonUserProfile();

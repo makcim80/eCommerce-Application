@@ -7,3 +7,8 @@ export interface ISource {
   textContent?: string;
   callback?: (event: Event) => void;
 }
+
+export interface DataBreed {
+  name: string;
+  id: string;
+}
