@@ -9,6 +9,10 @@ export interface ISource {
   callback?: (event: Event) => void;
 }
 
+export interface GetHTMLElement {
+  getHTMLElement(): HTMLElement | null;
+}
+
 export interface DataBreed {
   name: string;
   id: string;

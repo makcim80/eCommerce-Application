@@ -1,6 +1,6 @@
-import { ISource } from './types';
+import { GetHTMLElement, ISource } from './types';
 
-export default class ElementCreator {
+export default class ElementCreator implements GetHTMLElement {
   protected element: HTMLElement | null;
 
   constructor(params: ISource) {
@@ -8,18 +8,24 @@ export default class ElementCreator {
     this.createElement(params);
   }
 
+  // Delete before next sprint branch created after all other branches is merged!
+  public getHTMLElement(): HTMLElement | null {
+    return this.getElement();
+  }
+
+  // Rename to `getHTMLElement` in before next sprint branch created after all other branches is merged!
   public getElement(): HTMLElement | null {
     return this.element;
   }
 
-  public addInnerElement(element: HTMLElement | ElementCreator): void {
-    if (element instanceof ElementCreator) {
-      const el: HTMLElement | null = element.getElement();
+  public addInnerElement(element: HTMLElement | GetHTMLElement): void {
+    if (element instanceof HTMLElement) {
+      this.element?.append(element);
+    } else {
+      const el: HTMLElement | null = element.getHTMLElement();
       if (el) {
         this.element?.append(el);
       }
-    } else {
-      this.element?.append(element);
     }
   }
 

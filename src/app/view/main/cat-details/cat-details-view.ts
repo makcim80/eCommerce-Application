@@ -198,13 +198,7 @@ export default class CatDetailsView extends View {
     }
 
     const slider = new CatDetailsSliderView(this.imagesObjectsArr);
-    const sliderHTMLElement = slider.getHTMLElement();
-
-    if (!sliderHTMLElement) {
-      throw this.errors.sliderHTMLElementIsNull();
-    }
-
-    this.content.addInnerElement(sliderHTMLElement);
+    this.content.addInnerElement(slider);
   }
 
   private makeName(): void {
