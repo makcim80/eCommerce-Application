@@ -19,6 +19,7 @@ import SwiperSliderBtnNextView from './btn-next/swiper-slider-btn-next-view';
 import SwiperSliderPaginationView from './pagination/swiper-slider-pagination-view';
 
 import './cat-details-slider-view.css';
+import SwiperSliderSlideView from './slide/swiper-slider-slide-view';
 
 const swiperInitParams: SwiperOptions = {
   modules: [Navigation, Pagination, Autoplay, EffectCreative],
@@ -62,17 +63,21 @@ export default class CatDetailsSliderView extends View {
 
   private swiper: Swiper | null;
 
+  private CatDetailsSliderContainer: ElementCreator | null;
+
   private swiperSlider: ElementCreator | null;
 
   constructor(imagesObjectsArr: Image[]) {
     const CatDetailsSliderParams: ISource = {
       tag: ListTags.CONTAINER,
-      classNames: ListClasses.CAT_DETAILS_SLIDER_CONTAINER,
+      classNames: ListClasses.CAT_DETAILS_SLIDER_ROOT,
     };
     super(CatDetailsSliderParams);
 
     this.imagesObjectsArr = imagesObjectsArr;
     this.swiper = null;
+
+    this.CatDetailsSliderContainer = null;
     this.swiperSlider = null;
 
     this.configureView();
@@ -80,8 +85,17 @@ export default class CatDetailsSliderView extends View {
   }
 
   private configureView(): void {
+    this.generateContainer();
     // this.generateSliderPlaceholder();
     this.generateSwiperSlider();
+  }
+
+  private generateContainer(): void {
+    const CatDetailsSliderContainerParams: ISource = {
+      tag: ListTags.CONTAINER,
+      classNames: ListClasses.CAT_DETAILS_SLIDER_CONTAINER,
+    };
+    this.CatDetailsSliderContainer = new ElementCreator(CatDetailsSliderContainerParams);
   }
 
   private generateSliderPlaceholder(): void {
@@ -104,7 +118,7 @@ export default class CatDetailsSliderView extends View {
       sliderPlaceholder.addInnerElement(catImg);
     });
 
-    this.view.addInnerElement(sliderPlaceholder);
+    this.CatDetailsSliderContainer?.addInnerElement(sliderPlaceholder);
   }
 
   private generateSwiperSlider(): void {
@@ -121,11 +135,7 @@ export default class CatDetailsSliderView extends View {
     const swiperSliderWrapper = new ElementCreator(swiperSliderWrapperParams);
 
     this.imagesObjectsArr.forEach((imgObj) => {
-      const swiperSlideParams: ISource = {
-        tag: ListTags.CONTAINER,
-        classNames: ListClasses.CAT_DETAILS_SLIDER_SWIPER_SLIDE,
-      };
-      const swiperSlide = new ElementCreator(swiperSlideParams);
+      const swiperSlide = new SwiperSliderSlideView();
 
       const catImgParams: ISource = {
         tag: ListTags.IMG,
@@ -135,7 +145,7 @@ export default class CatDetailsSliderView extends View {
 
       catImg.getElement()?.setAttribute(ListAttributes.SRC, imgObj.url);
 
-      swiperSlide.addInnerElement(catImg);
+      swiperSlide.view.addInnerElement(catImg);
       swiperSliderWrapper.addInnerElement(swiperSlide);
     });
 
@@ -143,7 +153,11 @@ export default class CatDetailsSliderView extends View {
     this.swiperSlider.addInnerElement(new SwiperSliderBtnPrevView());
     this.swiperSlider.addInnerElement(new SwiperSliderBtnNextView());
     this.swiperSlider.addInnerElement(new SwiperSliderPaginationView());
-    this.view.addInnerElement(this.swiperSlider);
+    if (!this.CatDetailsSliderContainer) {
+      throw new Error('CatDetailsSliderContainer is null!');
+    }
+    this.CatDetailsSliderContainer?.addInnerElement(this.swiperSlider);
+    this.view.addInnerElement(this.CatDetailsSliderContainer);
   }
 
   private initSwiper(): void {

@@ -59,6 +59,8 @@ export const enum ListClasses {
   CAT_DETAILS_PRICE_DEFAULT = 'cat-price-default text-lg mt-2',
   CAT_DETAILS_PRICE_DEFAULT_OUTDATED = 'cat-price-default--outdated line-through',
   CAT_DETAILS_PRICE_DISCOUNT = 'cat-price-discount text-xl font-bold text-red-600 mt-4',
+  CAT_DETAILS_SLIDER_ROOT = 'cats-slider-root',
+  CAT_DETAILS_SLIDER_ROOT_MODAL_MODE = 'cats-slider-root--modal-mode',
   CAT_DETAILS_SLIDER_CONTAINER = 'cats-slider-container w-500px h-500px',
   CAT_DETAILS_SLIDER_PLACEHOLDER = 'cats-slider-tmp flex w-500px h-500px overflow-x-scroll gap-x-4',
   CAT_DETAILS_SLIDER_IMG_PLACEHOLDER = 'cat-img-tmp w-500px h-500px object-contain h-full bg-profile-bg',
