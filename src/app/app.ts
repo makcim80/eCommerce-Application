@@ -41,7 +41,7 @@ export default class App {
     );
   }
 
-  // eslint-disable-next-line
+  // eslint-disable-next-line max-lines-per-function
   public createRoutes(): Route[] {
     return [
       {
