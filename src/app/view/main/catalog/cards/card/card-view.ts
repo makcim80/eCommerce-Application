@@ -6,6 +6,8 @@ import DiscountedPriceCardView from './discounted-price/discounted-price';
 import ImgCardView from './img-card/img';
 import NameCardView from './name-card/name';
 import PriceCardView from './price-card/price';
+import { Pages } from '../../../../../util/enums/pages';
+import Router from '../../../../../router/router';
 
 export default class CardView extends View {
   private img: ImgCardView;
@@ -18,7 +20,7 @@ export default class CardView extends View {
 
   private description: DescriptionCardView;
 
-  constructor() {
+  constructor(router: Router) {
     const params = {
       tag: ListTags.CONTAINER,
       classNames: [ListClasses.CARD, ListClasses.POINTER],
@@ -29,7 +31,7 @@ export default class CardView extends View {
     this.price = new PriceCardView();
     this.name = new NameCardView();
     this.description = new DescriptionCardView();
-    this.configureView();
+    this.configureView(router);
   }
 
   public setSrcImg(src: string): void {
@@ -60,7 +62,7 @@ export default class CardView extends View {
     this.description.setDescriptionHeading(description);
   }
 
-  private configureView(): void {
+  private configureView(router: Router): void {
     this.view
       .getElement()
       ?.append(
@@ -70,5 +72,6 @@ export default class CardView extends View {
         this.discountedPrice.getHTMLElement() || '',
         this.price.getHTMLElement() || '',
       );
+    this.view.setCallback(() => router.navigate(Pages.CAT_DETAILS));
   }
 }
