@@ -1,6 +1,7 @@
 import { Image } from '@commercetools/platform-sdk';
 // <editor-fold desc="swiper imports">
 import Swiper from 'swiper';
+import { SwiperOptions } from 'swiper/types/swiper-options';
 // import { Navigation, Pagination } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
@@ -104,14 +105,18 @@ export default class CatDetailsSliderView extends View {
     if (!swiperSliderHTMLElement) {
       throw new Error('swiperSliderHTMLElement is null!');
     }
-    // init Swiper:
-    this.swiper = new Swiper(swiperSliderHTMLElement, {
+
+    const swiperInitParams: SwiperOptions = {
+      spaceBetween: 16,
       on: {
         init(): void {
-          console.log('Init event!');
+          console.log('INFO: Swiper slider Init event!');
         },
       },
-    });
+    };
+
+    // init Swiper:
+    this.swiper = new Swiper(swiperSliderHTMLElement, swiperInitParams);
 
     // Display swiper container HTMLElement.
     console.log(this.swiper.el);
