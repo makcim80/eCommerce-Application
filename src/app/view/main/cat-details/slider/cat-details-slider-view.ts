@@ -18,6 +18,8 @@ export default class CatDetailsSliderView extends View {
 
   private swiper: Swiper | null;
 
+  private swiperSlider: ElementCreator | null;
+
   constructor(imagesObjectsArr: Image[]) {
     const CatDetailsSliderParams: ISource = {
       tag: ListTags.CONTAINER,
@@ -27,6 +29,7 @@ export default class CatDetailsSliderView extends View {
 
     this.imagesObjectsArr = imagesObjectsArr;
     this.swiper = null;
+    this.swiperSlider = null;
 
     this.configureView();
     this.observeSliderDOMAppearance(this.initSwiper.bind(this));
@@ -65,7 +68,7 @@ export default class CatDetailsSliderView extends View {
       tag: ListTags.CONTAINER,
       classNames: ListClasses.CAT_DETAILS_SLIDER_SWIPER,
     };
-    const swiperSlider = new ElementCreator(swiperSliderParams);
+    this.swiperSlider = new ElementCreator(swiperSliderParams);
 
     const swiperSliderWrapperParams: ISource = {
       tag: ListTags.CONTAINER,
@@ -94,16 +97,29 @@ export default class CatDetailsSliderView extends View {
       swiperSliderWrapper.addInnerElement(swiperSlide);
     });
 
-    swiperSlider.addInnerElement(swiperSliderWrapper);
-    this.view.addInnerElement(swiperSlider);
+    this.swiperSlider.addInnerElement(swiperSliderWrapper);
+    this.view.addInnerElement(this.swiperSlider);
   }
 
   private initSwiper(): void {
+    const swiperSliderHTMLElement = this.swiperSlider?.getHTMLElement();
+    if (!swiperSliderHTMLElement) {
+      throw new Error('swiperSliderHTMLElement is null!');
+    }
     // init Swiper:
-    this.swiper = new Swiper('mySwiper', {});
+    this.swiper = new Swiper(swiperSliderHTMLElement, {
+      on: {
+        init(): void {
+          console.log('Init event!');
+        },
+      },
+    });
 
     // Display swiper container HTMLElement.
     console.log(this.swiper.el);
+    // this.swiper.on('afterInit', () => {
+    //   console.log('After init event!');
+    // });
   }
 
   private observeSliderDOMAppearance(observerCallback: () => void): void {
@@ -113,6 +129,7 @@ export default class CatDetailsSliderView extends View {
         if (document.contains(observingElement)) {
           console.log(`Observing element in DOM!`);
           console.log(document.querySelector('.swiper'));
+          // setTimeout(observerCallback, 2000);
           observerCallback();
         }
       }
