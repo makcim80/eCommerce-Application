@@ -1,8 +1,9 @@
 import { Image } from '@commercetools/platform-sdk';
 // <editor-fold desc="swiper imports">
 import Swiper from 'swiper';
+import { Autoplay, EffectCreative, Navigation, Pagination } from 'swiper/modules';
 import { SwiperOptions } from 'swiper/types/swiper-options';
-import { Navigation, Pagination, Autoplay, EffectCreative } from 'swiper/modules';
+import { CSSSelector } from 'swiper/types/shared';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
@@ -13,10 +14,18 @@ import { ListClasses } from '../../../../util/enums/list-classes';
 import ElementCreator from '../../../../util/element-creator';
 import { ListAttributes } from '../../../../util/enums/list-attributes';
 import View from '../../../view';
+import SwiperSliderBtnPrevView from './btn-prev/swiper-slider-btn-prev-view';
+import SwiperSliderBtnNextView from './btn-next/swiper-slider-btn-next-view';
+
+import './cat-details-slider-view.css';
 
 const swiperInitParams: SwiperOptions = {
   modules: [Navigation, Pagination, Autoplay, EffectCreative],
   spaceBetween: 16,
+  navigation: {
+    nextEl: '.swiper-button-next' as CSSSelector,
+    prevEl: '.swiper-button-prev' as CSSSelector,
+  },
   loop: true,
   speed: 1000,
   autoplay: {
@@ -24,6 +33,8 @@ const swiperInitParams: SwiperOptions = {
     pauseOnMouseEnter: true,
     disableOnInteraction: false,
   },
+  grabCursor: true,
+  // mousewheel: true,
   effect: 'creative',
   creativeEffect: {
     prev: {
@@ -123,6 +134,8 @@ export default class CatDetailsSliderView extends View {
     });
 
     this.swiperSlider.addInnerElement(swiperSliderWrapper);
+    this.swiperSlider.addInnerElement(new SwiperSliderBtnPrevView());
+    this.swiperSlider.addInnerElement(new SwiperSliderBtnNextView());
     this.view.addInnerElement(this.swiperSlider);
   }
 

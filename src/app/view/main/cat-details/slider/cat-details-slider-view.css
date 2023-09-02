@@ -1,0 +1,17 @@
+.swiper-button-next,
+.swiper-button-prev {
+  color: theme('colors.blue-color');
+  text-shadow: 0 0 4px #000000;
+  transition: scale 100ms, color 300ms, text-shadow 300ms;
+}
+
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+  color: theme('colors.input-color');
+  text-shadow: 0 0 4px theme('colors.blue-color');
+}
+
+.swiper-button-next:active,
+.swiper-button-prev:active {
+  scale: 0.8;
+}
