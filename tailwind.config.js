@@ -3,6 +3,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        'profile-bg': '#fafcfc',
         'blue-color': '#8EB2C6',
         'login-color': '#222222',
         'footer-color': '#3A5874',
