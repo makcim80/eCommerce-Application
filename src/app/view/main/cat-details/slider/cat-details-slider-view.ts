@@ -1,7 +1,7 @@
 import { Image } from '@commercetools/platform-sdk';
 // <editor-fold desc="swiper imports">
 import Swiper from 'swiper';
-import { Navigation, Pagination } from 'swiper/modules';
+// import { Navigation, Pagination } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
@@ -21,7 +21,7 @@ export default class CatDetailsSliderView extends View {
   constructor(imagesObjectsArr: Image[]) {
     const CatDetailsSliderParams: ISource = {
       tag: ListTags.CONTAINER,
-      classNames: ListClasses.CAT_DETAILS_SLIDER_TMP,
+      classNames: ListClasses.CAT_DETAILS_SLIDER_CONTAINER,
     };
     super(CatDetailsSliderParams);
 
@@ -29,37 +29,101 @@ export default class CatDetailsSliderView extends View {
     this.swiper = null;
 
     this.configureView();
-    this.initSwiper();
+    this.observeSliderDOMAppearance(this.initSwiper.bind(this));
   }
 
   private configureView(): void {
-    this.initSliderPlaceholder();
+    // this.generateSliderPlaceholder();
+    this.generateSwiperSlider();
   }
 
-  private initSliderPlaceholder(): void {
+  private generateSliderPlaceholder(): void {
+    const sliderPlaceholderParams = {
+      tag: ListTags.CONTAINER,
+      classNames: ListClasses.CAT_DETAILS_SLIDER_PLACEHOLDER,
+    };
+    const sliderPlaceholder = new ElementCreator(sliderPlaceholderParams);
+
     this.imagesObjectsArr.forEach((imgObj) => {
       console.log(imgObj);
       const catImgParams: ISource = {
         tag: ListTags.IMG,
-        classNames: ListClasses.CAT_DETAILS_IMG_TMP,
+        classNames: ListClasses.CAT_DETAILS_SLIDER_IMG_PLACEHOLDER,
       };
       const catImg = new ElementCreator(catImgParams);
 
       catImg.getElement()?.setAttribute(ListAttributes.SRC, imgObj.url);
 
-      this.view.addInnerElement(catImg);
+      sliderPlaceholder.addInnerElement(catImg);
     });
+
+    this.view.addInnerElement(sliderPlaceholder);
+  }
+
+  private generateSwiperSlider(): void {
+    const swiperSliderParams: ISource = {
+      tag: ListTags.CONTAINER,
+      classNames: ListClasses.CAT_DETAILS_SLIDER_SWIPER,
+    };
+    const swiperSlider = new ElementCreator(swiperSliderParams);
+
+    const swiperSliderWrapperParams: ISource = {
+      tag: ListTags.CONTAINER,
+      classNames: ListClasses.CAT_DETAILS_SLIDER_SWIPER_WRP,
+    };
+    const swiperSliderWrapper = new ElementCreator(swiperSliderWrapperParams);
+
+    this.imagesObjectsArr.forEach((imgObj) => {
+      const swiperSlideParams: ISource = {
+        tag: ListTags.CONTAINER,
+        classNames: ListClasses.CAT_DETAILS_SLIDER_SWIPER_SLIDE,
+      };
+      const swiperSlide = new ElementCreator(swiperSlideParams);
+
+      // console.log(imgObj);
+
+      const catImgParams: ISource = {
+        tag: ListTags.IMG,
+        classNames: ListClasses.PLACEHOLDER,
+      };
+      const catImg = new ElementCreator(catImgParams);
+
+      catImg.getElement()?.setAttribute(ListAttributes.SRC, imgObj.url);
+
+      swiperSlide.addInnerElement(catImg);
+      swiperSliderWrapper.addInnerElement(swiperSlide);
+    });
+
+    swiperSlider.addInnerElement(swiperSliderWrapper);
+    this.view.addInnerElement(swiperSlider);
   }
 
   private initSwiper(): void {
     // init Swiper:
-    this.swiper = new Swiper('.swiper', {
-      // configure Swiper to use modules
-      modules: [Navigation, Pagination],
-    });
+    this.swiper = new Swiper('mySwiper', {});
 
-    this.swiper.allowSlideNext = true;
     // Display swiper container HTMLElement.
     console.log(this.swiper.el);
+  }
+
+  private observeSliderDOMAppearance(observerCallback: () => void): void {
+    const swiperSliderObserver = new MutationObserver(() => {
+      const observingElement = this.view.getHTMLElement();
+      if (observingElement) {
+        if (document.contains(observingElement)) {
+          console.log(`Observing element in DOM!`);
+          console.log(document.querySelector('.swiper'));
+          observerCallback();
+        }
+      }
+    });
+
+    const observeParams = {
+      attributes: false,
+      childList: true,
+      characterData: false,
+      subtree: true,
+    };
+    swiperSliderObserver.observe(document, observeParams);
   }
 }
