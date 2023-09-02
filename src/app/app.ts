@@ -40,7 +40,7 @@ export default class App {
       this.footer.getHTMLElement() || '',
     );
   }
-
+  // eslint-disable-next-line
   public createRoutes(): Route[] {
     return [
       {
@@ -76,6 +76,13 @@ export default class App {
         callback: async (): Promise<void> => {
           const { default: Error404View } = await import('./view/main/error-404/error-404-view');
           this.setContent(Pages.NOT_FOUND, new Error404View(this.router));
+        },
+      },
+      {
+        path: `${Pages.PROFILE}`,
+        callback: async (): Promise<void> => {
+          const { default: ProfileView } = await import('./view/main/profile/profile-view/my-profile');
+          this.setContent(Pages.PROFILE, new ProfileView());
         },
       },
     ];
