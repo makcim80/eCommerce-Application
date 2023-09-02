@@ -7,6 +7,7 @@ export interface CatDetailsViewErrors {
   descriptionNotExist: () => Error;
   currencyCodeNotExist: () => Error;
   priceDefaultNotExist: () => Error;
+  contentIsNull: () => Error;
 }
 
 const Errors: CatDetailsViewErrors = {
@@ -33,6 +34,9 @@ const Errors: CatDetailsViewErrors = {
   },
   priceDefaultNotExist: () => {
     return new Error('Error in CatDetailsView: price object or price in cents does not exist.');
+  },
+  contentIsNull: () => {
+    return new Error('Error in CatDetailsView: content container is null.');
   },
 };
 

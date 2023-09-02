@@ -8,6 +8,14 @@ import Errors, { CatDetailsViewErrors } from './utils/errors';
 import ElementCreator from '../../../util/element-creator';
 import { ListAttributes } from '../../../util/enums/list-attributes';
 
+const createParams = (id?: string): ISource => {
+  return {
+    tag: ListTags.CONTAINER,
+    classNames: ListClasses.CAT_DETAILS_CONTAINER,
+    textContent: id,
+  };
+};
+
 export default class CatDetailsView extends View {
   private errors: CatDetailsViewErrors;
 
@@ -27,18 +35,13 @@ export default class CatDetailsView extends View {
 
   private priceDefault: number | null;
 
+  private content: ElementCreator | null;
+
   constructor(id: string) {
-    const params: ISource = {
-      tag: ListTags.CONTAINER,
-      classNames: ListClasses.CAT_DETAILS_CONTAINER,
-      textContent: id,
-    };
-    super(params);
+    super(createParams());
 
     this.errors = Errors;
-
     this.productId = id;
-
     this.response = null;
 
     this.nameEnUS = null;
@@ -46,6 +49,8 @@ export default class CatDetailsView extends View {
     this.descriptionEnUS = null;
     this.priceCurrencyCode = null;
     this.priceDefault = null;
+
+    this.content = null;
 
     this.getResponseWithProduct()
       .then(
@@ -130,29 +135,30 @@ export default class CatDetailsView extends View {
   }
 
   private configureView(): void {
-    if (this.response === null) {
-      throw this.errors.responseIsNull();
-    }
-
+    this.makeContentContainer();
     this.makeImages();
-    // const catImgParams = {
-    //   tag: ListTags.IMG,
-    //   classNames: ListClasses.PLACEHOLDER,
-    // };
-    // const catImg = new ElementCreator(catImgParams);
-    //
-    // if (this.response.body.results[0].masterVariant.images) {
-    //   catImg.getElement()?.setAttribute(ListAttributes.SRC, this.response.body.results[0].masterVariant.images[0].url);
-    // } else {
-    //   throw new Error(`Error in CatDetailsView: masterVariant.images is undefined.`);
-    // }
 
-    // this.view.addInnerElement(catImg);
+    if (this.content) {
+      this.view.addInnerElement(this.content);
+    } else {
+      throw this.errors.contentIsNull();
+    }
+  }
+
+  private makeContentContainer(): void {
+    const contentParams: ISource = {
+      tag: ListTags.CONTAINER,
+      classNames: ListClasses.CAT_DETAILS_CONTENT,
+    };
+    this.content = new ElementCreator(contentParams);
   }
 
   private makeImages(): void {
     if (!this.imagesObjectsArr) {
       throw this.errors.imagesNotExist();
+    }
+    if (!this.content) {
+      throw this.errors.contentIsNull();
     }
 
     const sliderContainerParams: ISource = {
@@ -165,7 +171,7 @@ export default class CatDetailsView extends View {
       console.log(imgObj);
       const catImgParams: ISource = {
         tag: ListTags.IMG,
-        classNames: ListClasses.PLACEHOLDER,
+        classNames: ListClasses.CAT_DETAILS_IMG,
       };
       const catImg = new ElementCreator(catImgParams);
 
@@ -174,6 +180,6 @@ export default class CatDetailsView extends View {
       sliderContainer.addInnerElement(catImg);
     });
 
-    this.view.addInnerElement(sliderContainer);
+    this.content.addInnerElement(sliderContainer);
   }
 }
