@@ -22,7 +22,7 @@ export default class CardsView extends View {
 
     if (container instanceof HTMLDivElement) container.innerHTML = '';
 
-    let routerGuarded;
+    let routerGuarded: Router;
     if (router) {
       routerGuarded = router;
     } else {

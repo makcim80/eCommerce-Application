@@ -17,7 +17,7 @@ export default class Product {
       .search()
       .get({
         queryArgs: {
-          limit: 35,
+          limit: 2,
           filter: `variants.sku:"${id}"`,
         },
       })
