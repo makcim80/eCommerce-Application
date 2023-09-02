@@ -52,7 +52,7 @@ export const enum ListClasses {
   MODAL_BUTTON_ERROR = 'border-error-color hover:bg-error-color',
   BUTTON_LOGOUT = 'block text-black text-xs sm-s:text-sm lg-l:text-lg 2xl:text-2xl hover:border-b-2 hover:border-input-color hover:border-solid hover:text-input-color',
   HIDDEN = 'hidden',
-  BUTTONS_СATALOG_ABOUT_US = 'mr-6 sm-sm:text-2xl sm-sm:mb-5 sm-s:mb-0 text-white opacity-90 text-xs sm-s:text-sm lg-l:text-lg 2xl:text-2xl hover:border-b-2 hover:border-input-color hover:border-solid hover:text-input-color',
+  BUTTONS_CATALOG_ABOUT_US = 'mr-6 sm-sm:text-2xl sm-sm:mb-5 sm-s:mb-0 text-white opacity-90 text-xs sm-s:text-sm lg-l:text-lg 2xl:text-2xl hover:border-b-2 hover:border-input-color hover:border-solid hover:text-input-color',
   BUTTON_MY_PROFILE = 'mr-6 w-9 text-black text-xs sm-s:text-sm lg-l:text-lg 2xl:text-2xl hover:border-b-2 hover:border-input-color hover:border-solid hover:text-input-color',
   BURGER_MENU_ACTIVE = 'burger-menu-active',
   BURGER_MENU = 'burger-menu p-1 w-7 h-7 cursor-pointer relative z-30 hover:opacity-70 sm-sm:block sm-s:hidden',

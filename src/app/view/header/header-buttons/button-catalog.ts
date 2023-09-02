@@ -9,7 +9,7 @@ export default class ButtonCatalog extends View {
   constructor(router: Router) {
     const params = {
       tag: ListTags.BUTTON,
-      classNames: ListClasses.BUTTONS_СATALOG_ABOUT_US,
+      classNames: ListClasses.BUTTONS_CATALOG_ABOUT_US,
       textContent: ListTextContent.CATALOG,
       callback: (): void => router.navigate(Pages.CATALOG),
     };
