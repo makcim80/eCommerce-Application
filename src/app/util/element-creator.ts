@@ -40,8 +40,10 @@ export default class ElementCreator {
     }
   }
 
-  protected setTextContent(text: string): void {
-    if (this.element) this.element.textContent = text;
+  protected setTextContent(text: string | ISource['textContent']): void {
+    if (this.element && typeof text === 'string') {
+      this.element.textContent = text;
+    }
   }
 
   public setCallback(callback: (event: Event) => void): void {
