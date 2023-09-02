@@ -1,6 +1,6 @@
 import Router from './router/router';
 import { Api } from './util/enums/api';
-import { Pages } from './util/enums/pages';
+import { ID_SELECTOR, Pages } from './util/enums/pages';
 import FooterView from './view/footer/footer-view';
 import HeaderView from './view/header/header-view';
 import MainView from './view/main/main-view';
@@ -87,10 +87,10 @@ export default class App {
         },
       },
       {
-        path: `${Pages.CAT_DETAILS}`,
-        callback: async (): Promise<void> => {
+        path: `${Pages.CAT_DETAILS}/${ID_SELECTOR}`,
+        callback: async (id): Promise<void> => {
           const { default: CatDetailsView } = await import('./view/main/cat-details/cat-details-view');
-          this.setContent(Pages.CAT_DETAILS, new CatDetailsView());
+          this.setContent(Pages.CAT_DETAILS, new CatDetailsView(id));
         },
       },
     ];

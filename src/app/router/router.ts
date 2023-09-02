@@ -1,4 +1,4 @@
-import { Pages } from '../util/enums/pages';
+import { ID_SELECTOR, Pages } from '../util/enums/pages';
 import HistoryRouterHandler from './handler/history-router-handler';
 
 interface Route {
@@ -26,7 +26,7 @@ export default class Router {
   }
 
   private urlChangedHandler(requestParams: { path: string; resource: string }): void {
-    const pathForFind = requestParams.path;
+    const pathForFind = requestParams.resource === '' ? requestParams.path : `${requestParams.path}/${ID_SELECTOR}`;
     const route = this.routes.find((item) => {
       return item.path === pathForFind;
     });
