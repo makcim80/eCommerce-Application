@@ -83,11 +83,9 @@ export default class CatDetailsSliderView extends View {
       };
       const swiperSlide = new ElementCreator(swiperSlideParams);
 
-      // console.log(imgObj);
-
       const catImgParams: ISource = {
         tag: ListTags.IMG,
-        classNames: ListClasses.PLACEHOLDER,
+        classNames: ListClasses.CAT_DETAILS_SLIDER_SWIPER_IMG,
       };
       const catImg = new ElementCreator(catImgParams);
 
@@ -117,9 +115,6 @@ export default class CatDetailsSliderView extends View {
 
     // Display swiper container HTMLElement.
     console.log(this.swiper.el);
-    // this.swiper.on('afterInit', () => {
-    //   console.log('After init event!');
-    // });
   }
 
   private observeSliderDOMAppearance(observerCallback: () => void): void {
