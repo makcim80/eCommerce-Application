@@ -11,46 +11,50 @@ export interface CatDetailsViewErrors {
   priceDiscountNotExist: () => Error;
   contentIsNull: () => Error;
   contentRightIsNull: () => Error;
+  sliderHTMLElementIsNull: () => Error;
 }
+
+const errorHeading = 'Error in CatDetailsView:';
 
 const Errors: CatDetailsViewErrors = {
   getResponseError: (err) => {
-    return new Error(`Error in CatDetailsView: error while receiving product: ${err}`);
+    return new Error(`${errorHeading} error while receiving product: ${err}`);
   },
   generalClassError: (err) => {
-    return new Error(`Error in CatDetailsView: ${err}`);
+    return new Error(`${errorHeading} ${err}`);
   },
   responseIsNull: () => {
-    return new Error('Error in CatDetailsView: response is null.');
+    return new Error(`${errorHeading} response is null.`);
   },
   nameNotExist: () => {
-    return new Error('Error in CatDetailsView: name in en-US locale does not exist.');
+    return new Error(`${errorHeading} name in en-US locale does not exist.`);
   },
   imagesNotExist: () => {
-    return new Error('Error in CatDetailsView: images of masterVariant does not exist.');
+    return new Error(`${errorHeading} images of masterVariant does not exist.`);
   },
   descriptionNotExist: () => {
-    return new Error('Error in CatDetailsView: description in en-US locale does not exist.');
+    return new Error(`${errorHeading} description in en-US locale does not exist.`);
   },
   priceObject: () => {
-    return new Error('Error in CatDetailsView: price object in cents does not exist.');
+    return new Error(`${errorHeading} price object in cents does not exist.`);
   },
   currencyCodeNotExist: () => {
-    return new Error('Error in CatDetailsView: price object or currency code does not exist.');
+    return new Error(`${errorHeading} price object or currency code does not exist.`);
   },
   priceDefaultNotExist: () => {
-    return new Error('Error in CatDetailsView: price object or price in cents does not exist.');
+    return new Error(`${errorHeading} price object or price in cents does not exist.`);
   },
   priceDiscountNotExist: () => {
-    return new Error(
-      'Error in CatDetailsView: price discount does not exist, despite the fact that the item is on sale.',
-    );
+    return new Error(`${errorHeading} price discount does not exist, despite the fact that the item is on sale.`);
   },
   contentIsNull: () => {
-    return new Error('Error in CatDetailsView: content container is null.');
+    return new Error(`${errorHeading} content container is null.`);
   },
   contentRightIsNull: () => {
-    return new Error('Error in CatDetailsView: content right container is null.');
+    return new Error(`${errorHeading} content right container is null.`);
+  },
+  sliderHTMLElementIsNull: () => {
+    return new Error(`${errorHeading} sliderHTMLElement is null.`);
   },
 };
 

@@ -6,7 +6,7 @@ import View from '../../view';
 import Product from '../../../../components/product';
 import Errors, { CatDetailsViewErrors } from './utils/errors';
 import ElementCreator from '../../../util/element-creator';
-import { ListAttributes } from '../../../util/enums/list-attributes';
+import CatDetailsSliderView from './slider/cat-details-slider-view';
 
 const createParams = (id?: string): ISource => {
   return {
@@ -197,26 +197,14 @@ export default class CatDetailsView extends View {
       throw this.errors.contentIsNull();
     }
 
-    const sliderContainerParams: ISource = {
-      tag: ListTags.CONTAINER,
-      classNames: ListClasses.CAT_DETAILS_SLIDER,
-    };
-    const sliderContainer = new ElementCreator(sliderContainerParams);
+    const slider = new CatDetailsSliderView(this.imagesObjectsArr);
+    const sliderHTMLElement = slider.getHTMLElement();
 
-    this.imagesObjectsArr.forEach((imgObj) => {
-      console.log(imgObj);
-      const catImgParams: ISource = {
-        tag: ListTags.IMG,
-        classNames: ListClasses.CAT_DETAILS_IMG,
-      };
-      const catImg = new ElementCreator(catImgParams);
+    if (!sliderHTMLElement) {
+      throw this.errors.sliderHTMLElementIsNull();
+    }
 
-      catImg.getElement()?.setAttribute(ListAttributes.SRC, imgObj.url);
-
-      sliderContainer.addInnerElement(catImg);
-    });
-
-    this.content.addInnerElement(sliderContainer);
+    this.content.addInnerElement(sliderHTMLElement);
   }
 
   private makeName(): void {
