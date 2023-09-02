@@ -25,6 +25,7 @@ export default class CatDetailsView extends View {
   // noinspection TypeScriptFieldCanBeMadeReadonly
   private response: ClientResponse<ProductProjectionPagedQueryResponse> | null;
 
+  // <editor-fold desc="Parsed from response">
   private nameEnUS: string | null;
 
   private imagesObjectsArr: Image[] | null;
@@ -36,8 +37,11 @@ export default class CatDetailsView extends View {
   private priceDefault: number | null;
 
   private priceDiscount: number | null;
+  // </editor-fold desc="Parsed from response">
 
   private content: ElementCreator | null;
+
+  private contentRight: ElementCreator | null;
 
   constructor(id: string) {
     super(createParams());
@@ -54,6 +58,7 @@ export default class CatDetailsView extends View {
     this.priceDiscount = null;
 
     this.content = null;
+    this.contentRight = null;
 
     this.getResponseWithProduct()
       .then(
@@ -150,12 +155,18 @@ export default class CatDetailsView extends View {
 
   private configureView(): void {
     this.makeContentContainer();
+    this.makeContentRightContainer();
     this.makeImages();
     this.makeName();
     this.makeDescription();
     this.makePrice();
 
     if (this.content) {
+      if (this.contentRight) {
+        this.content.addInnerElement(this.contentRight);
+      } else {
+        throw this.errors.contentRightIsNull();
+      }
       this.view.addInnerElement(this.content);
     } else {
       throw this.errors.contentIsNull();
@@ -168,6 +179,14 @@ export default class CatDetailsView extends View {
       classNames: ListClasses.CAT_DETAILS_CONTENT,
     };
     this.content = new ElementCreator(contentParams);
+  }
+
+  private makeContentRightContainer(): void {
+    const contentRightParams: ISource = {
+      tag: ListTags.CONTAINER,
+      classNames: ListClasses.CAT_DETAILS_CONTENT_RIGHT,
+    };
+    this.contentRight = new ElementCreator(contentRightParams);
   }
 
   private makeImages(): void {
@@ -204,8 +223,8 @@ export default class CatDetailsView extends View {
     if (!this.nameEnUS) {
       throw this.errors.nameNotExist();
     }
-    if (!this.content) {
-      throw this.errors.contentIsNull();
+    if (!this.contentRight) {
+      throw this.errors.contentRightIsNull();
     }
 
     const nameParams: ISource = {
@@ -215,15 +234,15 @@ export default class CatDetailsView extends View {
     };
     const name = new ElementCreator(nameParams);
 
-    this.content.addInnerElement(name);
+    this.contentRight.addInnerElement(name);
   }
 
   private makeDescription(): void {
     if (!this.descriptionEnUS) {
       throw this.errors.descriptionNotExist();
     }
-    if (!this.content) {
-      throw this.errors.contentIsNull();
+    if (!this.contentRight) {
+      throw this.errors.contentRightIsNull();
     }
 
     const descriptionParams: ISource = {
@@ -232,16 +251,20 @@ export default class CatDetailsView extends View {
       textContent: this.descriptionEnUS,
     };
     const description = new ElementCreator(descriptionParams);
+    const descriptionHTMLElement: HTMLElement | null = description.getElement();
+    if (descriptionHTMLElement instanceof HTMLElement) {
+      descriptionHTMLElement.innerHTML = descriptionHTMLElement.innerHTML.split(';').join('<br>');
+    }
 
-    this.content.addInnerElement(description);
+    this.contentRight.addInnerElement(description);
   }
 
   private makePrice(): void {
     if (!this.priceDefault) {
       throw this.errors.priceDefaultNotExist();
     }
-    if (!this.content) {
-      throw this.errors.contentIsNull();
+    if (!this.contentRight) {
+      throw this.errors.contentRightIsNull();
     }
 
     let productIsDiscounted: boolean = false;
@@ -254,10 +277,10 @@ export default class CatDetailsView extends View {
     const priceDefaultClassNames = [ListClasses.CAT_DETAILS_PRICE_DEFAULT];
 
     if (productIsDiscounted) {
-      priceDefaultClassNames.push(ListClasses.TEXT_CROSS_OUT);
+      priceDefaultClassNames.push(ListClasses.CAT_DETAILS_PRICE_DEFAULT_OUTDATED);
 
       priceDiscountedComponent = this.makePriceDiscount();
-      this.content.addInnerElement(priceDiscountedComponent);
+      this.contentRight.addInnerElement(priceDiscountedComponent);
     }
 
     const priceDefaultParams: ISource = {
@@ -267,7 +290,7 @@ export default class CatDetailsView extends View {
     };
     const priceDefault = new ElementCreator(priceDefaultParams);
 
-    this.content.addInnerElement(priceDefault);
+    this.contentRight.addInnerElement(priceDefault);
   }
 
   private makePriceDiscount(): ElementCreator {
@@ -277,7 +300,7 @@ export default class CatDetailsView extends View {
 
     const priceDiscountParams: ISource = {
       tag: ListTags.SPAN,
-      classNames: ListClasses.PLACEHOLDER,
+      classNames: ListClasses.CAT_DETAILS_PRICE_DISCOUNT,
       textContent: this.parsePrice(this.priceDiscount),
     };
     return new ElementCreator(priceDiscountParams);
