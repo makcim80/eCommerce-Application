@@ -3,7 +3,8 @@ import { ListTags } from '../../../util/enums/list-tags';
 import { ListClasses } from '../../../util/enums/list-classes';
 // import { ListTextContent } from '../../../util/enums/list-textContent';
 import View from '../../view';
-import Products from '../../../../components/products';
+// import Products from '../../../../components/products';
+import Product from '../../../../components/product';
 
 export default class CatDetailsView extends View {
   private readonly productId: string;
@@ -18,7 +19,7 @@ export default class CatDetailsView extends View {
 
     this.productId = id;
     console.log('productId:', this.productId);
-    new Products().getProducts().then((value) => {
+    new Product().getProduct(this.productId).then((value) => {
       console.log(value);
     });
   }
