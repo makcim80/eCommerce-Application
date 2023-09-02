@@ -27,4 +27,5 @@ export const enum ListOfValues {
   OLD_PASSWORD = 'old-password',
   NEW_PASSWORD = 'new-password',
   CONFIRM_PASSWORD = 'confirm-password',
+  RADIO = 'radio',
 }

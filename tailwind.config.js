@@ -9,6 +9,7 @@ module.exports = {
         'form-color': '#21364A',
         'neon-color': '#7df9ff',
         'input-color': '#FFE76E',
+        'address-color': '#e0c643',
         'successful-color': '#3EB972',
         'error-color': '#F74339',
         'modal-window-bg': '#FFFFFF',
@@ -16,7 +17,7 @@ module.exports = {
         'label-profile': '#9797af',
         'profile-bg': '#fafcfc',
         'popup-color': '#ebebeb',
-        'modal-password': '#292929b3',
+        'modal-password': '#292929cc',
       },
       borderWidth: {
         // eslint-disable-next-line prettier/prettier
@@ -36,6 +37,7 @@ module.exports = {
       screens: {
         'sm-sm': '320px',
         'sm-s': '640px',
+        'sm-ss': '689px',
         'lg-l': '1024px',
         '2xl': '1536px',
       },
@@ -72,7 +74,9 @@ module.exports = {
         '18px': '18px',
       },
       maxWidth: {
+        '16rem': '16rem',
         '23rem': '23rem',
+        '28rem': '28rem',
       },
     },
   },
