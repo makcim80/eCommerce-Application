@@ -2,7 +2,7 @@ import { Image } from '@commercetools/platform-sdk';
 // <editor-fold desc="swiper imports">
 import Swiper from 'swiper';
 import { SwiperOptions } from 'swiper/types/swiper-options';
-// import { Navigation, Pagination } from 'swiper/modules';
+import { Navigation, Pagination, Autoplay, EffectCreative } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
@@ -13,6 +13,32 @@ import { ListClasses } from '../../../../util/enums/list-classes';
 import ElementCreator from '../../../../util/element-creator';
 import { ListAttributes } from '../../../../util/enums/list-attributes';
 import View from '../../../view';
+
+const swiperInitParams: SwiperOptions = {
+  modules: [Navigation, Pagination, Autoplay, EffectCreative],
+  spaceBetween: 16,
+  loop: true,
+  speed: 1000,
+  autoplay: {
+    delay: 2000,
+    pauseOnMouseEnter: true,
+    disableOnInteraction: false,
+  },
+  effect: 'creative',
+  creativeEffect: {
+    prev: {
+      translate: [0, 0, -400],
+    },
+    next: {
+      translate: ['100%', 0, 0],
+    },
+  },
+  on: {
+    init(): void {
+      console.log('INFO: Swiper slider Init event!');
+    },
+  },
+};
 
 export default class CatDetailsSliderView extends View {
   private imagesObjectsArr: Image[];
@@ -106,17 +132,13 @@ export default class CatDetailsSliderView extends View {
       throw new Error('swiperSliderHTMLElement is null!');
     }
 
-    const swiperInitParams: SwiperOptions = {
-      spaceBetween: 16,
-      on: {
-        init(): void {
-          console.log('INFO: Swiper slider Init event!');
-        },
-      },
-    };
-
     // init Swiper:
     this.swiper = new Swiper(swiperSliderHTMLElement, swiperInitParams);
+    this.swiper.autoplay.start();
+    // this.swiper.on('afterInit', () => {
+    //   this.swiper?.autoplay.start();
+    // });
+    console.log(this.swiper);
 
     // Display swiper container HTMLElement.
     console.log(this.swiper.el);
@@ -131,6 +153,7 @@ export default class CatDetailsSliderView extends View {
           console.log(document.querySelector('.swiper'));
           // setTimeout(observerCallback, 2000);
           observerCallback();
+          swiperSliderObserver.disconnect();
         }
       }
     });
