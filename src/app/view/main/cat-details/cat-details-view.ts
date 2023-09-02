@@ -35,6 +35,8 @@ export default class CatDetailsView extends View {
 
   private priceDefault: number | null;
 
+  private priceDiscount: number | null;
+
   private content: ElementCreator | null;
 
   constructor(id: string) {
@@ -49,6 +51,7 @@ export default class CatDetailsView extends View {
     this.descriptionEnUS = null;
     this.priceCurrencyCode = null;
     this.priceDefault = null;
+    this.priceDiscount = null;
 
     this.content = null;
 
@@ -86,6 +89,7 @@ export default class CatDetailsView extends View {
     this.saveDescription(this.response);
     this.saveCurrencyCode(this.response);
     this.savePriceDefault(this.response);
+    this.savePriceDiscount(this.response);
   }
 
   private saveName(response: ClientResponse<ProductProjectionPagedQueryResponse>): void {
@@ -134,9 +138,22 @@ export default class CatDetailsView extends View {
     }
   }
 
+  private savePriceDiscount(response: ClientResponse<ProductProjectionPagedQueryResponse>): void {
+    if (response.body.results[0].masterVariant.prices) {
+      if (response.body.results[0].masterVariant.prices[0].discounted) {
+        this.priceDiscount = response.body.results[0].masterVariant.prices[0].discounted.value.centAmount;
+      }
+    } else {
+      throw this.errors.priceObject();
+    }
+  }
+
   private configureView(): void {
     this.makeContentContainer();
     this.makeImages();
+    this.makeName();
+    this.makeDescription();
+    this.makePrice();
 
     if (this.content) {
       this.view.addInnerElement(this.content);
@@ -181,5 +198,92 @@ export default class CatDetailsView extends View {
     });
 
     this.content.addInnerElement(sliderContainer);
+  }
+
+  private makeName(): void {
+    if (!this.nameEnUS) {
+      throw this.errors.nameNotExist();
+    }
+    if (!this.content) {
+      throw this.errors.contentIsNull();
+    }
+
+    const nameParams: ISource = {
+      tag: ListTags.H2,
+      classNames: ListClasses.CAT_DETAILS_NAME,
+      textContent: this.nameEnUS,
+    };
+    const name = new ElementCreator(nameParams);
+
+    this.content.addInnerElement(name);
+  }
+
+  private makeDescription(): void {
+    if (!this.descriptionEnUS) {
+      throw this.errors.descriptionNotExist();
+    }
+    if (!this.content) {
+      throw this.errors.contentIsNull();
+    }
+
+    const descriptionParams: ISource = {
+      tag: ListTags.PARAGRAPH,
+      classNames: ListClasses.CAT_DETAILS_DESCRIPTION,
+      textContent: this.descriptionEnUS,
+    };
+    const description = new ElementCreator(descriptionParams);
+
+    this.content.addInnerElement(description);
+  }
+
+  private makePrice(): void {
+    if (!this.priceDefault) {
+      throw this.errors.priceDefaultNotExist();
+    }
+    if (!this.content) {
+      throw this.errors.contentIsNull();
+    }
+
+    let productIsDiscounted: boolean = false;
+    let priceDiscountedComponent: ElementCreator | null = null;
+
+    if (this.priceDiscount !== null) {
+      productIsDiscounted = true;
+    }
+
+    const priceDefaultClassNames = [ListClasses.CAT_DETAILS_PRICE_DEFAULT];
+
+    if (productIsDiscounted) {
+      priceDefaultClassNames.push(ListClasses.TEXT_CROSS_OUT);
+
+      priceDiscountedComponent = this.makePriceDiscount();
+      this.content.addInnerElement(priceDiscountedComponent);
+    }
+
+    const priceDefaultParams: ISource = {
+      tag: ListTags.SPAN,
+      classNames: priceDefaultClassNames,
+      textContent: this.parsePrice(this.priceDefault),
+    };
+    const priceDefault = new ElementCreator(priceDefaultParams);
+
+    this.content.addInnerElement(priceDefault);
+  }
+
+  private makePriceDiscount(): ElementCreator {
+    if (!this.priceDiscount) {
+      throw this.errors.priceDiscountNotExist();
+    }
+
+    const priceDiscountParams: ISource = {
+      tag: ListTags.SPAN,
+      classNames: ListClasses.PLACEHOLDER,
+      textContent: this.parsePrice(this.priceDiscount),
+    };
+    return new ElementCreator(priceDiscountParams);
+  }
+
+  private parsePrice(price: number): string {
+    return `${this.priceCurrencyCode} ${(price / 100).toFixed(2)}`;
   }
 }
