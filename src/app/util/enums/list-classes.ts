@@ -68,6 +68,7 @@ export const enum ListClasses {
   CAT_DETAILS_SLIDER_SWIPER_IMG = 'cat-img w-500px h-500px max-h-full object-contain bg-profile-bg',
   CAT_DETAILS_SLIDER_SWIPER_BTN_PREV = 'swiper-button-prev blue-color',
   CAT_DETAILS_SLIDER_SWIPER_BTN_NEXT = 'swiper-button-next blue-color',
+  CAT_DETAILS_SLIDER_SWIPER_PAGINATION = 'swiper-pagination',
   BUTTON_LOGOUT = 'block text-black text-xs sm-s:text-sm lg-l:text-lg 2xl:text-2xl hover:border-b-2 hover:border-input-color hover:border-solid hover:text-input-color',
   HIDDEN = 'hidden',
   BUTTONS_CATALOG_ABOUT_US = 'mr-6 sm-sm:text-2xl sm-sm:mb-5 sm-s:mb-0 text-white opacity-90 text-xs sm-s:text-sm lg-l:text-lg 2xl:text-2xl hover:border-b-2 hover:border-input-color hover:border-solid hover:text-input-color',

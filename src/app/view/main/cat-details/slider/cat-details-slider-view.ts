@@ -16,6 +16,7 @@ import { ListAttributes } from '../../../../util/enums/list-attributes';
 import View from '../../../view';
 import SwiperSliderBtnPrevView from './btn-prev/swiper-slider-btn-prev-view';
 import SwiperSliderBtnNextView from './btn-next/swiper-slider-btn-next-view';
+import SwiperSliderPaginationView from './pagination/swiper-slider-pagination-view';
 
 import './cat-details-slider-view.css';
 
@@ -43,6 +44,11 @@ const swiperInitParams: SwiperOptions = {
     next: {
       translate: ['100%', 0, 0],
     },
+  },
+  pagination: {
+    el: '.swiper-pagination' as CSSSelector,
+    dynamicBullets: false,
+    clickable: true,
   },
   on: {
     init(): void {
@@ -136,6 +142,7 @@ export default class CatDetailsSliderView extends View {
     this.swiperSlider.addInnerElement(swiperSliderWrapper);
     this.swiperSlider.addInnerElement(new SwiperSliderBtnPrevView());
     this.swiperSlider.addInnerElement(new SwiperSliderBtnNextView());
+    this.swiperSlider.addInnerElement(new SwiperSliderPaginationView());
     this.view.addInnerElement(this.swiperSlider);
   }
 

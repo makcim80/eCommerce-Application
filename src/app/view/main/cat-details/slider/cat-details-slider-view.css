@@ -15,3 +15,17 @@
 .swiper-button-prev:active {
   scale: 0.8;
 }
+
+.swiper-pagination-bullet {
+  background-color: theme('colors.blue-color');
+  opacity: 0.75;
+  transition: scale 100ms;
+}
+
+.swiper-pagination-bullet:active {
+  scale: 1.5;
+}
+
+.swiper-pagination-bullet-active {
+  background-color: theme('colors.input-color');
+}
