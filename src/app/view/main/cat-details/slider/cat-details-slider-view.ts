@@ -214,10 +214,10 @@ export default class CatDetailsSliderView extends View {
 
     // init Swiper:
     this.swiper = new Swiper(swiperSliderHTMLElement, swiperInitParams);
-    // this.swiper.autoplay.start();
-    // this.swiper.on('afterInit', () => {
-    //   this.swiper?.autoplay.start();
-    // });
+    this.swiper.autoplay.start();
+    this.swiper.on('afterInit', () => {
+      this.swiper?.autoplay.start();
+    });
     console.log(this.swiper);
 
     // Display swiper container HTMLElement.
