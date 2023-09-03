@@ -6,7 +6,6 @@ import View from '../../view';
 import BasketIcon from './basket-icon';
 import ButtonSignIn from './button-sign-in';
 import ButtonSignUp from './button-sign-up';
-import SearchIcon from './search-icon';
 import ButtonLogout from './button-logout';
 import ButtonUserProfile from './button-profile';
 import CatalogAndAboutUsButtonsContainer from './catalog-about-container';
@@ -17,8 +16,6 @@ export default class HeaderButtonsView extends View {
   public burgerView: BurgerView | null;
 
   public catalogAndAboutUsContainer: CatalogAndAboutUsButtonsContainer | null;
-
-  public searchIcon: SearchIcon | null;
 
   public basketIcon: BasketIcon | null;
 
@@ -37,8 +34,7 @@ export default class HeaderButtonsView extends View {
     };
     super(params);
 
-    this.catalogAndAboutUsContainer = new CatalogAndAboutUsButtonsContainer();
-    this.searchIcon = new SearchIcon();
+    this.catalogAndAboutUsContainer = new CatalogAndAboutUsButtonsContainer(router);
     this.basketIcon = new BasketIcon();
     this.buttonUserProfile = new ButtonUserProfile(router);
     this.buttonLogout = new ButtonLogout(router);
@@ -56,7 +52,7 @@ export default class HeaderButtonsView extends View {
     }
 
     const div1 = createDivElement();
-    div1?.append(this.searchIcon?.getHTMLElement() || '', this.basketIcon?.getHTMLElement() || '');
+    div1?.append(this.basketIcon?.getHTMLElement() || '');
 
     const div2 = createDivElement();
     div2?.append(

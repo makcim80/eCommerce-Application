@@ -85,6 +85,13 @@ export default class App {
           this.setContent(Pages.PROFILE, new ProfileView());
         },
       },
+      {
+        path: `${Pages.CATALOG}`,
+        callback: async (): Promise<void> => {
+          const { default: CatalogView } = await import('./view/main/catalog/catalog-view');
+          this.setContent(Pages.CATALOG, new CatalogView());
+        },
+      },
     ];
   }
 
