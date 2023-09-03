@@ -6,7 +6,7 @@ import View from '../../view';
 import Product from '../../../../components/product';
 import Errors, { CatDetailsViewErrors } from './utils/errors';
 import ElementCreator from '../../../util/element-creator';
-import CatDetailsSliderView from './slider/cat-details-slider-view';
+import CatDetailsSliderView, { CatDetailsSliderSliderConfig } from './slider/cat-details-slider-view';
 
 const createParams = (id?: string): ISource => {
   return {
@@ -197,7 +197,10 @@ export default class CatDetailsView extends View {
       throw this.errors.contentIsNull();
     }
 
-    const slider = new CatDetailsSliderView(this.imagesObjectsArr);
+    const catDetailsSliderSliderConfig: CatDetailsSliderSliderConfig = {
+      type: 'regular',
+    };
+    const slider = new CatDetailsSliderView(this.imagesObjectsArr, catDetailsSliderSliderConfig);
     this.content.addInnerElement(slider);
   }
 

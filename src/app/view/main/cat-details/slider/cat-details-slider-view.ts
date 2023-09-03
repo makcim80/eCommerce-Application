@@ -21,6 +21,10 @@ import SwiperSliderPaginationView from './pagination/swiper-slider-pagination-vi
 import './cat-details-slider-view.css';
 import SwiperSliderSlideView from './slide/swiper-slider-slide-view';
 
+export interface CatDetailsSliderSliderConfig {
+  type: 'regular' | 'modal';
+}
+
 const swiperInitParams: SwiperOptions = {
   modules: [Navigation, Pagination, Autoplay, EffectCreative],
   spaceBetween: 16,
@@ -30,11 +34,12 @@ const swiperInitParams: SwiperOptions = {
   },
   loop: true,
   speed: 1000,
-  autoplay: {
-    delay: 2000,
-    pauseOnMouseEnter: true,
-    disableOnInteraction: false,
-  },
+  autoHeight: false,
+  // autoplay: {
+  //   delay: 2000,
+  //   pauseOnMouseEnter: true,
+  //   disableOnInteraction: false,
+  // },
   grabCursor: true,
   // mousewheel: true,
   effect: 'creative',
@@ -59,20 +64,43 @@ const swiperInitParams: SwiperOptions = {
 };
 
 export default class CatDetailsSliderView extends View {
+  private componentConfig: CatDetailsSliderSliderConfig;
+
   private imagesObjectsArr: Image[];
 
   private swiper: Swiper | null;
+
+  private readonly sliderContainerClasses: ListClasses[];
 
   private CatDetailsSliderContainer: ElementCreator | null;
 
   private swiperSlider: ElementCreator | null;
 
-  constructor(imagesObjectsArr: Image[]) {
+  constructor(imagesObjectsArr: Image[], sliderConfig: CatDetailsSliderSliderConfig) {
+    const rootClassNames = [ListClasses.CAT_DETAILS_SLIDER_ROOT];
+    const sliderContainerClasses = [];
+
+    switch (sliderConfig.type) {
+      case 'regular':
+        sliderContainerClasses.push(ListClasses.CAT_DETAILS_SLIDER_CONTAINER);
+        break;
+      case 'modal':
+        rootClassNames.push(ListClasses.CAT_DETAILS_SLIDER_ROOT_MODAL_MODE);
+        sliderContainerClasses.push(ListClasses.CAT_DETAILS_SLIDER_CONTAINER_MODAL_MODE);
+        break;
+      default:
+        throw new Error('Incorrect sliderConfig.type value!');
+    }
+
     const CatDetailsSliderParams: ISource = {
       tag: ListTags.CONTAINER,
-      classNames: ListClasses.CAT_DETAILS_SLIDER_ROOT,
+      classNames: rootClassNames,
     };
     super(CatDetailsSliderParams);
+
+    this.sliderContainerClasses = sliderContainerClasses;
+
+    this.componentConfig = sliderConfig;
 
     this.imagesObjectsArr = imagesObjectsArr;
     this.swiper = null;
@@ -93,7 +121,7 @@ export default class CatDetailsSliderView extends View {
   private generateContainer(): void {
     const CatDetailsSliderContainerParams: ISource = {
       tag: ListTags.CONTAINER,
-      classNames: ListClasses.CAT_DETAILS_SLIDER_CONTAINER,
+      classNames: this.sliderContainerClasses,
     };
     this.CatDetailsSliderContainer = new ElementCreator(CatDetailsSliderContainerParams);
   }
@@ -168,7 +196,7 @@ export default class CatDetailsSliderView extends View {
 
     // init Swiper:
     this.swiper = new Swiper(swiperSliderHTMLElement, swiperInitParams);
-    this.swiper.autoplay.start();
+    // this.swiper.autoplay.start();
     // this.swiper.on('afterInit', () => {
     //   this.swiper?.autoplay.start();
     // });
