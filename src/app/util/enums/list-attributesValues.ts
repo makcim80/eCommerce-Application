@@ -10,7 +10,7 @@ export const enum ListOfValues {
   FORM_PASSWORD = 'form-password',
   PLACEHOLDER_EMAIL = 'Enter your email',
   PLACEHOLDER_PASSWORD = 'Enter your password',
-  PLACEHOLDER_COLOR = 'brown',
+  PLACEHOLDER_COLOR = 'ex: brown',
   PLACEHOLDER_FROM = 'from',
   PLACEHOLDER_TO = 'to',
   BUTTON = 'button',

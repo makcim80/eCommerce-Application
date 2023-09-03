@@ -1,7 +1,7 @@
 import { DataBreed } from './types';
 
 export const breeds: Record<string, DataBreed[]> = {
-  shortHaired: [
+  ShortHaired: [
     { name: 'Abyssinian', id: '1f867f26-d114-4846-bb7f-06e8464efadf' },
     { name: 'American Shorthair', id: '58142455-9908-4801-afe8-4668faa27c6e' },
     { name: 'Bengal', id: '69b9427b-e182-403a-8af3-188d2a135b44' },
@@ -12,7 +12,7 @@ export const breeds: Record<string, DataBreed[]> = {
     { name: 'Russian Blue', id: '4e6ccc48-b267-4cb1-8496-98eaafa265d8' },
     { name: 'Selkirk Rex', id: '72f65c0b-36a4-459a-8c3d-f3dcf46f0b31' },
   ],
-  longHaired: [
+  LongHaired: [
     { name: 'Himalayan', id: '595ce448-5642-48f3-9b4d-8ad7887ce38b' },
     { name: 'Persian', id: '39795c11-d231-4dcf-bea8-7ed09a767765' },
     { name: 'Maine Coon', id: 'a291a540-1d52-41ec-9c23-857150a1b1b4' },
@@ -22,7 +22,7 @@ export const breeds: Record<string, DataBreed[]> = {
     { name: 'Turkish Angora', id: '065a8725-439f-490f-9561-0cf00348ad25' },
     { name: 'Norwegian Forest', id: '2cf7eb6d-aad2-4fb8-ac5b-3d649e301bc9' },
   ],
-  siameseOrientalShortHair: [
+  SiameseOrientalShortHair: [
     { name: 'Mekong Bobtail', id: '48d7f7e2-8b07-4649-ba4e-d14588ce4b61' },
     { name: 'Javanese', id: '498a0d93-22f5-4012-99b9-98f63277bf27' },
     { name: 'Oriental Shorthair', id: 'a1767608-9c1d-4241-9667-56290a45950e' },
@@ -34,7 +34,7 @@ export const breeds: Record<string, DataBreed[]> = {
     { name: 'Divon Rex', id: 'd7e725a0-c54e-436f-9fd8-a301a1678c94' },
     { name: 'Foreign White', id: '041434d1-fe41-437b-aeee-3003c026bfea' },
   ],
-  semiLongHair: [
+  SemiLongHair: [
     { name: 'Regdoll', id: '3187b2a3-225a-42d1-b90d-93158ee0f323' },
     { name: 'Munchkin', id: '91079a5c-6fec-4f6e-81a0-344f9d5de0a0' },
     { name: 'Korat', id: '94c2120c-c3eb-4399-b46b-df36b3412218' },
