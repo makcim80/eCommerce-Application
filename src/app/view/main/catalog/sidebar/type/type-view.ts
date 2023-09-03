@@ -38,10 +38,10 @@ export default class TypeView extends View {
       this.HAS_ARROW,
     );
     this.semiLongHairCheckbox = new TypeCheckboxView(ListTextContent.SEMI_LONG_HAIR, this.HAS_ARROW);
-    this.breedShortHairedCheckbox = new BreedsView(breeds.shortHaired);
-    this.breedLongHairedCheckbox = new BreedsView(breeds.longHaired);
-    this.breedSiameseCheckbox = new BreedsView(breeds.siameseOrientalShortHair);
-    this.breedSemiLongCheckbox = new BreedsView(breeds.semiLongHair);
+    this.breedShortHairedCheckbox = new BreedsView(breeds.ShortHaired);
+    this.breedLongHairedCheckbox = new BreedsView(breeds.LongHaired);
+    this.breedSiameseCheckbox = new BreedsView(breeds.SiameseOrientalShortHair);
+    this.breedSemiLongCheckbox = new BreedsView(breeds.SemiLongHair);
     this.configureView();
   }
 

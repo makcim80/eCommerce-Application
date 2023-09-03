@@ -7,6 +7,7 @@ import { ListClasses } from '../../../util/enums/list-classes';
 import ProductsFiltering from '../../../../components/products-filtering';
 import { breeds } from '../../../util/breed';
 import ProductsSearch from '../../../../components/products-search';
+import { ListTextContent } from '../../../util/enums/list-textContent';
 
 export default class CatalogView extends View {
   private readonly SORTING_ALPHABETICALLY = 'abc...';
@@ -37,6 +38,8 @@ export default class CatalogView extends View {
     this.sidebar.getButtonApply().view.setCallback(this.productsFilteringView.bind(this));
     this.sidebar.getButtonReset().view.setCallback(this.resetFilteringView.bind(this));
     this.sidebar.getSearch().setCallback(this.searchView.bind(this));
+    this.sidebar.setCallbackToCategory(this.categoryView.bind(this));
+    this.sidebar.setCallbackToSubCategory(this.subCategoryView.bind(this));
   }
 
   public async productsFilteringView(): Promise<void> {
@@ -48,6 +51,8 @@ export default class CatalogView extends View {
     this.optionsFilteringAge(filterArr);
     this.optionsFilteringColor(filterArr);
     this.sidebar.getSearch().setInputValue('');
+    this.sidebar.getCategory().resetSelectValue(ListTextContent.CATEGORY);
+    this.sidebar.getSubCategory().hiddenContainer();
 
     if (filterArr.length && this.optionSorting()) {
       const products = await new ProductsFiltering().getProducts(filterArr, this.optionSorting());
@@ -86,22 +91,22 @@ export default class CatalogView extends View {
 
     breedsCheckedShort.forEach((breed, ind) => {
       if (breed) {
-        fieldOption.push(`subtree("${breeds.shortHaired[ind].id}")`);
+        fieldOption.push(`subtree("${breeds.ShortHaired[ind].id}")`);
       }
     });
     breedsCheckedLong.forEach((breed, ind) => {
       if (breed) {
-        fieldOption.push(`subtree("${breeds.longHaired[ind].id}")`);
+        fieldOption.push(`subtree("${breeds.LongHaired[ind].id}")`);
       }
     });
     breedsCheckedSiamese.forEach((breed, ind) => {
       if (breed) {
-        fieldOption.push(`subtree("${breeds.siameseOrientalShortHair[ind].id}")`);
+        fieldOption.push(`subtree("${breeds.SiameseOrientalShortHair[ind].id}")`);
       }
     });
     breedsCheckedSemiLong.forEach((breed, ind) => {
       if (breed) {
-        fieldOption.push(`subtree("${breeds.semiLongHair[ind].id}")`);
+        fieldOption.push(`subtree("${breeds.SemiLongHair[ind].id}")`);
       }
     });
     if (fieldOption.length) filterArr.push(`categories.id: ${fieldOption.join(', ')}`);
@@ -151,6 +156,8 @@ export default class CatalogView extends View {
 
   public async resetFilteringView(): Promise<void> {
     this.sidebar.getSearch().setInputValue('');
+    this.sidebar.getCategory().resetSelectValue(ListTextContent.CATEGORY);
+    this.sidebar.getSubCategory().hiddenContainer();
     this.resetFiltering();
     const products = await new Products().getProducts();
     this.cards.configureView(products);
@@ -168,8 +175,64 @@ export default class CatalogView extends View {
   public async searchView(): Promise<void> {
     const searchInput = this.sidebar.getSearch().getInputValue();
     if (searchInput !== '') {
+      this.sidebar.getCategory().resetSelectValue(ListTextContent.CATEGORY);
+      this.sidebar.getSubCategory().hiddenContainer();
       this.resetFiltering();
       const products = await new ProductsSearch().getProducts(searchInput);
+      this.cards.configureView(products);
+    }
+  }
+
+  public async categoryView(): Promise<void> {
+    this.resetFiltering();
+    this.sidebar.getSearch().setInputValue('');
+    const categorySelect = this.sidebar.getCategory().getSelectValue();
+    const filterArr: string[] = [];
+    const fieldOption: string[] = [];
+    if (breeds[categorySelect]) {
+      breeds[categorySelect].forEach((breed, ind) => {
+        if (breed) {
+          fieldOption.push(`subtree("${breeds[categorySelect][ind].id}")`);
+        }
+      });
+      this.sidebar.getSubCategory().changeSelectView(
+        Object.values(breeds[categorySelect]).map((breed) => breed.name),
+        ListTextContent.SUBCATEGORY,
+      );
+      this.sidebar.getSubCategory().showContainer();
+    } else {
+      this.sidebar.getSubCategory().hiddenContainer();
+    }
+    if (fieldOption.length) filterArr.push(`categories.id: ${fieldOption.join(', ')}`);
+    if (filterArr.length) {
+      const products = await new ProductsFiltering().getProducts(filterArr);
+      this.cards.configureView(products);
+    } else {
+      const products = await new Products().getProducts();
+      this.cards.configureView(products);
+    }
+  }
+
+  public async subCategoryView(): Promise<void> {
+    const categorySelect = this.sidebar.getCategory().getSelectValue();
+    const subCategorySelect = this.sidebar.getSubCategory().getSelectValue();
+    const filterArr: string[] = [];
+    const fieldOption: string[] = [];
+    if (breeds[categorySelect]) {
+      const index = breeds[categorySelect].findIndex((e) => e.name === subCategorySelect);
+      if (index >= 0) {
+        fieldOption.push(`subtree("${breeds[categorySelect][index].id}")`);
+      } else {
+        breeds[categorySelect].forEach((breed, ind) => {
+          if (breed) {
+            fieldOption.push(`subtree("${breeds[categorySelect][ind].id}")`);
+          }
+        });
+      }
+    }
+    if (fieldOption.length) filterArr.push(`categories.id: ${fieldOption.join(', ')}`);
+    if (filterArr.length) {
+      const products = await new ProductsFiltering().getProducts(filterArr);
       this.cards.configureView(products);
     }
   }
