@@ -18,7 +18,7 @@ export default class App {
 
   private footer: FooterView | null;
 
-  private router: Router;
+  private readonly router: Router;
 
   constructor() {
     this.header = null;

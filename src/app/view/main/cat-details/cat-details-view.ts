@@ -21,7 +21,6 @@ export default class CatDetailsView extends View {
 
   private readonly productId: string;
 
-  // suppression reason: false-positive, this field is not readonly.
   // noinspection TypeScriptFieldCanBeMadeReadonly
   private response: ClientResponse<ProductProjectionPagedQueryResponse> | null;
 
@@ -64,7 +63,6 @@ export default class CatDetailsView extends View {
       .then(
         (response) => {
           this.response = response;
-          console.log(this.response);
         },
         (err) => {
           throw this.errors.getResponseError(err);

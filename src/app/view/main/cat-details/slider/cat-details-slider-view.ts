@@ -44,7 +44,6 @@ const swiperInitParams: SwiperOptions = {
     disableOnInteraction: false,
   },
   grabCursor: true,
-  // mousewheel: true,
   effect: 'creative',
   creativeEffect: {
     prev: {
@@ -58,11 +57,6 @@ const swiperInitParams: SwiperOptions = {
     el: '.swiper-pagination' as CSSSelector,
     dynamicBullets: false,
     clickable: true,
-  },
-  on: {
-    init(): void {
-      console.log('INFO: Swiper slider Init event!');
-    },
   },
 };
 
@@ -212,16 +206,11 @@ export default class CatDetailsSliderView extends View {
       throw new Error('swiperSliderHTMLElement is null!');
     }
 
-    // init Swiper:
     this.swiper = new Swiper(swiperSliderHTMLElement, swiperInitParams);
     this.swiper.autoplay.start();
     this.swiper.on('afterInit', () => {
       this.swiper?.autoplay.start();
     });
-    console.log(this.swiper);
-
-    // Display swiper container HTMLElement.
-    console.log(this.swiper.el);
   }
 
   private observeSliderDOMAppearance(observerCallback: () => void): void {
@@ -230,8 +219,6 @@ export default class CatDetailsSliderView extends View {
       if (observingElement) {
         if (document.contains(observingElement)) {
           console.log(`Observing element in DOM!`);
-          console.log(document.querySelector('.swiper'));
-          // setTimeout(observerCallback, 2000);
           observerCallback();
           swiperSliderObserver.disconnect();
         }
