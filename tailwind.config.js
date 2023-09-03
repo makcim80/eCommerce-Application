@@ -26,6 +26,7 @@ module.exports = {
       },
       height: {
         '36px': '36px',
+        '42px': '42px',
         '21rem': '21rem',
       },
       screens: {
@@ -46,6 +47,7 @@ module.exports = {
         '60%': '60%',
         '1/95': '95%',
         '36px': '36px',
+        '42px': '42px',
         '125px': '125px',
         '30rem': '30rem',
         '35rem': '35rem',

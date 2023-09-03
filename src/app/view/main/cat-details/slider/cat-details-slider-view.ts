@@ -21,6 +21,7 @@ import SwiperSliderPaginationView from './pagination/swiper-slider-pagination-vi
 import './cat-details-slider-view.css';
 import SwiperSliderSlideView from './slide/swiper-slider-slide-view';
 import { ListOfValues } from '../../../../util/enums/list-attributesValues';
+import SwiperSliderBtnCloseView from './btn-close/swiper-slider-btn-close-view';
 
 export interface CatDetailsSliderSliderConfig {
   type: 'regular' | 'modal';
@@ -68,7 +69,7 @@ const swiperInitParams: SwiperOptions = {
 export default class CatDetailsSliderView extends View {
   private componentConfig: CatDetailsSliderSliderConfig;
 
-  private imagesObjectsArr: Image[];
+  private readonly imagesObjectsArr: Image[];
 
   private swiper: Swiper | null;
 
@@ -79,6 +80,8 @@ export default class CatDetailsSliderView extends View {
   private swiperSliderWrapper: ElementCreator | null;
 
   private swiperSlider: ElementCreator | null;
+
+  private swiperBtnClose: View | null;
 
   constructor(imagesObjectsArr: Image[], sliderConfig: CatDetailsSliderSliderConfig) {
     const rootClassNames = [ListClasses.CAT_DETAILS_SLIDER_ROOT];
@@ -112,6 +115,7 @@ export default class CatDetailsSliderView extends View {
     this.CatDetailsSliderContainer = null;
     this.swiperSlider = null;
     this.swiperSliderWrapper = null;
+    this.swiperBtnClose = null;
 
     this.configureView();
     this.observeSliderDOMAppearance(this.initSwiper.bind(this));
@@ -121,6 +125,9 @@ export default class CatDetailsSliderView extends View {
     this.generateContainer();
     // this.generateSliderPlaceholder();
     this.generateSwiperSlider();
+    if (this.componentConfig.type === 'modal') {
+      this.generateBtnClose();
+    }
     this.setComponentCallbacks();
   }
 
@@ -192,6 +199,11 @@ export default class CatDetailsSliderView extends View {
     }
     this.CatDetailsSliderContainer?.addInnerElement(this.swiperSlider);
     this.view.addInnerElement(this.CatDetailsSliderContainer);
+  }
+
+  private generateBtnClose(): void {
+    this.swiperBtnClose = new SwiperSliderBtnCloseView();
+    this.swiperSlider?.addInnerElement(this.swiperBtnClose);
   }
 
   private initSwiper(): void {

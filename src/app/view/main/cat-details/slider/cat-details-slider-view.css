@@ -42,10 +42,24 @@
   transition: scale 100ms;
 }
 
+.swiper-pagination-bullet:hover {
+  background-color: theme('colors.input-color');
+  scale: 1.5;
+}
+
 .swiper-pagination-bullet:active {
   scale: 2;
 }
 
 .swiper-pagination-bullet-active {
   background-color: theme('colors.input-color');
+}
+
+.swiper-button-close {
+  position: absolute;
+  right: 0.5em;
+  top: 0.5em;
+  z-index: 1;
+  text-shadow: 0 0 2px #000000;
+  box-shadow: 0 0 3px #000000;
 }
