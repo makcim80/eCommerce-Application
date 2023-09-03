@@ -20,6 +20,7 @@ import SwiperSliderPaginationView from './pagination/swiper-slider-pagination-vi
 
 import './cat-details-slider-view.css';
 import SwiperSliderSlideView from './slide/swiper-slider-slide-view';
+import { ListOfValues } from '../../../../util/enums/list-attributesValues';
 
 export interface CatDetailsSliderSliderConfig {
   type: 'regular' | 'modal';
@@ -116,6 +117,9 @@ export default class CatDetailsSliderView extends View {
     this.generateContainer();
     // this.generateSliderPlaceholder();
     this.generateSwiperSlider();
+    if (this.componentConfig.type === 'modal') {
+      this.setComponentCallbacks();
+    }
   }
 
   private generateContainer(): void {
@@ -227,5 +231,19 @@ export default class CatDetailsSliderView extends View {
       subtree: true,
     };
     swiperSliderObserver.observe(document, observeParams);
+  }
+
+  private setComponentCallbacks(): void {
+    this.CatDetailsSliderContainer?.setCallback((event) => {
+      event.stopPropagation();
+    });
+    this.setCloseCallback(this.view);
+  }
+
+  private setCloseCallback(component: ElementCreator): void {
+    component.setCallback((events) => {
+      events.stopPropagation();
+      this.view.getElement()?.setAttribute(ListAttributes.STYLE, ListOfValues.HIDDEN_HARD);
+    });
   }
 }
