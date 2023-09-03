@@ -117,7 +117,6 @@ export default class CatDetailsSliderView extends View {
 
   private configureView(): void {
     this.generateContainer();
-    // this.generateSliderPlaceholder();
     this.generateSwiperSlider();
     if (this.componentConfig.type === 'modal') {
       this.generateBtnClose();
