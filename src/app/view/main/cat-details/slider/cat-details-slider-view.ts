@@ -75,6 +75,8 @@ export default class CatDetailsSliderView extends View {
 
   private CatDetailsSliderContainer: ElementCreator | null;
 
+  private swiperSliderWrapper: ElementCreator | null;
+
   private swiperSlider: ElementCreator | null;
 
   constructor(imagesObjectsArr: Image[], sliderConfig: CatDetailsSliderSliderConfig) {
@@ -108,6 +110,7 @@ export default class CatDetailsSliderView extends View {
 
     this.CatDetailsSliderContainer = null;
     this.swiperSlider = null;
+    this.swiperSliderWrapper = null;
 
     this.configureView();
     this.observeSliderDOMAppearance(this.initSwiper.bind(this));
@@ -117,9 +120,7 @@ export default class CatDetailsSliderView extends View {
     this.generateContainer();
     // this.generateSliderPlaceholder();
     this.generateSwiperSlider();
-    if (this.componentConfig.type === 'modal') {
-      this.setComponentCallbacks();
-    }
+    this.setComponentCallbacks();
   }
 
   private generateContainer(): void {
@@ -164,7 +165,7 @@ export default class CatDetailsSliderView extends View {
       tag: ListTags.CONTAINER,
       classNames: ListClasses.CAT_DETAILS_SLIDER_SWIPER_WRP,
     };
-    const swiperSliderWrapper = new ElementCreator(swiperSliderWrapperParams);
+    this.swiperSliderWrapper = new ElementCreator(swiperSliderWrapperParams);
 
     this.imagesObjectsArr.forEach((imgObj) => {
       const swiperSlide = new SwiperSliderSlideView();
@@ -178,10 +179,10 @@ export default class CatDetailsSliderView extends View {
       catImg.getElement()?.setAttribute(ListAttributes.SRC, imgObj.url);
 
       swiperSlide.view.addInnerElement(catImg);
-      swiperSliderWrapper.addInnerElement(swiperSlide);
+      this.swiperSliderWrapper?.addInnerElement(swiperSlide);
     });
 
-    this.swiperSlider.addInnerElement(swiperSliderWrapper);
+    this.swiperSlider.addInnerElement(this.swiperSliderWrapper);
     this.swiperSlider.addInnerElement(new SwiperSliderBtnPrevView());
     this.swiperSlider.addInnerElement(new SwiperSliderBtnNextView());
     this.swiperSlider.addInnerElement(new SwiperSliderPaginationView());
@@ -234,10 +235,20 @@ export default class CatDetailsSliderView extends View {
   }
 
   private setComponentCallbacks(): void {
-    this.CatDetailsSliderContainer?.setCallback((event) => {
-      event.stopPropagation();
+    this.setCBForOpenModalSlider();
+
+    if (this.componentConfig.type === 'modal') {
+      this.CatDetailsSliderContainer?.setCallback((event) => {
+        event.stopPropagation();
+      });
+      this.setCloseCallback(this.view);
+    }
+  }
+
+  private setCBForOpenModalSlider(): void {
+    this.swiperSliderWrapper?.setCallback(() => {
+      this.view.addInnerElement(new CatDetailsSliderView(this.imagesObjectsArr, { type: 'modal' }));
     });
-    this.setCloseCallback(this.view);
   }
 
   private setCloseCallback(component: ElementCreator): void {

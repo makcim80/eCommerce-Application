@@ -1,5 +1,10 @@
+.cats-slider-container {
+  position: relative;
+  z-index: 0;
+}
+
 .cats-slider-container--modal-mode {
-  --slider-equal-side: min(80vw, 80vh);
+  --slider-equal-side: min(90vw, 90vh);
   position: absolute;
   z-index: 1;
   top: calc(50% - var(--slider-equal-side) / 2);
