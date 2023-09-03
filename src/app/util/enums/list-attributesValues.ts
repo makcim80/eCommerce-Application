@@ -28,4 +28,6 @@ export const enum ListOfValues {
   NEW_PASSWORD = 'new-password',
   CONFIRM_PASSWORD = 'confirm-password',
   RADIO = 'radio',
+  SHIPPING = 'shipping',
+  BILLING = 'billing',
 }

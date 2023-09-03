@@ -74,7 +74,7 @@ module.exports = {
         '18px': '18px',
       },
       maxWidth: {
-        '16rem': '16rem',
+        '13rem': '13rem',
         '23rem': '23rem',
         '28rem': '28rem',
       },

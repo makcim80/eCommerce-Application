@@ -74,7 +74,7 @@ export const enum ListClasses {
   BUTTON_SAVE = 'text-xs text-save-btn hover:text-input-color',
   MESSAGE_HIDDEN_PROFILE = 'hidden text-white text-xx-s',
   MESSAGE_OPEN_PROFILE = 'block text-red-500 text-xx-s',
-  INPUTFIELDCREATOR = 'flex flex-col max-w-16rem',
+  INPUTFIELDCREATOR = 'flex flex-col max-w-13rem',
   OVERLAY = 'overlay z-40 invisible opacity-0 flex justify-center items-center fixed top-0 left-0 w-full h-screen bg-modal-password',
   OVERLAY_OPEN = 'open',
   POPAP_CONTAINER = 'flex relative',
@@ -98,4 +98,5 @@ export const enum ListClasses {
   BUTTONS_ADDRESSES = 'flex justify-center items-center py-2',
   DELETE_BUTTON = 'pl-5',
   ADD_BUTTON = 'pt-4',
+  MESSAGE_HIDDEN_CARD = 'block text-profile-bg text-xx-s',
 }
