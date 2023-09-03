@@ -60,13 +60,6 @@ export default class ModalPassword extends View {
     popap.append(popapBody);
 
     popapContainer.addInnerElement(popap);
-
-    // this.getHTMLElement()?.addEventListener('click', (e) => {
-    //   const targetEl: EventTarget | null = e.target;
-    //   if (targetEl && targetEl instanceof HTMLElement) {
-    //     this.getHTMLElement()?.classList.remove('open');
-    //   }
-    // });
   }
 
   public getButtonCancel(): HTMLElement | null | undefined {

@@ -74,6 +74,14 @@ export default class NewPasswordView {
     return this.eyeImage?.getHTMLElement();
   }
 
+  public getMessage(): HTMLElement | null | undefined {
+    return this.message?.getHTMLElement();
+  }
+
+  public getCorrectInput(): string {
+    return this.correctInput;
+  }
+
   public validationPassword(): void {
     if (!(this.input instanceof HTMLInputElement)) throw new Error();
 

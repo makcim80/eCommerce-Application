@@ -78,6 +78,10 @@ export default class ConfirmPasswordView {
     return this.correctInput;
   }
 
+  public getMessage(): HTMLElement | null | undefined {
+    return this.message?.getHTMLElement();
+  }
+
   public validationPassword(): void {
     if (!(this.input instanceof HTMLInputElement)) throw new Error();
 

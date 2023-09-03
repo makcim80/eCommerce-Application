@@ -78,6 +78,10 @@ export default class OldPasswordView {
     return this.correctInput;
   }
 
+  public getMessage(): HTMLElement | null | undefined {
+    return this.message?.getHTMLElement();
+  }
+
   public validationPassword(): void {
     if (!(this.input instanceof HTMLInputElement)) throw new Error();
 
