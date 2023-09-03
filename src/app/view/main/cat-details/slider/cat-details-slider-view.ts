@@ -257,6 +257,10 @@ export default class CatDetailsSliderView extends View {
         event.stopPropagation();
       });
       this.setCloseCallback(this.view);
+      if (!this.swiperBtnClose) {
+        throw new Error('Missing swiperBtnClose!');
+      }
+      this.setCloseCallback(this.swiperBtnClose.view);
     }
   }
 
