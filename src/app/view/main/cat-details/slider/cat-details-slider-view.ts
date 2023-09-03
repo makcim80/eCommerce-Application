@@ -274,6 +274,7 @@ export default class CatDetailsSliderView extends View {
     component.setCallback((events) => {
       events.stopPropagation();
       this.view.getElement()?.setAttribute(ListAttributes.STYLE, ListOfValues.HIDDEN_HARD);
+      this.view.getElement()?.remove();
     });
   }
 }
