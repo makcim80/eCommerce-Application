@@ -40,6 +40,12 @@ export default class CityProfile {
     if (this.label) {
       this.label.textContent = ListTextContent.CITY_PROFILE;
     }
+    const message = this.message?.getHTMLElement();
+    this.message?.getHTMLElement()?.classList.remove(...ListClasses.MESSAGE_HIDDEN_PROFILE.split(' '));
+    this.message?.getHTMLElement()?.classList.add(...ListClasses.MESSAGE_HIDDEN_CARD.split(' '));
+    if (message) {
+      message.textContent = ListTextContent.MESSAGE_NAME;
+    }
   }
 
   public getElement(): HTMLElement | null {
@@ -65,7 +71,7 @@ export default class CityProfile {
       const regex = /^[A-Za-z]{1,}$/;
       if (this.input.value.match(regex)) {
         this.message?.getHTMLElement()?.classList.remove(...ListClasses.MESSAGE_OPEN_PROFILE.split(' '));
-        this.message?.getHTMLElement()?.classList.add(...ListClasses.MESSAGE_HIDDEN_PROFILE.split(' '));
+        this.message?.getHTMLElement()?.classList.add(...ListClasses.MESSAGE_HIDDEN_CARD.split(' '));
         this.correctInput = this.input.value;
         this.input.setCustomValidity('');
         this.input.style.borderColor = ListTextContent.GREEN;
@@ -74,7 +80,7 @@ export default class CityProfile {
           message.textContent = ListTextContent.MESSAGE_NAME;
         }
         this.input.style.borderColor = ListTextContent.RED;
-        this.message?.getHTMLElement()?.classList.remove(...ListClasses.MESSAGE_HIDDEN_PROFILE.split(' '));
+        this.message?.getHTMLElement()?.classList.remove(...ListClasses.MESSAGE_HIDDEN_CARD.split(' '));
         this.message?.getHTMLElement()?.classList.add(...ListClasses.MESSAGE_OPEN_PROFILE.split(' '));
         this.input.setCustomValidity(ListTextContent.MESSAGE_NAME);
       }

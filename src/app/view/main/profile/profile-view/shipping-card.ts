@@ -31,6 +31,8 @@ export default class ShippingCard extends View {
     this.shippingStreet = new StreetProfile();
     this.shippingCity = new CityProfile();
     this.shippingPostCode = new PostProfile();
+    this.getButtonEdit();
+    this.getButtonSave();
     this.configureView();
   }
 
@@ -63,5 +65,28 @@ export default class ShippingCard extends View {
       );
 
     this.view.getElement()?.append(div1.getElement() || '', this.buttonsShipping?.getHTMLElement() || '');
+  }
+
+  public getButtonEdit(): HTMLElement | null | undefined {
+    const shippingStreet = this.shippingStreet?.input;
+    const shippingCity = this.shippingCity?.input;
+    const shippingPostCode = this.shippingPostCode?.input;
+    const shippingCountry = this.shippingCountry?.select;
+    this.buttonsShipping?.buttonEdit?.getHTMLElement()?.addEventListener('click', () => {
+      if (shippingStreet && shippingCity && shippingPostCode && shippingCountry instanceof HTMLSelectElement) {
+        shippingStreet.disabled = false;
+        shippingCity.disabled = false;
+        shippingCountry.disabled = false;
+        shippingPostCode.disabled = false;
+      }
+      this.buttonsShipping?.buttonSave?.getHTMLElement()?.classList.remove(ListClasses.HIDDEN);
+      this.buttonsShipping?.buttonSave?.getHTMLElement()?.classList.add(...ListClasses.BUTTON_SAVE.split(' '));
+      this.buttonsShipping?.buttonEdit?.getHTMLElement()?.classList.add(ListClasses.HIDDEN);
+    });
+    return this.buttonsShipping?.buttonEdit?.getHTMLElement();
+  }
+
+  public getButtonSave(): HTMLElement | null | undefined {
+    return this.buttonsShipping?.buttonSave?.getHTMLElement();
   }
 }

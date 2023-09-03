@@ -4,6 +4,8 @@ import ShippingCard from './shipping-card';
 import BillingCard from './billing-card';
 import RadioButoonView from './input-radiobutton';
 import View from '../../../view';
+import { ListAttributes } from '../../../../util/enums/list-attributes';
+import { ListOfValues } from '../../../../util/enums/list-attributesValues';
 
 export default class AddresesView extends View {
   public radioButtonShipping: RadioButoonView | null;
@@ -25,6 +27,7 @@ export default class AddresesView extends View {
     this.shippingCard = new ShippingCard();
     this.billingCard = new BillingCard();
     this.configureView();
+    this.setAttributesToElement();
   }
 
   public configureView(): void {
@@ -36,5 +39,13 @@ export default class AddresesView extends View {
         this.billingCard?.getHTMLElement() || '',
         this.radioButtonBilling?.getElement() || '',
       );
+  }
+
+  public setAttributesToElement(): void {
+    this.radioButtonShipping?.label?.setAttribute(ListAttributes.FOR, ListOfValues.SHIPPING);
+    this.radioButtonShipping?.input?.setAttribute(ListAttributes.ID, ListOfValues.SHIPPING);
+
+    this.radioButtonBilling?.label?.setAttribute(ListAttributes.FOR, ListOfValues.BILLING);
+    this.radioButtonBilling?.input?.setAttribute(ListAttributes.ID, ListOfValues.BILLING);
   }
 }

@@ -29,6 +29,7 @@ import AddresesView from './addresses-profile';
 import ShippingCard from './shipping-card';
 import BillingCard from './billing-card';
 import ButtonAddAddress from './button-add-address';
+import { ListOfValues } from '../../../../util/enums/list-attributesValues';
 
 export default class ProfileView extends View {
   public firstname: FirstNameProfile | null;
@@ -57,11 +58,13 @@ export default class ProfileView extends View {
 
   public shippingCard: ShippingCard | null;
 
+  public newShippingCard: ShippingCard | null;
+
   public billingCard: BillingCard | null;
 
   public tOptions: TokenCacheOptions | undefined;
 
-  public apiRootPassword: ByProjectKeyRequestBuilder;
+  public apiRootPassword: ByProjectKeyRequestBuilder | undefined;
 
   public tokenStoreT!: TokenStore;
 
@@ -71,6 +74,7 @@ export default class ProfileView extends View {
       classNames: ListClasses.PROFILE,
     };
     super(params);
+    this.newShippingCard = new ShippingCard();
     this.shippingCard = new ShippingCard();
     this.billingCard = new BillingCard();
     this.modalPassword = new ModalPassword();
@@ -84,14 +88,13 @@ export default class ProfileView extends View {
     this.addressesView = new AddresesView();
     this.currentVersion = this.initialValue;
     this.configureView();
-    this.apiRootPassword = createApiBuilderFromCtpClient(this.clientPassw()).withProjectKey({
-      projectKey: Api.PROJECT_KEY,
-    });
     this.firstNameButtonSaveClick();
     this.lastNameButtonSaveClick();
     this.birthdayButtonSaveClick();
     this.emailButtonSaveClick();
     this.checkCorrectPassword();
+    this.shippingButtonSaveClick();
+    this.buttonAddClick();
   }
 
   public clientPassw(): Client {
@@ -103,7 +106,7 @@ export default class ProfileView extends View {
         clientSecret: Api.CLIENT_SECRET_LOG,
         user: {
           username: this.email?.input?.value || '',
-          password: this.modalPassword?.newPassword?.input?.value || '',
+          password: this.modalPassword?.getNewPassword()?.value || '',
         },
       },
       scopes: [Api.SCOPES_LOG],
@@ -124,7 +127,7 @@ export default class ProfileView extends View {
     return clientPassw;
   }
 
-  private tokenCache(): TokenCache {
+  public tokenCache(): TokenCache {
     let tOptions: TokenCacheOptions | undefined = {
       clientId: Api.CLIENT_ID_LOG,
       projectKey: Api.PROJECT_KEY,
@@ -144,7 +147,14 @@ export default class ProfileView extends View {
     return tokenCache;
   }
 
+  public clearTokenStore(): void {
+    this.tokenStoreT = { token: '', refreshToken: '', expirationTime: 0 };
+  }
+
   public async getCustomerWithNewPassword(): Promise<ClientResponse<Customer>> {
+    this.apiRootPassword = createApiBuilderFromCtpClient(this.clientPassw()).withProjectKey({
+      projectKey: Api.PROJECT_KEY,
+    });
     const customer = await this.apiRootPassword.me().get().execute();
     return customer;
   }
@@ -172,56 +182,64 @@ export default class ProfileView extends View {
       );
     // eslint-disable-next-line
     this.getCustomer().then((customer): void => {
-      const nameFirst = this.firstname?.input;
-      const nameLast = this.lastname?.input;
+      const nameFirstName = this.firstname?.input;
+      const nameLastName = this.lastname?.input;
       const birth = this.birthday?.input;
       const email = this.email?.input;
       const password = this.password?.input;
-      const shipStreet = this.addressesView?.shippingCard?.shippingStreet?.input;
-      const shipCity = this.addressesView?.shippingCard?.shippingCity?.input;
-      const shipPostcode = this.addressesView?.shippingCard?.shippingPostCode?.input;
-      // let shipCountry = this.shippingCountry?.getSelect();
-      // console.log(this.shippingCountry?.getCorrectInput());
-      // const billingCountry = this.billingCountry?.getCorrectInput();
+      const shippingStreet = this.addressesView?.shippingCard?.shippingStreet?.input;
+      const shippingCity = this.addressesView?.shippingCard?.shippingCity?.input;
+      const shippingPostcode = this.addressesView?.shippingCard?.shippingPostCode?.input;
       const billingStreet = this.addressesView?.billingCard?.billingStreet?.input;
       const billingCity = this.addressesView?.billingCard?.billingCity?.input;
       const billingPostcode = this.addressesView?.billingCard?.billingPostCode?.input;
+      const defaultShipping = this.addressesView?.radioButtonShipping?.input;
+      const defaultBilling = this.addressesView?.radioButtonBilling?.input;
       if (
-        nameFirst &&
-        nameLast &&
+        nameFirstName &&
+        nameLastName &&
         birth &&
         email &&
         password &&
-        // shipCountry &&
-        shipStreet &&
-        shipCity &&
-        shipPostcode &&
-        // billingCountry &&
+        shippingStreet &&
+        shippingCity &&
+        shippingPostcode &&
         billingStreet &&
         billingCity &&
-        billingPostcode
+        billingPostcode &&
+        defaultShipping &&
+        defaultBilling
       ) {
-        nameFirst.value = customer.body.firstName || '';
-        nameLast.value = customer.body.lastName || '';
+        nameFirstName.value = customer.body.firstName || '';
+        nameLastName.value = customer.body.lastName || '';
         birth.value = customer.body.dateOfBirth || '';
         email.value = customer.body.email || '';
         password.value = customer.body.password || '';
-        shipStreet.value = customer.body.addresses[0].streetName || '';
-        shipCity.value = customer.body.addresses[0].city || '';
-        shipPostcode.value = customer.body.addresses[0].postalCode || '';
+        shippingStreet.value = customer.body.addresses[0].streetName || '';
+        shippingCity.value = customer.body.addresses[0].city || '';
+        shippingPostcode.value = customer.body.addresses[0].postalCode || '';
         billingStreet.value = customer.body.addresses[1].streetName || '';
         billingCity.value = customer.body.addresses[1].city || '';
         billingPostcode.value = customer.body.addresses[1].postalCode || '';
         this.currentVersion = customer.body.version;
-        // shipCountry = customer.body.addresses[0].country || '';
-        // billingCountry.value = customer.body.addresses[1].country || '';
+        this.addressesView?.shippingCard?.shippingCountry?.setSelect(customer.body.addresses[0].country);
+        this.addressesView?.billingCard?.billingCountry?.setSelect(customer.body.addresses[1].country);
+        if (customer.body.defaultShippingAddressId) {
+          defaultShipping.checked = true;
+        }
+        if (customer.body.defaultBillingAddressId) {
+          defaultBilling.checked = true;
+        }
+        if (customer.body.defaultBillingAddressId && customer.body.defaultBillingAddressId) {
+          defaultBilling.checked = true;
+          defaultShipping.checked = true;
+        }
+        console.log(customer.body.addresses[0].id);
       }
     });
 
     this.password?.getButtonEdit()?.addEventListener('click', () => {
-      // console.log(this.shippingCountry?.setSelect(customer.body.addresses[0].country));
-      console.log(this.modalPassword?.getNewPassword());
-      console.log(this.modalPassword?.newPassword?.input?.value);
+      // console.log(this.addressesView?.shippingCard?.getButtonSave());
       const input = this.password?.input;
       if (input) {
         input.disabled = false;
@@ -241,23 +259,22 @@ export default class ProfileView extends View {
 
   public cancelButtonEvents(): void {
     this.modalPassword?.oldPassword?.getEyeImage()?.setAttribute(ListAttributes.SRC, ListPaths.EYE_CLOSE);
+    this.modalPassword?.oldPassword?.input?.setAttribute(ListAttributes.TYPE, ListOfValues.PASSWORD);
+
     this.modalPassword?.newPassword?.getEyeImage()?.setAttribute(ListAttributes.SRC, ListPaths.EYE_CLOSE);
+    this.modalPassword?.newPassword?.input?.setAttribute(ListAttributes.TYPE, ListOfValues.PASSWORD);
+
     this.modalPassword?.confirmPassword?.getEyeImage()?.setAttribute(ListAttributes.SRC, ListPaths.EYE_CLOSE);
+    this.modalPassword?.confirmPassword?.input?.setAttribute(ListAttributes.TYPE, ListOfValues.PASSWORD);
 
-    this.modalPassword?.oldPassword?.message
-      ?.getHTMLElement()
-      ?.classList.remove(...ListClasses.MESSAGE_OPEN_PROFILE.split(' '));
-    this.modalPassword?.oldPassword?.message?.getHTMLElement()?.classList.add(...ListClasses.MESSAGE_H.split(' '));
+    this.modalPassword?.oldPassword?.getMessage()?.classList.remove(...ListClasses.MESSAGE_OPEN_PROFILE.split(' '));
+    this.modalPassword?.oldPassword?.getMessage()?.classList.add(...ListClasses.MESSAGE_H.split(' '));
 
-    this.modalPassword?.newPassword?.message
-      ?.getHTMLElement()
-      ?.classList.remove(...ListClasses.MESSAGE_OPEN_PROFILE.split(' '));
-    this.modalPassword?.newPassword?.message?.getHTMLElement()?.classList.add(...ListClasses.MESSAGE_H.split(' '));
+    this.modalPassword?.newPassword?.getMessage()?.classList.remove(...ListClasses.MESSAGE_OPEN_PROFILE.split(' '));
+    this.modalPassword?.newPassword?.getMessage()?.classList.add(...ListClasses.MESSAGE_H.split(' '));
 
-    this.modalPassword?.confirmPassword?.message
-      ?.getHTMLElement()
-      ?.classList.remove(...ListClasses.MESSAGE_OPEN_PROFILE.split(' '));
-    this.modalPassword?.confirmPassword?.message?.getHTMLElement()?.classList.add(...ListClasses.MESSAGE_H.split(' '));
+    this.modalPassword?.confirmPassword?.getMessage()?.classList.remove(...ListClasses.MESSAGE_OPEN_PROFILE.split(' '));
+    this.modalPassword?.confirmPassword?.getMessage()?.classList.add(...ListClasses.MESSAGE_H.split(' '));
 
     const oldPassword = this.modalPassword?.getOldPassword();
     const newPassword = this.modalPassword?.getNewPassword();
@@ -271,31 +288,38 @@ export default class ProfileView extends View {
 
   public checkCorrectPassword(): void {
     this.modalPassword?.getButtonSavePassword()?.addEventListener('click', () => {
-      const textMessage = this.modalMessage?.textMessage?.getHTMLElement();
-      const buttonMessage = this.modalMessage?.buttonClose?.getHTMLElement();
+      // const textMessage = this.modalMessage?.textMessage?.getHTMLElement();
+      // const buttonMessage = this.modalMessage?.buttonClose?.getHTMLElement();
       // const isFormValid = this.checkValidityPassword();
       // console.log(isFormValid);
       // if (!isFormValid) {
       //   return;
       // }
-      this.modalMessage?.getHTMLElement()?.classList.add(...ListClasses.OVERLAY_OPEN.split(' '));
-      if (textMessage && buttonMessage) {
-        textMessage.textContent = ListTextContent.TEXT_PASSWORD;
-        buttonMessage.textContent = ListTextContent.CLOSE_BUTTON;
-      }
+      console.log(this.modalPassword?.getNewPassword()?.value || '');
+      // console.log(this.modalPassword?.oldPassword?.getCorrectInput() || '');
+      // console.log(this.password?.input?.value || '');
+      // console.log(this.password?.getCorrectInput() || '');
+      // console.log(this.email?.getCorrectInput() || '');
+      console.log(this.email?.input?.value || '');
+      // if (textMessage && buttonMessage) {
+      //   textMessage.textContent = ListTextContent.TEXT_PASSWORD;
+      //   buttonMessage.textContent = ListTextContent.CLOSE_BUTTON;
+      // }
       // const oldPassword = this.modalPassword?.getOldPassword();
       const newPassword = this.modalPassword?.getNewPassword();
       const confirmPassword = this.modalPassword?.getConfirmPassword();
       // if (newPassword?.value === confirmPassword?.value && oldPassword?.value === password?.value) {
       if (newPassword?.value === confirmPassword?.value) {
         this.updatePassword().then();
+        this.modalPassword?.getHTMLElement()?.classList.remove(...ListClasses.OVERLAY_OPEN.split(' '));
         this.cancelButtonEvents();
       } else {
-        this.modalMessage?.getHTMLElement()?.classList.add(...ListClasses.OVERLAY_OPEN.split(' '));
-        if (textMessage && buttonMessage) {
-          textMessage.textContent = ListTextContent.TEXT_PASSWORD_ERROR;
-          buttonMessage.textContent = ListTextContent.CLOSE_BUTTON_ERROR;
-        }
+        // this.modalMessage?.getHTMLElement()?.classList.add(...ListClasses.OVERLAY_OPEN.split(' '));
+        // if (textMessage && buttonMessage) {
+        //   textMessage.textContent = ListTextContent.TEXT_PASSWORD_ERROR;
+        //   buttonMessage.textContent = ListTextContent.CLOSE_BUTTON_ERROR;
+        // }
+        console.log('error');
       }
     });
   }
@@ -308,16 +332,17 @@ export default class ProfileView extends View {
       .post({
         body: {
           version: this.currentVersion,
-          currentPassword: this.modalPassword?.oldPassword?.input?.value || '',
-          newPassword: this.modalPassword?.newPassword?.input?.value || '',
+          currentPassword: this.modalPassword?.getOldPassword()?.value || '',
+          newPassword: this.modalPassword?.getNewPassword()?.value || '',
         },
       })
       .execute();
-    this.getCustomerWithNewPassword().then((customer): void => {
-      this.currentVersion = customer.body.version;
-      console.log(customer);
-      localStorage.setItem(Api.STORAGE, `${this.tokenStoreT.token}`);
-    });
+    this.clearTokenStore();
+    // this.getCustomerWithNewPassword().then((customer): void => {
+    //   console.log(customer);
+    //   localStorage.setItem(Api.STORAGE, `${this.tokenStoreT.token}`);
+    //   this.currentVersion = customer.body.version;
+    // });
     return customerr;
   }
 
@@ -325,16 +350,16 @@ export default class ProfileView extends View {
     this.firstname?.getButtonSave()?.addEventListener('click', () => {
       const isFormValidFirstName = this.checkValidityFirstName();
       const textMessage = this.modalMessage?.textMessage?.getHTMLElement();
+      const input = this.firstname?.input;
       if (!isFormValidFirstName) {
         return;
       }
+      this.updateCustomerFirstName().then();
+      // this.updateCustomerFirstName().then((customer) => console.log(customer));
       this.modalMessage?.getHTMLElement()?.classList.add(...ListClasses.OVERLAY_OPEN.split(' '));
       if (textMessage) {
         textMessage.textContent = ListTextContent.TEXT_FIRST_NAME;
       }
-      const input = this.firstname?.input;
-      this.updateCustomerFirstName().then();
-      // this.updateCustomerFirstName().then((customer) => console.log(customer));
       if (input) {
         input.disabled = true;
         input.style.borderColor = ListTextContent.INHERIT;
@@ -349,17 +374,17 @@ export default class ProfileView extends View {
   public lastNameButtonSaveClick(): void {
     this.lastname?.getButtonSave()?.addEventListener('click', () => {
       const textMessage = this.modalMessage?.textMessage?.getHTMLElement();
+      const input = this.lastname?.input;
       const isFormValidLastName = this.checkValidityLastName();
       if (!isFormValidLastName) {
         return;
       }
+      this.updateCustomerLastName().then();
+      // this.updateCustomerFirstName().then((customer) => console.log(customer));
       this.modalMessage?.getHTMLElement()?.classList.add(...ListClasses.OVERLAY_OPEN.split(' '));
       if (textMessage) {
         textMessage.textContent = ListTextContent.TEXT_LAST_NAME;
       }
-      const input = this.lastname?.input;
-      // this.updateCustomerFirstName().then((customer) => console.log(customer));
-      this.updateCustomerLastName().then();
       if (input) {
         input.disabled = true;
         input.style.borderColor = ListTextContent.INHERIT;
@@ -374,17 +399,17 @@ export default class ProfileView extends View {
   public birthdayButtonSaveClick(): void {
     this.birthday?.getButtonSave()?.addEventListener('click', () => {
       const textMessage = this.modalMessage?.textMessage?.getHTMLElement();
+      const input = this.birthday?.input;
       const isFormValidBirthDay = this.checkValidityBirthDay();
       if (!isFormValidBirthDay) {
         return;
       }
+      this.updateCustomerBirthDay().then();
+      // this.updateCustomerFirstName().then((customer) => console.log(customer));
       this.modalMessage?.getHTMLElement()?.classList.add(...ListClasses.OVERLAY_OPEN.split(' '));
       if (textMessage) {
         textMessage.textContent = ListTextContent.TEXT_BIRTHDAY;
       }
-      const input = this.birthday?.input;
-      this.updateCustomerBirthDay().then();
-      // this.updateCustomerFirstName().then((customer) => console.log(customer));
       if (input) {
         input.disabled = true;
         input.style.borderColor = ListTextContent.INHERIT;
@@ -399,17 +424,17 @@ export default class ProfileView extends View {
   public emailButtonSaveClick(): void {
     this.email?.getButtonSave()?.addEventListener('click', () => {
       const textMessage = this.modalMessage?.textMessage?.getHTMLElement();
+      const input = this.email?.input;
       const isFormValidEmail = this.checkValidityEmail();
       if (!isFormValidEmail) {
         return;
       }
+      this.updateCustomerEmail().then();
+      // this.updateCustomerFirstName().then((customer) => console.log(customer));
       this.modalMessage?.getHTMLElement()?.classList.add(...ListClasses.OVERLAY_OPEN.split(' '));
       if (textMessage) {
         textMessage.textContent = ListTextContent.TEXT_EMAIL;
       }
-      const input = this.email?.input;
-      this.updateCustomerEmail().then();
-      // this.updateCustomerFirstName().then((customer) => console.log(customer));
       if (input) {
         input.disabled = true;
         input.style.borderColor = ListTextContent.INHERIT;
@@ -564,25 +589,107 @@ export default class ProfileView extends View {
     return isFormValidEmail;
   }
 
-  private checkValidityPassword(): boolean {
-    let isFormValid = true;
-    const isPasswordValid = this.password?.input?.checkValidity();
-    const isNewPasswordValid = this.modalPassword?.getNewPassword();
-    const isOldPasswordValid = this.modalPassword?.getOldPassword();
-    const isConfirmPasswordValid = this.modalPassword?.getConfirmPassword();
+  public shippingButtonSaveClick(): void {
+    this.addressesView?.shippingCard?.getButtonSave()?.addEventListener('click', () => {
+      // const isFormValidEmail = this.checkValidityEmail();
+      // if (!isFormValidEmail) {
+      //   return;
+      // }
+      this.updateCustomeShipaddress().then();
 
-    if (
-      !isPasswordValid ||
-      !isNewPasswordValid ||
-      !isOldPasswordValid ||
-      !isConfirmPasswordValid ||
-      this.password?.getCorrectInput() === ''
-      // this.modalPassword?.getNewPassword() === '' ||
-      // this.modalPassword?.getOldPassword() === '' ||
-      // this.modalPassword?.getConfirmPassword() === '
-    ) {
-      isFormValid = false;
-    }
-    return isFormValid;
+      this.addressesView?.shippingCard?.getButtonSave()?.classList.add(ListClasses.HIDDEN);
+      this.addressesView?.shippingCard?.getButtonSave()?.classList.remove(...ListClasses.BUTTON_SAVE.split(' '));
+      this.addressesView?.shippingCard?.getButtonEdit()?.classList.remove(ListClasses.HIDDEN);
+    });
   }
+
+  public async updateCustomeShipaddress(): Promise<void> {
+    try {
+      await this.apiRoot
+        ?.me()
+        .post({
+          body: {
+            version: this.currentVersion,
+            actions: [
+              {
+                action: 'changeAddress',
+                addressId: 'pbBHfdOX',
+                address: {
+                  streetName: this.addressesView?.shippingCard?.shippingStreet?.input?.value,
+                  postalCode: this.addressesView?.shippingCard?.shippingPostCode?.input?.value,
+                  city: this.addressesView?.shippingCard?.shippingCity?.input?.value,
+                  country: this.addressesView?.shippingCard?.shippingCountry?.getCorrectInput() || '',
+                },
+              },
+            ],
+          },
+        })
+        .execute();
+      this.getCustomer().then((customer): void => {
+        this.currentVersion = customer.body.version;
+      });
+    } catch (err) {
+      console.log('err');
+    }
+  }
+
+  public buttonAddClick(): void {
+    this.buttonAdd?.getHTMLElement()?.addEventListener('click', () => {
+      this.addressesView?.getHTMLElement()?.append(this.newShippingCard?.getHTMLElement() || '');
+      this.newShippingCard?.getButtonSave()?.addEventListener('click', () => {
+        this.addCustomerAddress().then();
+      });
+    });
+  }
+
+  public async addCustomerAddress(): Promise<void> {
+    try {
+      await this.apiRoot
+        ?.me()
+        .post({
+          body: {
+            version: this.currentVersion,
+            actions: [
+              {
+                action: 'addAddress',
+                address: {
+                  streetName: this.newShippingCard?.shippingStreet?.input?.value,
+                  postalCode: this.newShippingCard?.shippingPostCode?.input?.value,
+                  city: this.newShippingCard?.shippingCity?.input?.value,
+                  country: this.newShippingCard?.shippingCountry?.getCorrectInput() || '',
+                },
+              },
+            ],
+          },
+        })
+        .execute();
+      this.getCustomer().then((customer): void => {
+        this.currentVersion = customer.body.version;
+      });
+    } catch (err) {
+      console.log('err');
+    }
+  }
+
+  // private checkValidityPassword(): boolean {
+  //   let isFormValid = true;
+  //   const isPasswordValid = this.password?.input?.checkValidity();
+  //   const isNewPasswordValid = this.modalPassword?.getNewPassword()?.checkValidity();
+  //   const isOldPasswordValid = this.modalPassword?.getOldPassword()?.checkValidity();
+  //   const isConfirmPasswordValid = this.modalPassword?.getConfirmPassword()?.checkValidity();
+
+  //   if (
+  //     !isPasswordValid &&
+  //     !isNewPasswordValid &&
+  //     !isOldPasswordValid &&
+  //     !isConfirmPasswordValid &&
+  //     this.password?.getCorrectInput() === ''
+  //     // this.modalPassword?.getNewPassword() === '' ||
+  //     // this.modalPassword?.getOldPassword() === '' ||
+  //     // this.modalPassword?.getConfirmPassword() === '
+  //   ) {
+  //     isFormValid = false;
+  //   }
+  //   return isFormValid;
+  // }
 }

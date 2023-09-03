@@ -3,9 +3,12 @@ import { ListTags } from '../../../../util/enums/list-tags';
 import View from '../../../view';
 import ButtonEdit from './button-edit';
 import ButtonDeleteAddress from './button-delete';
+import ButtonSave from './button-save';
 
 export default class AddresesButtons extends View {
   public buttonEdit: ButtonEdit | null;
+
+  public buttonSave: ButtonSave | null;
 
   public buttonDelete: ButtonDeleteAddress | null;
 
@@ -16,11 +19,18 @@ export default class AddresesButtons extends View {
     };
     super(params);
     this.buttonEdit = new ButtonEdit();
+    this.buttonSave = new ButtonSave();
     this.buttonDelete = new ButtonDeleteAddress();
     this.configureView();
   }
 
   public configureView(): void {
-    this.view.getElement()?.append(this.buttonEdit?.getHTMLElement() || '', this.buttonDelete?.getHTMLElement() || '');
+    this.view
+      .getElement()
+      ?.append(
+        this.buttonEdit?.getHTMLElement() || '',
+        this.buttonSave?.getHTMLElement() || '',
+        this.buttonDelete?.getHTMLElement() || '',
+      );
   }
 }

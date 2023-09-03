@@ -40,6 +40,12 @@ export default class StreetProfile {
     if (this.label) {
       this.label.textContent = ListTextContent.STREET_PROFILE;
     }
+    const message = this.message?.getHTMLElement();
+    this.message?.getHTMLElement()?.classList.remove(...ListClasses.MESSAGE_HIDDEN_PROFILE.split(' '));
+    this.message?.getHTMLElement()?.classList.add(...ListClasses.MESSAGE_HIDDEN_CARD.split(' '));
+    if (message) {
+      message.textContent = ListTextContent.MESSAGE_STREET;
+    }
   }
 
   public getElement(): HTMLElement | null {
@@ -72,7 +78,7 @@ export default class StreetProfile {
       const regex = /^.{1,}$/;
       if (this.input.value.match(regex)) {
         this.message?.getHTMLElement()?.classList.remove(...ListClasses.MESSAGE_OPEN_PROFILE.split(' '));
-        this.message?.getHTMLElement()?.classList.add(...ListClasses.MESSAGE_HIDDEN_PROFILE.split(' '));
+        this.message?.getHTMLElement()?.classList.add(...ListClasses.MESSAGE_HIDDEN_CARD.split(' '));
         this.correctInput = this.input.value;
         this.input.setCustomValidity('');
         this.input.style.borderColor = ListTextContent.GREEN;
@@ -81,7 +87,7 @@ export default class StreetProfile {
           message.textContent = ListTextContent.MESSAGE_STREET;
         }
         this.input.style.borderColor = ListTextContent.RED;
-        this.message?.getHTMLElement()?.classList.remove(...ListClasses.MESSAGE_HIDDEN_PROFILE.split(' '));
+        this.message?.getHTMLElement()?.classList.remove(...ListClasses.MESSAGE_HIDDEN_CARD.split(' '));
         this.message?.getHTMLElement()?.classList.add(...ListClasses.MESSAGE_OPEN_PROFILE.split(' '));
         this.input.setCustomValidity(ListTextContent.MESSAGE_STREET);
       }

@@ -35,6 +35,7 @@ export default class BillingCard extends View {
     this.billingPostCode = new PostProfile();
     this.configureView();
     this.setAttributesToElement();
+    this.getButtonEdit();
   }
 
   public configureView(): void {
@@ -77,5 +78,24 @@ export default class BillingCard extends View {
 
     this.billingPostCode?.label?.setAttribute(ListAttributes.FOR, ListOfValues.POST);
     this.billingPostCode?.input?.setAttribute(ListAttributes.ID, ListOfValues.POST);
+  }
+
+  public getButtonEdit(): HTMLElement | null | undefined {
+    const billingStreet = this.billingStreet?.input;
+    const billingCity = this.billingCity?.input;
+    const billingPostCode = this.billingPostCode?.input;
+    const billingCountry = this.billingCountry?.select;
+    this.buttonsBilling?.buttonEdit?.getHTMLElement()?.addEventListener('click', () => {
+      if (billingStreet && billingCity && billingPostCode && billingCountry instanceof HTMLSelectElement) {
+        billingStreet.disabled = false;
+        billingCity.disabled = false;
+        billingCountry.disabled = false;
+        billingPostCode.disabled = false;
+      }
+      this.buttonsBilling?.buttonSave?.getHTMLElement()?.classList.remove(ListClasses.HIDDEN);
+      this.buttonsBilling?.buttonSave?.getHTMLElement()?.classList.add(...ListClasses.BUTTON_SAVE.split(' '));
+      this.buttonsBilling?.buttonEdit?.getHTMLElement()?.classList.add(ListClasses.HIDDEN);
+    });
+    return this.buttonsBilling?.buttonEdit?.getHTMLElement();
   }
 }

@@ -27,7 +27,7 @@ export default class CountryProfile extends View {
     const params = {
       tag: ListTags.LABEL,
       classNames: ListClasses.LABEL_PROFILE,
-      textContent: ListTextContent.COUNTRY,
+      textContent: ListTextContent.COUNTRY_PROFILE,
     };
     const label = new ElementCreator(params);
     if (label instanceof HTMLLabelElement) {
