@@ -1,9 +1,12 @@
+import { breeds } from '../../../../util/breed';
 import { ListClasses } from '../../../../util/enums/list-classes';
 import { ListTags } from '../../../../util/enums/list-tags';
+import { ListTextContent } from '../../../../util/enums/list-textContent';
 import View from '../../../view';
 import AgeRangeView from './age/age-view';
 import ButtonApply from './button-apply/button-apply-view';
 import ButtonReset from './button-reset/button-reset-view';
+import CategoryView from './category/category-view';
 import ColorView from './color/color-view';
 import PriceRangeView from './price-range/price-range-view';
 import SearchView from './search/search-view';
@@ -32,6 +35,10 @@ export default class SidebarView extends View {
 
   private buttonReset: ButtonReset;
 
+  private category: CategoryView;
+
+  private subCategory: CategoryView;
+
   constructor() {
     const params = {
       tag: ListTags.CONTAINER,
@@ -48,6 +55,11 @@ export default class SidebarView extends View {
     this.sorting = new SortingView();
     this.buttonApply = new ButtonApply();
     this.buttonReset = new ButtonReset();
+    this.category = new CategoryView(Object.keys(breeds), ListTextContent.CATEGORY);
+    this.subCategory = new CategoryView(
+      Object.values(breeds.ShortHaired).map((breed) => breed.name),
+      ListTextContent.SUBCATEGORY,
+    );
     this.configureView();
   }
 
@@ -147,6 +159,30 @@ export default class SidebarView extends View {
     return this.buttonReset;
   }
 
+  public getCategory(): CategoryView {
+    return this.category;
+  }
+
+  public setCallbackToCategory(callback: (event: Event) => void): void {
+    const selectElement = this.category.getSelect();
+
+    if (selectElement instanceof HTMLSelectElement) {
+      selectElement.addEventListener('change', (event) => callback(event));
+    }
+  }
+
+  public getSubCategory(): CategoryView {
+    return this.subCategory;
+  }
+
+  public setCallbackToSubCategory(callback: (event: Event) => void): void {
+    const selectElement = this.subCategory.getSelect();
+
+    if (selectElement instanceof HTMLSelectElement) {
+      selectElement.addEventListener('change', (event) => callback(event));
+    }
+  }
+
   private configureView(): void {
     this.getHTMLElement()?.append(this.search.getHTMLElement() || '');
     this.getHTMLElement()?.append(this.priceRange.getHTMLElement() || '', this.type.getHTMLElement() || '');
@@ -155,6 +191,8 @@ export default class SidebarView extends View {
     if (this.container instanceof HTMLDivElement)
       this.container.append(this.buttonApply.getHTMLElement() || '', this.buttonReset.getHTMLElement() || '');
     this.getHTMLElement()?.append(this.container);
+    this.getHTMLElement()?.append(this.category.getHTMLElement() || '', this.subCategory.getHTMLElement() || '');
+    this.subCategory.hiddenContainer();
   }
 
   private containerElement(): HTMLDivElement | string {
