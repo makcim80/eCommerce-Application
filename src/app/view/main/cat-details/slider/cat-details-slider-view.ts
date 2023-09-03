@@ -38,11 +38,11 @@ const swiperInitParams: SwiperOptions = {
   loop: true,
   speed: 1000,
   autoHeight: false,
-  // autoplay: {
-  //   delay: 2000,
-  //   pauseOnMouseEnter: true,
-  //   disableOnInteraction: false,
-  // },
+  autoplay: {
+    delay: 2000,
+    pauseOnMouseEnter: true,
+    disableOnInteraction: false,
+  },
   grabCursor: true,
   // mousewheel: true,
   effect: 'creative',
