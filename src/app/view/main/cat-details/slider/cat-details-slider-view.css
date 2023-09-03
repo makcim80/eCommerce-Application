@@ -18,6 +18,10 @@
   height: 100%;
 }
 
+.swiper-slide {
+  cursor: pointer;
+}
+
 .swiper-button-next,
 .swiper-button-prev {
   color: theme('colors.blue-color');
