@@ -92,8 +92,13 @@ export const enum ListClasses {
   CATALOG = 'flex flex-wrap p-2.5 sm-s:flex-nowrap',
   SIDEBAR = 'min-w-max flex flex-col gap-y-2.5',
   SIDEBAR_PRICE_INPUT = 'w-24 mr-2.5 border-2 border-black rounded px-1',
+<<<<<<< HEAD
   CARDS = 'flex flex-wrap justify-evenly gap-2.5 ml-2 mr-2',
-  CARD = 'bg-profile-bg rounded-2xl hover:scale-110 hover:shadow-2xl hover:shadow-zinc-900 transition active:scale-90 hover:z-30',
+  CARD = 'bg-profile-bg rounded-2xl hover:scale-110 hover:shadow-2xl hover:shadow-zinc-900 transition active:scale-90',
+=======
+  CARDS = 'flex flex-wrap justify-evenly gap-2.5',
+  CARD = 'bg-gray-200 rounded-2xl hover:scale-125 hover:shadow-lg hover:shadow-zinc-900 hover:z-30',
+>>>>>>> Sprint-3
   PADDING_LEFT_1REM = 'pl-4',
   CARD_TITLE = 'text-2xl text-center',
   CARD_PRICE = 'text-center',

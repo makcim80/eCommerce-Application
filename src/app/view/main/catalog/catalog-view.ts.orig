@@ -7,8 +7,11 @@ import { ListClasses } from '../../../util/enums/list-classes';
 import ProductsFiltering from '../../../../components/products-filtering';
 import { breeds } from '../../../util/breed';
 import ProductsSearch from '../../../../components/products-search';
-import { ListTextContent } from '../../../util/enums/list-textContent';
+<<<<<<< HEAD
 import Router from '../../../router/router';
+=======
+import { ListTextContent } from '../../../util/enums/list-textContent';
+>>>>>>> Sprint-3
 
 export default class CatalogView extends View {
   private readonly SORTING_ALPHABETICALLY = 'abc...';

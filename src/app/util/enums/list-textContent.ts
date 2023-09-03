@@ -56,4 +56,6 @@ export const enum ListTextContent {
   ARROW_UP = '▲',
   SORTING = 'Sorting:',
   SEARCH = 'Search:',
+  CATEGORY = 'Category:',
+  SUBCATEGORY = 'Subcategory:',
 }
