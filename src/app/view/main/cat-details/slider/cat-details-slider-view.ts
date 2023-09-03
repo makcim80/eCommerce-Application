@@ -24,6 +24,7 @@ import { ListOfValues } from '../../../../util/enums/list-attributesValues';
 
 export interface CatDetailsSliderSliderConfig {
   type: 'regular' | 'modal';
+  last?: boolean;
 }
 
 const swiperInitParams: SwiperOptions = {
@@ -235,7 +236,9 @@ export default class CatDetailsSliderView extends View {
   }
 
   private setComponentCallbacks(): void {
-    this.setCBForOpenModalSlider();
+    if (this.componentConfig.type === 'regular') {
+      this.setCBForOpenModalSlider();
+    }
 
     if (this.componentConfig.type === 'modal') {
       this.CatDetailsSliderContainer?.setCallback((event) => {
@@ -247,7 +250,7 @@ export default class CatDetailsSliderView extends View {
 
   private setCBForOpenModalSlider(): void {
     this.swiperSliderWrapper?.setCallback(() => {
-      this.view.addInnerElement(new CatDetailsSliderView(this.imagesObjectsArr, { type: 'modal' }));
+      this.view.addInnerElement(new CatDetailsSliderView(this.imagesObjectsArr, { type: 'modal', last: true }));
     });
   }
 
