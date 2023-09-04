@@ -32,10 +32,8 @@ export default class CityProfile {
   }
 
   public setAttributesCity(): void {
-    this.input?.setAttribute(ListAttributes.ID, ListOfValues.CITY);
     this.input?.setAttribute(ListAttributes.TYPE, ListOfValues.TEXT);
     this.input?.classList.add(...ListClasses.INPUT_PROFILE.split(' '));
-    this.label?.setAttribute(ListAttributes.FOR, ListOfValues.CITY);
     this.label?.classList.add(...ListClasses.LABEL_PROFILE.split(' '));
     if (this.label) {
       this.label.textContent = ListTextContent.CITY_PROFILE;

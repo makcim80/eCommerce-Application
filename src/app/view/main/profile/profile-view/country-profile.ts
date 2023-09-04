@@ -14,7 +14,7 @@ export default class CountryProfile extends View {
   constructor() {
     const params = {
       tag: ListTags.CONTAINER,
-      classNames: ListClasses.DIV_CONTAINER,
+      classNames: ListClasses.INPUT_COUNTRY,
     };
     super(params);
 
@@ -50,6 +50,8 @@ export default class CountryProfile extends View {
       select.append(option);
     }
     label.addInnerElement(select);
+
+    this.correctInput = select.value;
 
     select.addEventListener('change', () => {
       this.correctInput = select.value;

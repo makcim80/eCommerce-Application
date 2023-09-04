@@ -53,7 +53,6 @@ export default class HeaderButtonsView extends View {
 
     const div1 = createDivElement();
     div1?.append(this.basketIcon?.getHTMLElement() || '');
-
     const div2 = createDivElement();
     div2?.append(
       this.buttonSignUp?.getHTMLElement() || '',
@@ -61,7 +60,6 @@ export default class HeaderButtonsView extends View {
       this.buttonUserProfile?.getHTMLElement() || '',
       this.buttonLogout?.getHTMLElement() || '',
     );
-
     const div3 = createDivElement();
     div3?.append(div1 || '', div2 || '');
 
@@ -76,6 +74,14 @@ export default class HeaderButtonsView extends View {
     this.burgerView?.getHTMLElement()?.addEventListener('click', (): void => {
       this.burgerView?.getHTMLElement()?.classList.toggle(ListClasses.BURGER_MENU_ACTIVE);
       this.catalogAndAboutUsContainer?.getHTMLElement()?.classList.toggle(ListClasses.HEADER_NAV_ACTIVE);
+    });
+    this.catalogAndAboutUsContainer?.buttonCatalog?.getHTMLElement()?.addEventListener('click', () => {
+      this.catalogAndAboutUsContainer?.getHTMLElement()?.classList.remove(ListClasses.HEADER_NAV_ACTIVE);
+      this.burgerView?.getHTMLElement()?.classList.remove(ListClasses.BURGER_MENU_ACTIVE);
+    });
+    this.catalogAndAboutUsContainer?.buttonAboutUs?.getHTMLElement()?.addEventListener('click', () => {
+      this.catalogAndAboutUsContainer?.getHTMLElement()?.classList.remove(ListClasses.HEADER_NAV_ACTIVE);
+      this.burgerView?.getHTMLElement()?.classList.remove(ListClasses.BURGER_MENU_ACTIVE);
     });
   }
 

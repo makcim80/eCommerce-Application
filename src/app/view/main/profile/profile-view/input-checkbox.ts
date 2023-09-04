@@ -3,13 +3,12 @@ import { ListTags } from '../../../../util/enums/list-tags';
 import { ListAttributes } from '../../../../util/enums/list-attributes';
 import { ListClasses } from '../../../../util/enums/list-classes';
 import { ListOfValues } from '../../../../util/enums/list-attributesValues';
-import { ListTextContent } from '../../../../util/enums/list-textContent';
 
 const params = {
   tag: ListTags.CONTAINER,
 };
 
-export default class RadioButoonView {
+export default class CheckboxInputView {
   public inputFieldCreator = new InputFieldCreator(params);
 
   public input: HTMLInputElement | null;
@@ -23,12 +22,9 @@ export default class RadioButoonView {
   }
 
   public configureView(): void {
-    this.inputFieldCreator.getElement()?.classList.add(...ListClasses.RADIO_BUTTON.split(' '));
-    this.input?.setAttribute(ListAttributes.TYPE, ListOfValues.RADIO);
+    this.inputFieldCreator.getElement()?.classList.add(...ListClasses.CHECKBOX_BUTTON.split(' '));
+    this.input?.setAttribute(ListAttributes.TYPE, ListOfValues.CHECKBOX);
     this.label?.classList.add(...ListClasses.LABEL_RADIO.split(' '));
-    if (this.label) {
-      this.label.textContent = ListTextContent.DEFAULT;
-    }
   }
 
   public getElement(): HTMLElement | null {

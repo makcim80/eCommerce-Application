@@ -107,3 +107,8 @@ body {
 .overlay.open .popup {
   transform: scale(1);
 }
+
+.grid {
+	display: grid;
+	grid-template-columns: 240px 1fr;
+}

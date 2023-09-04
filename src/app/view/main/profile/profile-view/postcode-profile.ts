@@ -10,7 +10,7 @@ const params = {
   tag: ListTags.CONTAINER,
 };
 
-export default class PostProfile {
+export default class PostalCodeProfile {
   public inputFieldCreator = new InputFieldCreator(params);
 
   public input: HTMLInputElement | null;
@@ -32,10 +32,8 @@ export default class PostProfile {
   }
 
   public setAttributesPostCodes(): void {
-    this.input?.setAttribute(ListAttributes.ID, ListOfValues.POSTCODE);
     this.input?.setAttribute(ListAttributes.TYPE, ListOfValues.TEXT);
     this.input?.classList.add(...ListClasses.INPUT_PROFILE.split(' '));
-    this.label?.setAttribute(ListAttributes.FOR, ListOfValues.POSTCODE);
     this.label?.classList.add(...ListClasses.LABEL_PROFILE.split(' '));
     if (this.label) {
       this.label.textContent = ListTextContent.POST_PROFILE;

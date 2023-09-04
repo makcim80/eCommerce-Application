@@ -3,7 +3,7 @@ import View from '../../../view';
 import { ListTextContent } from '../../../../util/enums/list-textContent';
 import { ListClasses } from '../../../../util/enums/list-classes';
 
-export default class ButtonAddAddress extends View {
+export default class ButtonAdd extends View {
   constructor() {
     const params = {
       tag: ListTags.BUTTON,

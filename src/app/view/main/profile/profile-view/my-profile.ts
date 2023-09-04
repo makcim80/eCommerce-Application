@@ -6,6 +6,7 @@ import {
   HttpMiddlewareOptions,
   ClientBuilder,
   Client,
+  ExistingTokenMiddlewareOptions,
 } from '@commercetools/sdk-client-v2';
 import { ByProjectKeyRequestBuilder } from '@commercetools/platform-sdk/dist/declarations/src/generated/client/by-project-key-request-builder';
 import { ClientResponse, Customer, createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
@@ -25,13 +26,14 @@ import ModalPassword from '../modal-password/modal-password';
 import { ListAttributes } from '../../../../util/enums/list-attributes';
 import { ListPaths } from '../../../../util/enums/list-paths';
 import ModalMessage from '../modal-message/message-modal';
-import AddresesView from './addresses-profile';
-import ShippingCard from './shipping-card';
-import BillingCard from './billing-card';
-import ButtonAddAddress from './button-add-address';
+import AddressCard from './address-card';
+import ButtonAdd from './button-add-address';
 import { ListOfValues } from '../../../../util/enums/list-attributesValues';
+import CheckboxContainerView from './checkbox-container';
 
 export default class ProfileView extends View {
+  public checkboxContainer: CheckboxContainerView;
+
   public firstname: FirstNameProfile | null;
 
   public lastname: LastNameProfile | null;
@@ -44,23 +46,15 @@ export default class ProfileView extends View {
 
   private apiRoot: ByProjectKeyRequestBuilder | undefined;
 
-  private currentVersion;
+  public currentVersion;
 
-  private readonly initialValue = 0;
+  public readonly initialValue = 0;
 
   public modalPassword: ModalPassword | null;
 
   public modalMessage: ModalMessage | null;
 
-  public buttonAdd: ButtonAddAddress | null;
-
-  public addressesView: AddresesView | null;
-
-  public shippingCard: ShippingCard | null;
-
-  public newShippingCard: ShippingCard | null;
-
-  public billingCard: BillingCard | null;
+  public buttonAdd: ButtonAdd | null;
 
   public tOptions: TokenCacheOptions | undefined;
 
@@ -68,15 +62,19 @@ export default class ProfileView extends View {
 
   public tokenStoreT!: TokenStore;
 
+  private newPassword!: string;
+
+  private oldPassword!: string;
+
+  private empty!: string;
+
   constructor() {
     const params = {
       tag: ListTags.CONTAINER,
       classNames: ListClasses.PROFILE,
     };
     super(params);
-    this.newShippingCard = new ShippingCard();
-    this.shippingCard = new ShippingCard();
-    this.billingCard = new BillingCard();
+    this.checkboxContainer = new CheckboxContainerView();
     this.modalPassword = new ModalPassword();
     this.modalMessage = new ModalMessage();
     this.firstname = new FirstNameProfile();
@@ -84,8 +82,7 @@ export default class ProfileView extends View {
     this.birthday = new BirthProfile();
     this.email = new EmailProfile();
     this.password = new PasswordProfile();
-    this.buttonAdd = new ButtonAddAddress();
-    this.addressesView = new AddresesView();
+    this.buttonAdd = new ButtonAdd();
     this.currentVersion = this.initialValue;
     this.configureView();
     this.firstNameButtonSaveClick();
@@ -93,8 +90,7 @@ export default class ProfileView extends View {
     this.birthdayButtonSaveClick();
     this.emailButtonSaveClick();
     this.checkCorrectPassword();
-    this.shippingButtonSaveClick();
-    this.buttonAddClick();
+    this.getButtonAdd();
   }
 
   public clientPassw(): Client {
@@ -106,7 +102,7 @@ export default class ProfileView extends View {
         clientSecret: Api.CLIENT_SECRET_LOG,
         user: {
           username: this.email?.input?.value || '',
-          password: this.modalPassword?.getNewPassword()?.value || '',
+          password: this.newPassword,
         },
       },
       scopes: [Api.SCOPES_LOG],
@@ -148,8 +144,12 @@ export default class ProfileView extends View {
   }
 
   public clearTokenStore(): void {
-    this.tokenStoreT = { token: '', refreshToken: '', expirationTime: 0 };
+    this.tokenCache().set({ token: '', refreshToken: '', expirationTime: 0 });
   }
+
+  // public clearTokenStore(): void {
+  //   this.tokenStoreT = { token: '', refreshToken: '', expirationTime: 0 };
+  // }
 
   public async getCustomerWithNewPassword(): Promise<ClientResponse<Customer>> {
     this.apiRootPassword = createApiBuilderFromCtpClient(this.clientPassw()).withProjectKey({
@@ -176,70 +176,69 @@ export default class ProfileView extends View {
         this.email?.getElement() || '',
         this.password?.getElement() || '',
         this.buttonAdd?.getHTMLElement() || '',
-        this.addressesView?.getHTMLElement() || '',
         this.modalPassword?.getHTMLElement() || '',
         this.modalMessage?.getHTMLElement() || '',
       );
     // eslint-disable-next-line
     this.getCustomer().then((customer): void => {
+      const { defaultBillingAddressId, defaultShippingAddressId } = customer.body;
+      const { billingAddressIds, shippingAddressIds } = customer.body;
+
+      customer.body.addresses.forEach((address) => {
+        const cardAddress = new AddressCard(address.id || '');
+        const city = cardAddress.inputCity?.input;
+        const street = cardAddress.inputStreet?.input;
+        const postalCode = cardAddress.inputPostalCode?.input;
+
+        if (city && street && postalCode) {
+          city.value = address.city || '';
+          cardAddress.inputCity?.setCorrectInput(city.value);
+          street.value = address.streetName || '';
+          cardAddress.inputStreet?.setCorrectInput(street.value);
+          postalCode.value = address.postalCode || '';
+          cardAddress.inputPostalCode?.setCorrectInput(postalCode.value);
+        }
+        cardAddress.inputCountry?.setSelect(address.country);
+        cardAddress.inputCountry?.setCorrectInput(address.country);
+
+        const isDefaultShipping = cardAddress?.checkboxContainer?.shippingDefault?.input;
+        const idDefaultBilling = cardAddress?.checkboxContainer?.billingDefault?.input;
+        const isShipping = cardAddress?.checkboxContainer?.shippingCheckbox?.input;
+        const isBilling = cardAddress?.checkboxContainer?.billingCheckbox?.input;
+
+        if (isDefaultShipping) {
+          isDefaultShipping.checked = address.id === defaultShippingAddressId;
+        }
+
+        if (idDefaultBilling) {
+          idDefaultBilling.checked = address.id === defaultBillingAddressId;
+        }
+
+        if (isShipping && address.id) {
+          isShipping.checked = shippingAddressIds?.includes(address.id) || false;
+        }
+
+        if (isBilling && address.id) {
+          isBilling.checked = billingAddressIds?.includes(address.id) || false;
+        }
+        profileContent.getElement()?.append(cardAddress.getHTMLElement() || '');
+      });
       const nameFirstName = this.firstname?.input;
       const nameLastName = this.lastname?.input;
       const birth = this.birthday?.input;
       const email = this.email?.input;
       const password = this.password?.input;
-      const shippingStreet = this.addressesView?.shippingCard?.shippingStreet?.input;
-      const shippingCity = this.addressesView?.shippingCard?.shippingCity?.input;
-      const shippingPostcode = this.addressesView?.shippingCard?.shippingPostCode?.input;
-      const billingStreet = this.addressesView?.billingCard?.billingStreet?.input;
-      const billingCity = this.addressesView?.billingCard?.billingCity?.input;
-      const billingPostcode = this.addressesView?.billingCard?.billingPostCode?.input;
-      const defaultShipping = this.addressesView?.radioButtonShipping?.input;
-      const defaultBilling = this.addressesView?.radioButtonBilling?.input;
-      if (
-        nameFirstName &&
-        nameLastName &&
-        birth &&
-        email &&
-        password &&
-        shippingStreet &&
-        shippingCity &&
-        shippingPostcode &&
-        billingStreet &&
-        billingCity &&
-        billingPostcode &&
-        defaultShipping &&
-        defaultBilling
-      ) {
+      if (nameFirstName && nameLastName && birth && email && password) {
         nameFirstName.value = customer.body.firstName || '';
         nameLastName.value = customer.body.lastName || '';
         birth.value = customer.body.dateOfBirth || '';
         email.value = customer.body.email || '';
         password.value = customer.body.password || '';
-        shippingStreet.value = customer.body.addresses[0].streetName || '';
-        shippingCity.value = customer.body.addresses[0].city || '';
-        shippingPostcode.value = customer.body.addresses[0].postalCode || '';
-        billingStreet.value = customer.body.addresses[1].streetName || '';
-        billingCity.value = customer.body.addresses[1].city || '';
-        billingPostcode.value = customer.body.addresses[1].postalCode || '';
-        this.currentVersion = customer.body.version;
-        this.addressesView?.shippingCard?.shippingCountry?.setSelect(customer.body.addresses[0].country);
-        this.addressesView?.billingCard?.billingCountry?.setSelect(customer.body.addresses[1].country);
-        if (customer.body.defaultShippingAddressId) {
-          defaultShipping.checked = true;
-        }
-        if (customer.body.defaultBillingAddressId) {
-          defaultBilling.checked = true;
-        }
-        if (customer.body.defaultBillingAddressId && customer.body.defaultBillingAddressId) {
-          defaultBilling.checked = true;
-          defaultShipping.checked = true;
-        }
-        console.log(customer.body.addresses[0].id);
       }
+      this.currentVersion = customer.body.version;
     });
 
     this.password?.getButtonEdit()?.addEventListener('click', () => {
-      // console.log(this.addressesView?.shippingCard?.getButtonSave());
       const input = this.password?.input;
       if (input) {
         input.disabled = false;
@@ -288,19 +287,15 @@ export default class ProfileView extends View {
 
   public checkCorrectPassword(): void {
     this.modalPassword?.getButtonSavePassword()?.addEventListener('click', () => {
-      // const textMessage = this.modalMessage?.textMessage?.getHTMLElement();
-      // const buttonMessage = this.modalMessage?.buttonClose?.getHTMLElement();
+      const textMessage = this.modalMessage?.textMessage?.getHTMLElement();
+      const buttonMessage = this.modalMessage?.buttonClose?.getHTMLElement();
+      this.oldPassword = this.modalPassword?.oldPassword?.input?.value || '';
+      this.newPassword = this.modalPassword?.newPassword?.input?.value || '';
       // const isFormValid = this.checkValidityPassword();
-      // console.log(isFormValid);
       // if (!isFormValid) {
       //   return;
       // }
-      console.log(this.modalPassword?.getNewPassword()?.value || '');
-      // console.log(this.modalPassword?.oldPassword?.getCorrectInput() || '');
-      // console.log(this.password?.input?.value || '');
-      // console.log(this.password?.getCorrectInput() || '');
-      // console.log(this.email?.getCorrectInput() || '');
-      console.log(this.email?.input?.value || '');
+
       // if (textMessage && buttonMessage) {
       //   textMessage.textContent = ListTextContent.TEXT_PASSWORD;
       //   buttonMessage.textContent = ListTextContent.CLOSE_BUTTON;
@@ -310,39 +305,41 @@ export default class ProfileView extends View {
       const confirmPassword = this.modalPassword?.getConfirmPassword();
       // if (newPassword?.value === confirmPassword?.value && oldPassword?.value === password?.value) {
       if (newPassword?.value === confirmPassword?.value) {
-        this.updatePassword().then();
+        this.updatePassword()
+          .then()
+          .catch((error) => {
+            console.log('error', error);
+          });
         this.modalPassword?.getHTMLElement()?.classList.remove(...ListClasses.OVERLAY_OPEN.split(' '));
         this.cancelButtonEvents();
       } else {
-        // this.modalMessage?.getHTMLElement()?.classList.add(...ListClasses.OVERLAY_OPEN.split(' '));
-        // if (textMessage && buttonMessage) {
-        //   textMessage.textContent = ListTextContent.TEXT_PASSWORD_ERROR;
-        //   buttonMessage.textContent = ListTextContent.CLOSE_BUTTON_ERROR;
-        // }
+        this.modalMessage?.getHTMLElement()?.classList.add(...ListClasses.OVERLAY_OPEN.split(' '));
+        if (textMessage && buttonMessage) {
+          textMessage.textContent = ListTextContent.TEXT_PASSWORD_ERROR;
+          buttonMessage.textContent = ListTextContent.CLOSE_BUTTON_ERROR;
+        }
         console.log('error');
       }
     });
   }
 
   public async updatePassword(): Promise<ClientResponse<Customer>> {
-    this.apiRoot = createApiBuilderFromCtpClient(client).withProjectKey({ projectKey: Api.PROJECT_KEY });
+    await this.getCurrentVersion();
+    this.apiRoot = createApiBuilderFromCtpClient(this.clientExisting()).withProjectKey({ projectKey: Api.PROJECT_KEY });
     const customerr = await this.apiRoot
       .me()
       .password()
       .post({
         body: {
           version: this.currentVersion,
-          currentPassword: this.modalPassword?.getOldPassword()?.value || '',
-          newPassword: this.modalPassword?.getNewPassword()?.value || '',
+          currentPassword: this.oldPassword,
+          newPassword: this.newPassword,
         },
       })
       .execute();
     this.clearTokenStore();
-    // this.getCustomerWithNewPassword().then((customer): void => {
-    //   console.log(customer);
-    //   localStorage.setItem(Api.STORAGE, `${this.tokenStoreT.token}`);
-    //   this.currentVersion = customer.body.version;
-    // });
+    await this.getCustomerWithNewPassword();
+    localStorage.setItem(Api.STORAGE, `${this.tokenStoreT.token}`);
     return customerr;
   }
 
@@ -447,106 +444,90 @@ export default class ProfileView extends View {
   }
 
   public async getCustomer(): Promise<ClientResponse<Customer>> {
-    this.apiRoot = createApiBuilderFromCtpClient(client).withProjectKey({ projectKey: Api.PROJECT_KEY });
+    this.apiRoot = createApiBuilderFromCtpClient(this.clientExisting()).withProjectKey({ projectKey: Api.PROJECT_KEY });
     const customer = await this.apiRoot.me().get().execute();
 
     return customer;
   }
 
-  public async updateCustomerFirstName(): Promise<void> {
-    try {
-      await this.apiRoot
-        ?.me()
-        .post({
-          body: {
-            version: this.currentVersion,
-            actions: [
-              {
-                action: 'setFirstName',
-                firstName: this.firstname?.getCorrectInput(),
-              },
-            ],
-          },
-        })
-        .execute();
-      this.getCustomer().then((customer): void => {
-        this.currentVersion = customer.body.version;
-      });
-    } catch (err) {
-      console.log('err');
-    }
+  public async updateCustomerFirstName(): Promise<ClientResponse<Customer> | undefined> {
+    await this.getCurrentVersion();
+    this.apiRoot = createApiBuilderFromCtpClient(client).withProjectKey({ projectKey: Api.PROJECT_KEY });
+    const customer = await this.apiRoot
+      ?.me()
+      .post({
+        body: {
+          version: this.currentVersion,
+          actions: [
+            {
+              action: 'setFirstName',
+              firstName: this.firstname?.getCorrectInput(),
+            },
+          ],
+        },
+      })
+      .execute();
+    return customer;
   }
 
-  public async updateCustomerLastName(): Promise<void> {
-    try {
-      await this.apiRoot
-        ?.me()
-        .post({
-          body: {
-            version: this.currentVersion,
-            actions: [
-              {
-                action: 'setLastName',
-                lastName: this.lastname?.getCorrectInput(),
-              },
-            ],
-          },
-        })
-        .execute();
-      this.getCustomer().then((customer): void => {
-        this.currentVersion = customer.body.version;
-      });
-    } catch (err) {
-      console.log('err');
-    }
+  public async updateCustomerLastName(): Promise<ClientResponse<Customer> | undefined> {
+    await this.getCurrentVersion();
+    this.apiRoot = createApiBuilderFromCtpClient(client).withProjectKey({ projectKey: Api.PROJECT_KEY });
+    const customer = await this.apiRoot
+      ?.me()
+      .post({
+        body: {
+          version: this.currentVersion,
+          actions: [
+            {
+              action: 'setLastName',
+              lastName: this.lastname?.getCorrectInput(),
+            },
+          ],
+        },
+      })
+      .execute();
+    return customer;
   }
 
-  public async updateCustomerEmail(): Promise<void> {
-    try {
-      await this.apiRoot
-        ?.me()
-        .post({
-          body: {
-            version: this.currentVersion,
-            actions: [
-              {
-                action: 'changeEmail',
-                email: this.email?.getCorrectInput() || '',
-              },
-            ],
-          },
-        })
-        .execute();
-      this.getCustomer().then((customer): void => {
-        this.currentVersion = customer.body.version;
-      });
-    } catch (err) {
-      console.log('err');
-    }
+  public async updateCustomerEmail(): Promise<ClientResponse<Customer> | undefined> {
+    await this.getCurrentVersion();
+    this.apiRoot = createApiBuilderFromCtpClient(client).withProjectKey({ projectKey: Api.PROJECT_KEY });
+    const customer = await this.apiRoot
+      ?.me()
+      .post({
+        body: {
+          version: this.currentVersion,
+          actions: [
+            {
+              action: 'changeEmail',
+              email: this.email?.getCorrectInput() || '',
+            },
+          ],
+        },
+      })
+      .execute();
+    return customer;
   }
 
-  public async updateCustomerBirthDay(): Promise<void> {
-    try {
-      await this.apiRoot
-        ?.me()
-        .post({
-          body: {
-            version: this.currentVersion,
-            actions: [
-              {
-                action: 'setDateOfBirth',
-                dateOfBirth: this.birthday?.getCorrectInput(),
-              },
-            ],
-          },
-        })
-        .execute();
-      this.getCustomer().then((customer): void => {
-        this.currentVersion = customer.body.version;
-      });
-    } catch (err) {
-      console.log('err');
-    }
+  public async updateCustomerBirthDay(): Promise<ClientResponse<Customer> | undefined> {
+    await this.getCurrentVersion();
+    this.apiRoot = createApiBuilderFromCtpClient(client).withProjectKey({ projectKey: Api.PROJECT_KEY });
+    const customer = await this.apiRoot
+      ?.me()
+      .post({
+        body: {
+          version: this.currentVersion,
+          actions: [
+            {
+              action: 'setDateOfBirth',
+              dateOfBirth: this.birthday?.getCorrectInput(),
+            },
+          ],
+        },
+      })
+      .execute();
+    return customer;
   }
 
   private checkValidityFirstName(): boolean {
@@ -589,107 +570,39 @@ export default class ProfileView extends View {
     return isFormValidEmail;
   }
 
-  public shippingButtonSaveClick(): void {
-    this.addressesView?.shippingCard?.getButtonSave()?.addEventListener('click', () => {
-      // const isFormValidEmail = this.checkValidityEmail();
-      // if (!isFormValidEmail) {
-      //   return;
-      // }
-      this.updateCustomeShipaddress().then();
-
-      this.addressesView?.shippingCard?.getButtonSave()?.classList.add(ListClasses.HIDDEN);
-      this.addressesView?.shippingCard?.getButtonSave()?.classList.remove(...ListClasses.BUTTON_SAVE.split(' '));
-      this.addressesView?.shippingCard?.getButtonEdit()?.classList.remove(ListClasses.HIDDEN);
-    });
-  }
-
-  public async updateCustomeShipaddress(): Promise<void> {
-    try {
-      await this.apiRoot
-        ?.me()
-        .post({
-          body: {
-            version: this.currentVersion,
-            actions: [
-              {
-                action: 'changeAddress',
-                addressId: 'pbBHfdOX',
-                address: {
-                  streetName: this.addressesView?.shippingCard?.shippingStreet?.input?.value,
-                  postalCode: this.addressesView?.shippingCard?.shippingPostCode?.input?.value,
-                  city: this.addressesView?.shippingCard?.shippingCity?.input?.value,
-                  country: this.addressesView?.shippingCard?.shippingCountry?.getCorrectInput() || '',
-                },
-              },
-            ],
-          },
-        })
-        .execute();
-      this.getCustomer().then((customer): void => {
-        this.currentVersion = customer.body.version;
-      });
-    } catch (err) {
-      console.log('err');
-    }
-  }
-
-  public buttonAddClick(): void {
+  public getButtonAdd(): void {
     this.buttonAdd?.getHTMLElement()?.addEventListener('click', () => {
-      this.addressesView?.getHTMLElement()?.append(this.newShippingCard?.getHTMLElement() || '');
-      this.newShippingCard?.getButtonSave()?.addEventListener('click', () => {
-        this.addCustomerAddress().then();
-      });
+      const newAddress = new AddressCard('');
+      this.view.getElement()?.append(newAddress.getHTMLElement() || '');
     });
   }
 
-  public async addCustomerAddress(): Promise<void> {
-    try {
-      await this.apiRoot
-        ?.me()
-        .post({
-          body: {
-            version: this.currentVersion,
-            actions: [
-              {
-                action: 'addAddress',
-                address: {
-                  streetName: this.newShippingCard?.shippingStreet?.input?.value,
-                  postalCode: this.newShippingCard?.shippingPostCode?.input?.value,
-                  city: this.newShippingCard?.shippingCity?.input?.value,
-                  country: this.newShippingCard?.shippingCountry?.getCorrectInput() || '',
-                },
-              },
-            ],
-          },
-        })
-        .execute();
-      this.getCustomer().then((customer): void => {
-        this.currentVersion = customer.body.version;
-      });
-    } catch (err) {
-      console.log('err');
-    }
+  public async getCurrentVersion(): Promise<void> {
+    const customer = await this.getCustomer();
+    this.currentVersion = customer.body.version;
   }
 
-  // private checkValidityPassword(): boolean {
-  //   let isFormValid = true;
-  //   const isPasswordValid = this.password?.input?.checkValidity();
-  //   const isNewPasswordValid = this.modalPassword?.getNewPassword()?.checkValidity();
-  //   const isOldPasswordValid = this.modalPassword?.getOldPassword()?.checkValidity();
-  //   const isConfirmPasswordValid = this.modalPassword?.getConfirmPassword()?.checkValidity();
+  private clientExisting(): Client {
+    this.empty = '';
+    const loadedToken = localStorage.getItem(Api.STORAGE);
+    let authorization = '';
+    if (loadedToken) {
+      authorization = `Bearer ${loadedToken}`;
+    }
 
-  //   if (
-  //     !isPasswordValid &&
-  //     !isNewPasswordValid &&
-  //     !isOldPasswordValid &&
-  //     !isConfirmPasswordValid &&
-  //     this.password?.getCorrectInput() === ''
-  //     // this.modalPassword?.getNewPassword() === '' ||
-  //     // this.modalPassword?.getOldPassword() === '' ||
-  //     // this.modalPassword?.getConfirmPassword() === '
-  //   ) {
-  //     isFormValid = false;
-  //   }
-  //   return isFormValid;
-  // }
+    const optionsT: ExistingTokenMiddlewareOptions = {
+      force: true,
+    };
+
+    const httpMiddlewareOptions: HttpMiddlewareOptions = {
+      host: 'https://api.europe-west1.gcp.commercetools.com',
+      fetch,
+    };
+
+    const clientExist = new ClientBuilder()
+      .withHttpMiddleware(httpMiddlewareOptions)
+      .withExistingTokenFlow(authorization, optionsT)
+      .build();
+    return clientExist;
+  }
 }

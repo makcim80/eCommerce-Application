@@ -32,10 +32,8 @@ export default class StreetProfile {
   }
 
   public setAttributesStreet(): void {
-    this.input?.setAttribute(ListAttributes.ID, ListOfValues.ADDRESS);
     this.input?.setAttribute(ListAttributes.TYPE, ListOfValues.TEXT);
     this.input?.classList.add(...ListClasses.INPUT_PROFILE.split(' '));
-    this.label?.setAttribute(ListAttributes.FOR, ListOfValues.ADDRESS);
     this.label?.classList.add(...ListClasses.LABEL_PROFILE.split(' '));
     if (this.label) {
       this.label.textContent = ListTextContent.STREET_PROFILE;
