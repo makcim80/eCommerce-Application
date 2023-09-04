@@ -13,6 +13,7 @@ import View from '../../../view';
 import CheckboxContainerView from './checkbox-container';
 import { Api } from '../../../../util/enums/api';
 import { ListTextContent } from '../../../../util/enums/list-textContent';
+import ModalMessage from '../modal-message/message-modal';
 
 export default class AddressCard extends View {
   public inputCountry: CountryProfile | null;
@@ -26,6 +27,8 @@ export default class AddressCard extends View {
   public buttonsContainer: AddresesButtons | null;
 
   public checkboxContainer: CheckboxContainerView | null;
+
+  public modalMessage: ModalMessage | null;
 
   private apiRoot: ByProjectKeyRequestBuilder | undefined;
 
@@ -42,6 +45,7 @@ export default class AddressCard extends View {
     };
     super(params);
     this.addressId = addressId;
+    this.modalMessage = new ModalMessage();
     this.checkboxContainer = new CheckboxContainerView();
     this.buttonsContainer = new AddresesButtons();
     this.inputCountry = new CountryProfile();
@@ -78,6 +82,7 @@ export default class AddressCard extends View {
         div1.getElement() || '',
         this.checkboxContainer?.getHTMLElement() || '',
         this.buttonsContainer?.getHTMLElement() || '',
+        this.modalMessage?.getHTMLElement() || '',
       );
   }
 
@@ -160,15 +165,25 @@ export default class AddressCard extends View {
   // eslint-disable-next-line
   public async clickButtonSave(): Promise<HTMLElement | null | undefined> {
     this.buttonsContainer?.buttonSave?.getHTMLElement()?.addEventListener('click', () => {
+      const textMessage = this.modalMessage?.textMessage?.getHTMLElement();
+      const buttonMessage = this.modalMessage?.buttonClose?.getHTMLElement();
       if (!this.addressId) {
-        this.addCustomerAddress().then((customer) => {
-          if (customer?.body.addresses.length) {
-            const lastIndex = customer.body.addresses.length - 1;
-            this.addressId = customer?.body.addresses[lastIndex].id || '';
-          }
-          this.updateCustomerAddress().then();
-          this.setDefaultShippingAddress().then();
-        });
+        this.addCustomerAddress()
+          .then((customer) => {
+            if (customer?.body.addresses.length) {
+              const lastIndex = customer.body.addresses.length - 1;
+              this.addressId = customer?.body.addresses[lastIndex].id || '';
+            }
+            this.updateCustomerAddress().then();
+            this.setDefaultShippingAddress().then();
+          })
+          .catch(() => {
+            this.modalMessage?.getHTMLElement()?.classList.add(...ListClasses.OVERLAY_OPEN.split(' '));
+            if (textMessage && buttonMessage) {
+              textMessage.textContent = ListTextContent.TEXT_PASSWORD_ERROR_3;
+              buttonMessage.textContent = ListTextContent.CLOSE_BUTTON_ERROR;
+            }
+          });
       } else {
         this.updateCustomerAddress().then();
         this.setDefaultShippingAddress().then();
