@@ -3,6 +3,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        'profile-bg': '#fafcfc',
         'blue-color': '#8EB2C6',
         'login-color': '#222222',
         'footer-color': '#3A5874',
@@ -32,6 +33,7 @@ module.exports = {
       },
       height: {
         '36px': '36px',
+        '42px': '42px',
         '21rem': '21rem',
       },
       screens: {
@@ -56,6 +58,7 @@ module.exports = {
         '60%': '60%',
         '1/95': '95%',
         '36px': '36px',
+        '42px': '42px',
         '125px': '125px',
         '30rem': '30rem',
         '35rem': '35rem',
@@ -72,6 +75,9 @@ module.exports = {
       spacing: {
         '16px': '16px',
         '18px': '18px',
+        '500px': '500px',
+        '720px': '720px',
+        '900px': '900px',
       },
       maxWidth: {
         '13rem': '13rem',
