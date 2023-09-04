@@ -1,4 +1,5 @@
 export const enum ListTextContent {
+  PLACEHOLDER = 'Placeholder',
   COPYRIGHT = '© Copyright 2023',
   SIGN_UP = 'Sign up',
   SIGN_IN = 'Sign in',

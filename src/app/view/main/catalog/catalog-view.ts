@@ -8,6 +8,7 @@ import ProductsFiltering from '../../../../components/products-filtering';
 import { breeds } from '../../../util/breed';
 import ProductsSearch from '../../../../components/products-search';
 import { ListTextContent } from '../../../util/enums/list-textContent';
+import Router from '../../../router/router';
 
 export default class CatalogView extends View {
   private readonly SORTING_ALPHABETICALLY = 'abc...';
@@ -26,15 +27,20 @@ export default class CatalogView extends View {
 
   private sidebar: SidebarView;
 
-  constructor() {
+  private router: Router;
+
+  constructor(router: Router) {
     const params = {
       tag: ListTags.CONTAINER,
       classNames: ListClasses.CATALOG,
     };
     super(params);
+
+    this.router = router;
+
     this.sidebar = new SidebarView();
     this.cards = new CardsView();
-    this.configureView();
+    this.configureView().then(() => {});
     this.sidebar.getButtonApply().view.setCallback(this.productsFilteringView.bind(this));
     this.sidebar.getButtonReset().view.setCallback(this.resetFilteringView.bind(this));
     this.sidebar.getSearch().setCallback(this.searchView.bind(this));
@@ -56,16 +62,16 @@ export default class CatalogView extends View {
 
     if (filterArr.length && this.optionSorting()) {
       const products = await new ProductsFiltering().getProducts(filterArr, this.optionSorting());
-      this.cards.configureView(products);
+      this.cards.configureView(products, this.router).then(() => {});
     } else if (filterArr.length) {
       const products = await new ProductsFiltering().getProducts(filterArr);
-      this.cards.configureView(products);
+      this.cards.configureView(products, this.router).then(() => {});
     } else if (this.optionSorting()) {
       const products = await new ProductsFiltering().getProducts(filterArr, this.optionSorting());
-      this.cards.configureView(products);
+      this.cards.configureView(products, this.router).then(() => {});
     } else {
       const products = await new Products().getProducts();
-      this.cards.configureView(products);
+      this.cards.configureView(products, this.router).then(() => {});
     }
   }
 
@@ -160,7 +166,7 @@ export default class CatalogView extends View {
     this.sidebar.getSubCategory().hiddenContainer();
     this.resetFiltering();
     const products = await new Products().getProducts();
-    this.cards.configureView(products);
+    this.cards.configureView(products, this.router).then(() => {});
   }
 
   private resetFiltering(): void {
@@ -179,7 +185,7 @@ export default class CatalogView extends View {
       this.sidebar.getSubCategory().hiddenContainer();
       this.resetFiltering();
       const products = await new ProductsSearch().getProducts(searchInput);
-      this.cards.configureView(products);
+      this.cards.configureView(products, this.router).then(() => {});
     }
   }
 
@@ -239,7 +245,7 @@ export default class CatalogView extends View {
 
   private async configureView(): Promise<void> {
     const products = await new Products().getProducts();
-    this.cards.configureView(products);
+    this.cards.configureView(products, this.router).then(() => {});
 
     this.getHTMLElement()?.append(this.sidebar.getHTMLElement() || '', this.cards.getHTMLElement() || '');
   }

@@ -1,6 +1,6 @@
 import Router from './router/router';
 import { Api } from './util/enums/api';
-import { Pages } from './util/enums/pages';
+import { ID_SELECTOR, Pages } from './util/enums/pages';
 import FooterView from './view/footer/footer-view';
 import HeaderView from './view/header/header-view';
 import MainView from './view/main/main-view';
@@ -18,7 +18,7 @@ export default class App {
 
   private footer: FooterView | null;
 
-  private router: Router;
+  private readonly router: Router;
 
   constructor() {
     this.header = null;
@@ -41,7 +41,7 @@ export default class App {
     );
   }
 
-  // eslint-disable-next-line
+  // eslint-disable-next-line max-lines-per-function
   public createRoutes(): Route[] {
     return [
       {
@@ -83,7 +83,14 @@ export default class App {
         path: `${Pages.CATALOG}`,
         callback: async (): Promise<void> => {
           const { default: CatalogView } = await import('./view/main/catalog/catalog-view');
-          this.setContent(Pages.CATALOG, new CatalogView());
+          this.setContent(Pages.CATALOG, new CatalogView(this.router));
+        },
+      },
+      {
+        path: `${Pages.CAT_DETAILS}/${ID_SELECTOR}`,
+        callback: async (id): Promise<void> => {
+          const { default: CatDetailsView } = await import('./view/main/cat-details/cat-details-view');
+          this.setContent(Pages.CAT_DETAILS, new CatDetailsView(id));
         },
       },
     ];
