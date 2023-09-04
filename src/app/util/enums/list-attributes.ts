@@ -11,4 +11,5 @@ export const enum ListAttributes {
   STEP = 'step',
   MIN = 'min',
   MAX = 'max',
+  DISABLED = 'disabled',
 }

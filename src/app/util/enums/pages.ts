@@ -5,6 +5,7 @@ export const enum Pages {
   NOT_FOUND = 'not-found',
   CATALOG = 'catalog',
   CAT_DETAILS = 'cat-details',
+  PROFILE = 'profile',
 }
 
 export const ID_SELECTOR = '{id}';

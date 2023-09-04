@@ -33,4 +33,11 @@ export const enum ListOfValues {
   BASKET_ICON = 'basket-icon',
   HIDDEN_HARD = 'display: none',
   SEARCH = 'Enter Name',
+  OLD_PASSWORD = 'old-password',
+  NEW_PASSWORD = 'new-password',
+  CONFIRM_PASSWORD = 'confirm-password',
+  SHIPPING = 'shipping',
+  BILLING = 'billing',
+  SHIPPING_DEFAULT = 'shipping-default',
+  BILLING_DEFAULT = 'billing-default',
 }

@@ -80,6 +80,13 @@ export default class App {
         },
       },
       {
+        path: `${Pages.PROFILE}`,
+        callback: async (): Promise<void> => {
+          const { default: ProfileView } = await import('./view/main/profile/profile-view/my-profile');
+          this.setContent(Pages.PROFILE, new ProfileView());
+        },
+      },
+      {
         path: `${Pages.CATALOG}`,
         callback: async (): Promise<void> => {
           const { default: CatalogView } = await import('./view/main/catalog/catalog-view');
