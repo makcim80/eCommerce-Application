@@ -91,6 +91,7 @@ export const enum ListTextContent {
   TEXT_EMAIL = 'Email is successfully updated',
   TEXT_PASSWORD = 'Password is successfully updated',
   TEXT_PASSWORD_ERROR = 'The entered passwords do not match',
+  TEXT_PASSWORD_ERROR_2 = 'The given current password does not match',
   TEXT_POSTCODE = 'Must follow the format for the country',
   DEFAULT = 'default',
   SHIPPING = 'Shipping',

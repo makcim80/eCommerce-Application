@@ -292,8 +292,12 @@ export default class ProfileView extends View {
       if (newPassword?.value === confirmPassword?.value) {
         this.updatePassword()
           .then()
-          .catch((error) => {
-            console.log('error', error);
+          .catch(() => {
+            this.modalMessage?.getHTMLElement()?.classList.add(...ListClasses.OVERLAY_OPEN.split(' '));
+            if (textMessage && buttonMessage) {
+              textMessage.textContent = ListTextContent.TEXT_PASSWORD_ERROR_2;
+              buttonMessage.textContent = ListTextContent.CLOSE_BUTTON_ERROR;
+            }
           });
         this.modalPassword?.getHTMLElement()?.classList.remove(...ListClasses.OVERLAY_OPEN.split(' '));
         this.cancelButtonEvents();
@@ -303,7 +307,6 @@ export default class ProfileView extends View {
           textMessage.textContent = ListTextContent.TEXT_PASSWORD_ERROR;
           buttonMessage.textContent = ListTextContent.CLOSE_BUTTON_ERROR;
         }
-        console.log('error');
       }
     });
   }

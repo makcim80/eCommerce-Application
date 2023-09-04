@@ -33,8 +33,6 @@ export default class AddressCard extends View {
 
   private addressId: string;
 
-  private id;
-
   public readonly initialValue = 0;
 
   constructor(addressId: string) {
@@ -51,7 +49,6 @@ export default class AddressCard extends View {
     this.inputCity = new CityProfile();
     this.inputPostalCode = new PostalCodeProfile();
     this.currentVersion = this.initialValue;
-    this.id = '';
     this.getCurrentVersion();
     this.clickButtonEdit();
     this.clickButtonSave();
@@ -89,11 +86,28 @@ export default class AddressCard extends View {
     const city = this.inputCity?.input;
     const postalCode = this.inputPostalCode?.input;
     const country = this.inputCountry?.select;
-    if (street && city && postalCode && country instanceof HTMLSelectElement) {
+    const billing = this.checkboxContainer?.billingCheckbox?.input;
+    const shipping = this.checkboxContainer?.shippingCheckbox?.input;
+    const shippingDefault = this.checkboxContainer?.shippingDefault?.input;
+    const billingDefault = this.checkboxContainer?.billingDefault?.input;
+    if (
+      street &&
+      city &&
+      postalCode &&
+      country instanceof HTMLSelectElement &&
+      billing &&
+      shipping &&
+      shippingDefault &&
+      billingDefault
+    ) {
       street.disabled = false;
       city.disabled = false;
       country.disabled = false;
       postalCode.disabled = false;
+      billing.disabled = false;
+      shipping.disabled = false;
+      shippingDefault.disabled = false;
+      billingDefault.disabled = false;
     }
     this.buttonsContainer?.buttonSave?.getHTMLElement()?.classList.remove(ListClasses.HIDDEN);
     this.buttonsContainer?.buttonSave?.getHTMLElement()?.classList.add(...ListClasses.BUTTON_SAVE.split(' '));
@@ -105,7 +119,20 @@ export default class AddressCard extends View {
     const city = this.inputCity?.input;
     const postalCode = this.inputPostalCode?.input;
     const country = this.inputCountry?.select;
-    if (street && city && postalCode && country instanceof HTMLSelectElement) {
+    const billing = this.checkboxContainer?.billingCheckbox?.input;
+    const shipping = this.checkboxContainer?.shippingCheckbox?.input;
+    const shippingDefault = this.checkboxContainer?.shippingDefault?.input;
+    const billingDefault = this.checkboxContainer?.billingDefault?.input;
+    if (
+      street &&
+      city &&
+      postalCode &&
+      country instanceof HTMLSelectElement &&
+      billing &&
+      shipping &&
+      shippingDefault &&
+      billingDefault
+    ) {
       street.disabled = true;
       street.style.borderColor = ListTextContent.INHERIT;
       city.disabled = true;
@@ -114,6 +141,10 @@ export default class AddressCard extends View {
       country.style.borderColor = ListTextContent.INHERIT;
       postalCode.disabled = true;
       postalCode.style.borderColor = ListTextContent.INHERIT;
+      billing.disabled = true;
+      shipping.disabled = true;
+      shippingDefault.disabled = true;
+      billingDefault.disabled = true;
     }
     this.buttonsContainer?.buttonSave?.getHTMLElement()?.classList.add(ListClasses.HIDDEN);
     this.buttonsContainer?.buttonSave?.getHTMLElement()?.classList.remove(...ListClasses.BUTTON_SAVE.split(' '));
@@ -188,7 +219,6 @@ export default class AddressCard extends View {
         },
       })
       .execute();
-    console.log(this.currentVersion);
     return customer;
   }
 
@@ -222,7 +252,6 @@ export default class AddressCard extends View {
         },
       })
       .execute();
-    console.log(this.currentVersion);
     return customer;
   }
 
@@ -246,12 +275,15 @@ export default class AddressCard extends View {
     console.log(this.currentVersion);
     this.view.getElement()?.classList.remove(ListClasses.GRID);
     this.view.getElement()?.classList.add(ListClasses.HIDDEN);
-    console.log(this.view.getElement());
     return customer;
   }
 
   public async updateCustomerAddress(): Promise<void> {
     await this.getCurrentVersion();
+    const isFormValid = this.checkFormValidity();
+    if (!isFormValid) {
+      return;
+    }
     this.apiRoot = createApiBuilderFromCtpClient(client).withProjectKey({ projectKey: Api.PROJECT_KEY });
     await this.apiRoot
       ?.me()
@@ -273,6 +305,24 @@ export default class AddressCard extends View {
         },
       })
       .execute();
-    console.log(this.currentVersion);
+  }
+
+  private checkFormValidity(): boolean {
+    let isFormValid = true;
+    const isCityValid = this.inputCity?.input?.checkValidity();
+    const isStreetValid = this.inputStreet?.input?.checkValidity();
+    const isPostalCodeValid = this.inputPostalCode?.input?.checkValidity();
+
+    if (
+      !isCityValid ||
+      !isStreetValid ||
+      isPostalCodeValid ||
+      this.inputCity?.getCorrectInput() === '' ||
+      this.inputStreet?.getCorrectInput() === '' ||
+      this.inputPostalCode?.getCorrectInput() === ''
+    ) {
+      isFormValid = false;
+    }
+    return isFormValid;
   }
 }

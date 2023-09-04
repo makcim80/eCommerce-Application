@@ -38,6 +38,7 @@ export default class CountryProfile extends View {
     const select = document.createElement(ListTags.SELECT);
     select.classList.add(...ListClasses.INPUT_PROFILE.split(' '));
     select.setAttribute(ListAttributes.ID, ListOfValues.COUNTRY);
+    select.setAttribute(ListAttributes.DISABLED, '');
     this.select = select;
 
     const options = ['', 'BE', 'BG', 'DK', 'CY'];
