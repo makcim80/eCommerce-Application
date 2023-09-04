@@ -140,7 +140,6 @@ export default class CatDetailsSliderView extends View {
     const sliderPlaceholder = new ElementCreator(sliderPlaceholderParams);
 
     this.imagesObjectsArr.forEach((imgObj) => {
-      console.log(imgObj);
       const catImgParams: ISource = {
         tag: ListTags.IMG,
         classNames: ListClasses.CAT_DETAILS_SLIDER_IMG_PLACEHOLDER,
@@ -217,7 +216,6 @@ export default class CatDetailsSliderView extends View {
       const observingElement = this.view.getHTMLElement();
       if (observingElement) {
         if (document.contains(observingElement)) {
-          console.log(`Observing element in DOM!`);
           observerCallback();
           swiperSliderObserver.disconnect();
         }
