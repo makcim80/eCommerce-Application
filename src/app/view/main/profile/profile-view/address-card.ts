@@ -89,13 +89,11 @@ export default class AddressCard extends View {
     const city = this.inputCity?.input;
     const postalCode = this.inputPostalCode?.input;
     const country = this.inputCountry?.select;
-    // const s = this.checkboxContainer?.billingCheckbox?.input;
     if (street && city && postalCode && country instanceof HTMLSelectElement) {
       street.disabled = false;
       city.disabled = false;
       country.disabled = false;
       postalCode.disabled = false;
-      // s.disabled = true;
     }
     this.buttonsContainer?.buttonSave?.getHTMLElement()?.classList.remove(ListClasses.HIDDEN);
     this.buttonsContainer?.buttonSave?.getHTMLElement()?.classList.add(...ListClasses.BUTTON_SAVE.split(' '));
@@ -168,34 +166,6 @@ export default class AddressCard extends View {
     this.currentVersion = customer.body.version;
   }
 
-  // public async updateCustomerAddress(): Promise<ClientResponse<Customer> | undefined> {
-  //   const customer = await this.apiRoot
-  //     ?.me()
-  //     .post({
-  //       body: {
-  //         version: this.currentVersion,
-  //         actions: [
-  //           {
-  //             action: 'changeAddress',
-  //             addressId: this.addressId,
-  //             address: {
-  //               streetName: this.inputStreet?.getCorrectInput(),
-  //               postalCode: this.inputPostalCode?.getCorrectInput(),
-  //               city: this.inputCity?.getCorrectInput(),
-  //               country: this.inputCountry?.getCorrectInput() || '',
-  //             },
-  //           },
-  //         ],
-  //       },
-  //     })
-  //     .execute();
-  //   const clientt = await this.getCustomer();
-  //   console.log(this.currentVersion);
-  //   this.currentVersion = clientt.body.version;
-  //   console.log(clientt);
-  //   return customer;
-  // }
-
   public async addCustomerAddress(): Promise<ClientResponse<Customer> | undefined> {
     await this.getCurrentVersion();
     this.apiRoot = createApiBuilderFromCtpClient(client).withProjectKey({ projectKey: Api.PROJECT_KEY });
@@ -255,73 +225,6 @@ export default class AddressCard extends View {
     console.log(this.currentVersion);
     return customer;
   }
-
-  // public async setDefaultBillingAddress(): Promise<ClientResponse<Customer> | undefined> {
-  //   const ischecked = true;
-  //   const customer = await this.apiRoot
-  //     ?.me()
-  //     .post({
-  //       body: {
-  //         version: this.currentVersion,
-  //         actions: [
-  //           {
-  //             action: 'setDefaultBillingAddress',
-  //             addressId: ischecked ? this.addressId : undefined,
-  //           },
-  //         ],
-  //       },
-  //     })
-  //     .execute();
-  //   const clientt = await this.getCustomer();
-  //   console.log(this.currentVersion);
-  //   this.currentVersion = clientt.body.version;
-  //   console.log(clientt);
-  //   return customer;
-  // }
-
-  // public async addShippingAddressId(): Promise<ClientResponse<Customer> | undefined> {
-  //   const customer = await this.apiRoot
-  //     ?.me()
-  //     .post({
-  //       body: {
-  //         version: this.currentVersion,
-  //         actions: [
-  //           {
-  //             action: 'addShippingAddressId',
-  //             addressId: this.addressId,
-  //           },
-  //         ],
-  //       },
-  //     })
-  //     .execute();
-  //   const clientt = await this.getCustomer();
-  //   console.log(this.currentVersion);
-  //   this.currentVersion = clientt.body.version;
-  //   console.log(clientt);
-  //   return customer;
-  // }
-
-  // public async addBillingAddressId(): Promise<ClientResponse<Customer> | undefined> {
-  //   const customer = await this.apiRoot
-  //     ?.me()
-  //     .post({
-  //       body: {
-  //         version: this.currentVersion,
-  //         actions: [
-  //           {
-  //             action: 'addBillingAddressId',
-  //             addressId: this.addressId,
-  //           },
-  //         ],
-  //       },
-  //     })
-  //     .execute();
-  //   const clientt = await this.getCustomer();
-  //   console.log(this.currentVersion);
-  //   this.currentVersion = clientt.body.version;
-  //   console.log(clientt);
-  //   return customer;
-  // }
 
   public async removeAddress(): Promise<ClientResponse<Customer> | undefined> {
     await this.getCurrentVersion();

@@ -147,10 +147,6 @@ export default class ProfileView extends View {
     this.tokenCache().set({ token: '', refreshToken: '', expirationTime: 0 });
   }
 
-  // public clearTokenStore(): void {
-  //   this.tokenStoreT = { token: '', refreshToken: '', expirationTime: 0 };
-  // }
-
   public async getCustomerWithNewPassword(): Promise<ClientResponse<Customer>> {
     this.apiRootPassword = createApiBuilderFromCtpClient(this.clientPassw()).withProjectKey({
       projectKey: Api.PROJECT_KEY,
@@ -291,19 +287,8 @@ export default class ProfileView extends View {
       const buttonMessage = this.modalMessage?.buttonClose?.getHTMLElement();
       this.oldPassword = this.modalPassword?.oldPassword?.input?.value || '';
       this.newPassword = this.modalPassword?.newPassword?.input?.value || '';
-      // const isFormValid = this.checkValidityPassword();
-      // if (!isFormValid) {
-      //   return;
-      // }
-
-      // if (textMessage && buttonMessage) {
-      //   textMessage.textContent = ListTextContent.TEXT_PASSWORD;
-      //   buttonMessage.textContent = ListTextContent.CLOSE_BUTTON;
-      // }
-      // const oldPassword = this.modalPassword?.getOldPassword();
       const newPassword = this.modalPassword?.getNewPassword();
       const confirmPassword = this.modalPassword?.getConfirmPassword();
-      // if (newPassword?.value === confirmPassword?.value && oldPassword?.value === password?.value) {
       if (newPassword?.value === confirmPassword?.value) {
         this.updatePassword()
           .then()
@@ -352,7 +337,6 @@ export default class ProfileView extends View {
         return;
       }
       this.updateCustomerFirstName().then();
-      // this.updateCustomerFirstName().then((customer) => console.log(customer));
       this.modalMessage?.getHTMLElement()?.classList.add(...ListClasses.OVERLAY_OPEN.split(' '));
       if (textMessage) {
         textMessage.textContent = ListTextContent.TEXT_FIRST_NAME;
@@ -377,7 +361,6 @@ export default class ProfileView extends View {
         return;
       }
       this.updateCustomerLastName().then();
-      // this.updateCustomerFirstName().then((customer) => console.log(customer));
       this.modalMessage?.getHTMLElement()?.classList.add(...ListClasses.OVERLAY_OPEN.split(' '));
       if (textMessage) {
         textMessage.textContent = ListTextContent.TEXT_LAST_NAME;
@@ -402,7 +385,6 @@ export default class ProfileView extends View {
         return;
       }
       this.updateCustomerBirthDay().then();
-      // this.updateCustomerFirstName().then((customer) => console.log(customer));
       this.modalMessage?.getHTMLElement()?.classList.add(...ListClasses.OVERLAY_OPEN.split(' '));
       if (textMessage) {
         textMessage.textContent = ListTextContent.TEXT_BIRTHDAY;
@@ -427,7 +409,6 @@ export default class ProfileView extends View {
         return;
       }
       this.updateCustomerEmail().then();
-      // this.updateCustomerFirstName().then((customer) => console.log(customer));
       this.modalMessage?.getHTMLElement()?.classList.add(...ListClasses.OVERLAY_OPEN.split(' '));
       if (textMessage) {
         textMessage.textContent = ListTextContent.TEXT_EMAIL;

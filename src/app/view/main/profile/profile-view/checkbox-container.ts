@@ -57,18 +57,14 @@ export default class CheckboxContainerView extends View {
   public setAttributes(): void {
     this.shippingCheckbox?.label?.setAttribute(ListAttributes.FOR, ListOfValues.SHIPPING);
     this.shippingCheckbox?.input?.setAttribute(ListAttributes.ID, ListOfValues.SHIPPING);
-    // this.shippingCheckbox?.input?.setAttribute('disabled', '');
 
     this.billingCheckbox?.label?.setAttribute(ListAttributes.FOR, ListOfValues.BILLING);
     this.billingCheckbox?.input?.setAttribute(ListAttributes.ID, ListOfValues.BILLING);
-    // this.billingCheckbox?.input?.setAttribute('disabled', '');
 
     this.billingDefault?.label?.setAttribute(ListAttributes.FOR, ListOfValues.BILLING_DEFAULT);
     this.billingDefault?.input?.setAttribute(ListAttributes.ID, ListOfValues.BILLING_DEFAULT);
-    // this.billingDefault?.input?.setAttribute('disabled', '');
 
     this.shippingDefault?.label?.setAttribute(ListAttributes.FOR, ListOfValues.SHIPPING_DEFAULT);
     this.shippingDefault?.input?.setAttribute(ListAttributes.ID, ListOfValues.SHIPPING_DEFAULT);
-    // this.shippingDefault?.input?.setAttribute('disabled', '');
   }
 }
