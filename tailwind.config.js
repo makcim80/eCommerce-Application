@@ -16,7 +16,6 @@ module.exports = {
         'modal-window-bg': '#FFFFFF',
         'save-btn': '#ffdf40',
         'label-profile': '#9797af',
-        'profile-bg': '#fafcfc',
         'popup-color': '#ebebeb',
         'modal-password': '#292929cc',
       },
