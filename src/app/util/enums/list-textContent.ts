@@ -90,6 +90,7 @@ export const enum ListTextContent {
   TEXT_BIRTHDAY = 'Date of birth is successfully updated',
   TEXT_EMAIL = 'Email is successfully updated',
   TEXT_PASSWORD = 'Password is successfully updated',
+  TEXT_ADDRESS = 'ADDRESS is successfully updated',
   TEXT_PASSWORD_ERROR = 'The entered passwords do not match',
   TEXT_PASSWORD_ERROR_2 = 'The given current password does not match',
   TEXT_PASSWORD_ERROR_3 = 'The field "Country" is required',

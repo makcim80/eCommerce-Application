@@ -345,8 +345,6 @@ export default class RegistrationView extends View {
   }
 
   public clientPass(): Client {
-    console.log(this.emailView?.getCorrectInput());
-    console.log(this.passwordView?.getCorrectInput());
     const passwordAuthMiddlewareOptions: PasswordAuthMiddlewareOptions = {
       host: Api.HOST_AUTH,
       projectKey: Api.PROJECT_KEY,

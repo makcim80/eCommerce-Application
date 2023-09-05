@@ -20,7 +20,6 @@ import BirthProfile from './birth-profile';
 import EmailProfile from './email-profile';
 import PasswordProfile from './password-profile';
 import { ListTextContent } from '../../../../util/enums/list-textContent';
-import { client } from '../../../../../components/BuildClientProfile';
 import { Api } from '../../../../util/enums/api';
 import ModalPassword from '../modal-password/modal-password';
 import { ListAttributes } from '../../../../util/enums/list-attributes';
@@ -291,7 +290,13 @@ export default class ProfileView extends View {
       const confirmPassword = this.modalPassword?.getConfirmPassword();
       if (newPassword?.value === confirmPassword?.value) {
         this.updatePassword()
-          .then()
+          .then(() => {
+            this.modalMessage?.getHTMLElement()?.classList.add(...ListClasses.OVERLAY_OPEN.split(' '));
+            if (textMessage && buttonMessage) {
+              textMessage.textContent = ListTextContent.TEXT_PASSWORD;
+              buttonMessage.textContent = ListTextContent.CLOSE_BUTTON;
+            }
+          })
           .catch(() => {
             this.modalMessage?.getHTMLElement()?.classList.add(...ListClasses.OVERLAY_OPEN.split(' '));
             if (textMessage && buttonMessage) {
@@ -436,7 +441,7 @@ export default class ProfileView extends View {
 
   public async updateCustomerFirstName(): Promise<ClientResponse<Customer> | undefined> {
     await this.getCurrentVersion();
-    this.apiRoot = createApiBuilderFromCtpClient(client).withProjectKey({ projectKey: Api.PROJECT_KEY });
+    this.apiRoot = createApiBuilderFromCtpClient(this.clientExisting()).withProjectKey({ projectKey: Api.PROJECT_KEY });
     const customer = await this.apiRoot
       ?.me()
       .post({
@@ -456,7 +461,7 @@ export default class ProfileView extends View {
 
   public async updateCustomerLastName(): Promise<ClientResponse<Customer> | undefined> {
     await this.getCurrentVersion();
-    this.apiRoot = createApiBuilderFromCtpClient(client).withProjectKey({ projectKey: Api.PROJECT_KEY });
+    this.apiRoot = createApiBuilderFromCtpClient(this.clientExisting()).withProjectKey({ projectKey: Api.PROJECT_KEY });
     const customer = await this.apiRoot
       ?.me()
       .post({
@@ -476,7 +481,7 @@ export default class ProfileView extends View {
 
   public async updateCustomerEmail(): Promise<ClientResponse<Customer> | undefined> {
     await this.getCurrentVersion();
-    this.apiRoot = createApiBuilderFromCtpClient(client).withProjectKey({ projectKey: Api.PROJECT_KEY });
+    this.apiRoot = createApiBuilderFromCtpClient(this.clientExisting()).withProjectKey({ projectKey: Api.PROJECT_KEY });
     const customer = await this.apiRoot
       ?.me()
       .post({
@@ -496,7 +501,7 @@ export default class ProfileView extends View {
 
   public async updateCustomerBirthDay(): Promise<ClientResponse<Customer> | undefined> {
     await this.getCurrentVersion();
-    this.apiRoot = createApiBuilderFromCtpClient(client).withProjectKey({ projectKey: Api.PROJECT_KEY });
+    this.apiRoot = createApiBuilderFromCtpClient(this.clientExisting()).withProjectKey({ projectKey: Api.PROJECT_KEY });
     const customer = await this.apiRoot
       ?.me()
       .post({
