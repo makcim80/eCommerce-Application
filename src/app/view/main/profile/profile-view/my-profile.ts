@@ -290,7 +290,13 @@ export default class ProfileView extends View {
       const confirmPassword = this.modalPassword?.getConfirmPassword();
       if (newPassword?.value === confirmPassword?.value) {
         this.updatePassword()
-          .then()
+          .then(() => {
+            this.modalMessage?.getHTMLElement()?.classList.add(...ListClasses.OVERLAY_OPEN.split(' '));
+            if (textMessage && buttonMessage) {
+              textMessage.textContent = ListTextContent.TEXT_PASSWORD;
+              buttonMessage.textContent = ListTextContent.CLOSE_BUTTON;
+            }
+          })
           .catch(() => {
             this.modalMessage?.getHTMLElement()?.classList.add(...ListClasses.OVERLAY_OPEN.split(' '));
             if (textMessage && buttonMessage) {

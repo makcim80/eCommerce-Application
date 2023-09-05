@@ -183,6 +183,11 @@ export default class AddressCard extends View {
             }
             this.updateCustomerAddress().then();
             this.setDefaultShippingAddress().then();
+            this.modalMessage?.getHTMLElement()?.classList.add(...ListClasses.OVERLAY_OPEN.split(' '));
+            if (textMessage && buttonMessage) {
+              textMessage.textContent = ListTextContent.TEXT_ADDRESS;
+              buttonMessage.textContent = ListTextContent.CLOSE_BUTTON;
+            }
           })
           .catch(() => {
             this.modalMessage?.getHTMLElement()?.classList.add(...ListClasses.OVERLAY_OPEN.split(' '));
@@ -194,6 +199,11 @@ export default class AddressCard extends View {
       } else {
         this.updateCustomerAddress().then();
         this.setDefaultShippingAddress().then();
+        this.modalMessage?.getHTMLElement()?.classList.add(...ListClasses.OVERLAY_OPEN.split(' '));
+        if (textMessage && buttonMessage) {
+          textMessage.textContent = ListTextContent.TEXT_ADDRESS;
+          buttonMessage.textContent = ListTextContent.CLOSE_BUTTON;
+        }
       }
       this.addStylesDisable();
     });
