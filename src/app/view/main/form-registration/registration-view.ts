@@ -1,5 +1,14 @@
 import { ByProjectKeyRequestBuilder } from '@commercetools/platform-sdk/dist/declarations/src/generated/client/by-project-key-request-builder';
-import { CustomerDraft, createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
+import { ClientResponse, Customer, CustomerDraft, createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
+import {
+  Client,
+  PasswordAuthMiddlewareOptions,
+  HttpMiddlewareOptions,
+  ClientBuilder,
+  TokenCache,
+  TokenCacheOptions,
+  TokenStore,
+} from '@commercetools/sdk-client-v2';
 import View from '../../view';
 import { ListClasses } from '../../../util/enums/list-classes';
 import { ListTags } from '../../../util/enums/list-tags';
@@ -60,6 +69,10 @@ export default class RegistrationView extends View {
   public registrationSubmitView: RegistrationSubmitView | null;
 
   public apiRoot: ByProjectKeyRequestBuilder;
+
+  public tOptions: TokenCacheOptions | undefined;
+
+  public tokenStoreT!: TokenStore;
 
   constructor(private router: Router) {
     const params = {
@@ -233,8 +246,9 @@ export default class RegistrationView extends View {
           body: this.getFormValue(),
         })
         .execute();
+      await this.getCustomer();
       this.router.navigate(Pages.MAIN);
-      localStorage.setItem(Api.STORAGE, 'true');
+      localStorage.setItem(Api.STORAGE, `${this.tokenStoreT.token}`);
       const modalWindowParameters: ModalWindowParams = {
         type: 'registration',
         status: 'success',
@@ -328,5 +342,65 @@ export default class RegistrationView extends View {
       shippingAddresses: [0],
       billingAddresses: [1],
     };
+  }
+
+  public clientPass(): Client {
+    console.log(this.emailView?.getCorrectInput());
+    console.log(this.passwordView?.getCorrectInput());
+    const passwordAuthMiddlewareOptions: PasswordAuthMiddlewareOptions = {
+      host: Api.HOST_AUTH,
+      projectKey: Api.PROJECT_KEY,
+      credentials: {
+        clientId: Api.CLIENT_ID_LOG,
+        clientSecret: Api.CLIENT_SECRET_LOG,
+        user: {
+          username: this.emailView?.getCorrectInput() || '',
+          password: this.passwordView?.getCorrectInput() || '',
+        },
+      },
+      scopes: [Api.SCOPES_LOG],
+      tokenCache: this.tokenCache(),
+      fetch,
+    };
+
+    const httpMiddlewareOptions: HttpMiddlewareOptions = {
+      host: Api.HOST_API,
+      fetch,
+    };
+
+    const clientPass = new ClientBuilder()
+      .withPasswordFlow(passwordAuthMiddlewareOptions)
+      .withHttpMiddleware(httpMiddlewareOptions)
+      .build();
+
+    return clientPass;
+  }
+
+  private tokenCache(): TokenCache {
+    let tOptions: TokenCacheOptions | undefined = {
+      clientId: Api.CLIENT_ID_LOG,
+      projectKey: Api.PROJECT_KEY,
+      host: Api.HOST_API,
+    };
+
+    this.tOptions = tOptions;
+
+    const tokenCache: TokenCache = {
+      get: () => this.tokenStoreT,
+      set: (tokenStore, tokenCacheOptions?: TokenCacheOptions) => {
+        this.tokenStoreT = tokenStore;
+        tOptions = tokenCacheOptions;
+      },
+    };
+
+    return tokenCache;
+  }
+
+  public async getCustomer(): Promise<ClientResponse<Customer>> {
+    const apiRootPass = createApiBuilderFromCtpClient(this.clientPass()).withProjectKey({
+      projectKey: Api.PROJECT_KEY,
+    });
+    const customer = await apiRootPass.me().get().execute();
+    return customer;
   }
 }
