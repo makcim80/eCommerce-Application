@@ -1,7 +1,12 @@
+import {
+  Client,
+  ExistingTokenMiddlewareOptions,
+  HttpMiddlewareOptions,
+  ClientBuilder,
+} from '@commercetools/sdk-client-v2';
 import { Customer, ClientResponse, createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
 import { ByProjectKeyRequestBuilder } from '@commercetools/platform-sdk/dist/declarations/src/generated/client/by-project-key-request-builder';
 import ElementCreator from '../../../../util/element-creator';
-import { client } from '../../../../../components/BuildClientProfile';
 import { ListClasses } from '../../../../util/enums/list-classes';
 import { ListTags } from '../../../../util/enums/list-tags';
 import CountryProfile from './country-profile';
@@ -37,6 +42,8 @@ export default class AddressCard extends View {
   private addressId: string;
 
   public readonly initialValue = 0;
+
+  private empty!: string;
 
   constructor(addressId: string) {
     const params = {
@@ -201,7 +208,7 @@ export default class AddressCard extends View {
   }
 
   public async getCustomer(): Promise<ClientResponse<Customer>> {
-    this.apiRoot = createApiBuilderFromCtpClient(client).withProjectKey({ projectKey: Api.PROJECT_KEY });
+    this.apiRoot = createApiBuilderFromCtpClient(this.clientExisting()).withProjectKey({ projectKey: Api.PROJECT_KEY });
     const customer = await this.apiRoot.me().get().execute();
 
     return customer;
@@ -214,7 +221,7 @@ export default class AddressCard extends View {
 
   public async addCustomerAddress(): Promise<ClientResponse<Customer> | undefined> {
     await this.getCurrentVersion();
-    this.apiRoot = createApiBuilderFromCtpClient(client).withProjectKey({ projectKey: Api.PROJECT_KEY });
+    this.apiRoot = createApiBuilderFromCtpClient(this.clientExisting()).withProjectKey({ projectKey: Api.PROJECT_KEY });
     const customer = await this.apiRoot
       ?.me()
       .post({
@@ -240,7 +247,7 @@ export default class AddressCard extends View {
   public async setDefaultShippingAddress(): Promise<ClientResponse<Customer> | undefined> {
     await this.getCurrentVersion();
     const ischecked = true;
-    this.apiRoot = createApiBuilderFromCtpClient(client).withProjectKey({ projectKey: Api.PROJECT_KEY });
+    this.apiRoot = createApiBuilderFromCtpClient(this.clientExisting()).withProjectKey({ projectKey: Api.PROJECT_KEY });
     const customer = await this.apiRoot
       ?.me()
       .post({
@@ -272,7 +279,7 @@ export default class AddressCard extends View {
 
   public async removeAddress(): Promise<ClientResponse<Customer> | undefined> {
     await this.getCurrentVersion();
-    this.apiRoot = createApiBuilderFromCtpClient(client).withProjectKey({ projectKey: Api.PROJECT_KEY });
+    this.apiRoot = createApiBuilderFromCtpClient(this.clientExisting()).withProjectKey({ projectKey: Api.PROJECT_KEY });
     const customer = await this.apiRoot
       ?.me()
       .post({
@@ -287,7 +294,6 @@ export default class AddressCard extends View {
         },
       })
       .execute();
-    console.log(this.currentVersion);
     this.view.getElement()?.classList.remove(ListClasses.GRID);
     this.view.getElement()?.classList.add(ListClasses.HIDDEN);
     return customer;
@@ -299,7 +305,7 @@ export default class AddressCard extends View {
     if (!isFormValid) {
       return;
     }
-    this.apiRoot = createApiBuilderFromCtpClient(client).withProjectKey({ projectKey: Api.PROJECT_KEY });
+    this.apiRoot = createApiBuilderFromCtpClient(this.clientExisting()).withProjectKey({ projectKey: Api.PROJECT_KEY });
     await this.apiRoot
       ?.me()
       .post({
@@ -339,5 +345,29 @@ export default class AddressCard extends View {
       isFormValid = false;
     }
     return isFormValid;
+  }
+
+  private clientExisting(): Client {
+    this.empty = '';
+    const loadedToken = localStorage.getItem(Api.STORAGE);
+    let authorization = '';
+    if (loadedToken) {
+      authorization = `Bearer ${loadedToken}`;
+    }
+
+    const optionsT: ExistingTokenMiddlewareOptions = {
+      force: true,
+    };
+
+    const httpMiddlewareOptions: HttpMiddlewareOptions = {
+      host: 'https://api.europe-west1.gcp.commercetools.com',
+      fetch,
+    };
+
+    const clientExist = new ClientBuilder()
+      .withHttpMiddleware(httpMiddlewareOptions)
+      .withExistingTokenFlow(authorization, optionsT)
+      .build();
+    return clientExist;
   }
 }
