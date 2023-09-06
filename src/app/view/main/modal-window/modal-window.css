@@ -1,6 +1,6 @@
 .modalWindow {
-  --modal-window-w: 448px;
-  --modal-window-h: 128px;
+  --modal-window-w: 368px;
+  --modal-window-h: 88px;
   position: absolute;
   z-index: 1;
   bottom: 96px;

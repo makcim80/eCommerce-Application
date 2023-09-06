@@ -39,6 +39,7 @@ module.exports = {
         'sm-sm': '320px',
         'sm-s': '640px',
         'sm-ss': '689px',
+        'max-ms': '805px',
         'lg-l': '1024px',
         '2xl': '1536px',
       },
