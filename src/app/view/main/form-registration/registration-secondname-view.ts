@@ -38,7 +38,7 @@ export default class RegistrationSecondNameView {
   }
 
   public getElement(): HTMLElement | null {
-    return this.inputFieldCreator.getElement();
+    return this.inputFieldCreator.getHTMLElement();
   }
 
   public getCorrectInput(): string {
@@ -49,7 +49,7 @@ export default class RegistrationSecondNameView {
     const lastNameMessage = document.createElement(ListTags.CONTAINER);
     lastNameMessage.classList.add(...ListClasses.MESSAGE_HIDDEN.split(' '));
     lastNameMessage.textContent = ListTextContent.INVALID_LASTNAME;
-    this.inputFieldCreator.getElement()?.append(lastNameMessage);
+    this.inputFieldCreator.getHTMLElement()?.append(lastNameMessage);
 
     if (!(this.input instanceof HTMLInputElement)) throw new Error();
 

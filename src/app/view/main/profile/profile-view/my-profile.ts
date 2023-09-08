@@ -163,7 +163,7 @@ export default class ProfileView extends View {
     this.view.addInnerElement(profileContent);
 
     profileContent
-      .getElement()
+      .getHTMLElement()
       ?.append(
         this.firstname?.getElement() || '',
         this.lastname?.getElement() || '',
@@ -216,7 +216,7 @@ export default class ProfileView extends View {
         if (isBilling && address.id) {
           isBilling.checked = billingAddressIds?.includes(address.id) || false;
         }
-        profileContent.getElement()?.append(cardAddress.getHTMLElement() || '');
+        profileContent.addInnerElement(cardAddress);
       });
       const nameFirstName = this.firstname?.input;
       const nameLastName = this.lastname?.input;
@@ -562,7 +562,7 @@ export default class ProfileView extends View {
   public getButtonAdd(): void {
     this.buttonAdd?.getHTMLElement()?.addEventListener('click', () => {
       const newAddress = new AddressCard('');
-      this.view.getElement()?.append(newAddress.getHTMLElement() || '');
+      this.view.addInnerElement(newAddress);
     });
   }
 

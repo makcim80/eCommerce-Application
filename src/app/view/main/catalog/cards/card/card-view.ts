@@ -68,7 +68,7 @@ export default class CardView extends View {
 
   private configureView(router: Router): void {
     this.view
-      .getElement()
+      .getHTMLElement()
       ?.append(
         this.img.getHTMLElement() || '',
         this.name.getHTMLElement() || '',

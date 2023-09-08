@@ -55,7 +55,7 @@ export default class PasswordView {
   }
 
   public getElement(): HTMLElement | null {
-    return this.inputFieldCreator.getElement();
+    return this.inputFieldCreator.getHTMLElement();
   }
 
   public getCorrectInput(): string {
@@ -66,7 +66,7 @@ export default class PasswordView {
     const passwordMessage = document.createElement(ListTags.CONTAINER);
     passwordMessage.classList.add(...ListClasses.MESSAGE_HIDDEN.split(' '));
     passwordMessage.textContent = ListTextContent.INVALID_PASSWORD;
-    this.inputFieldCreator.getElement()?.append(passwordMessage);
+    this.inputFieldCreator.getHTMLElement()?.append(passwordMessage);
 
     if (!(this.input instanceof HTMLInputElement)) throw new Error();
 

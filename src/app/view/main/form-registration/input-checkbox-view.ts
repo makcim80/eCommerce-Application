@@ -11,9 +11,9 @@ const params = {
 export default class CheckboxView {
   public inputFieldCreator = new InputFieldCreator(params);
 
-  public input: HTMLInputElement | null;
+  public input: HTMLInputElement;
 
-  public label: HTMLLabelElement | null;
+  public label: HTMLLabelElement;
 
   constructor() {
     this.input = this.inputFieldCreator.getInput();
@@ -22,12 +22,12 @@ export default class CheckboxView {
   }
 
   public configureView(): void {
-    this.inputFieldCreator.getElement()?.classList.add(...ListClasses.DIV.split(' '));
+    this.inputFieldCreator.getHTMLElement()?.classList.add(...ListClasses.DIV.split(' '));
     this.input?.setAttribute(ListAttributes.TYPE, ListOfValues.CHECKBOX);
     this.label?.classList.add(...ListClasses.LABEL_CHECKBOX.split(' '));
   }
 
   public getElement(): HTMLElement | null {
-    return this.inputFieldCreator.getElement();
+    return this.inputFieldCreator.getHTMLElement();
   }
 }

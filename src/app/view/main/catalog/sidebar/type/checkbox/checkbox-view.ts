@@ -27,7 +27,7 @@ export default class TypeCheckboxView {
   }
 
   public configureView(label: string, hasArrow?: boolean): void {
-    this.inputFieldCreator.getElement()?.classList.add(...ListClasses.DIV.split(' '));
+    this.inputFieldCreator.getHTMLElement()?.classList.add(...ListClasses.DIV.split(' '));
     this.input?.setAttribute(ListAttributes.TYPE, ListOfValues.CHECKBOX);
     this.label?.classList.add(...ListClasses.LABEL_TYPE.split(' '));
     if (this.label) this.label.textContent = label;
@@ -36,7 +36,7 @@ export default class TypeCheckboxView {
   }
 
   public getElement(): HTMLElement | null {
-    return this.inputFieldCreator.getElement();
+    return this.inputFieldCreator.getHTMLElement();
   }
 
   public resetCheckbox(): void {

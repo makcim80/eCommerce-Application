@@ -45,11 +45,11 @@ export default class BreedsView extends View {
   }
 
   public hideBreeds(): void {
-    this.view?.getElement()?.classList.add(...ListClasses.HIDDEN.split(' '));
+    this.view?.getHTMLElement()?.classList.add(...ListClasses.HIDDEN.split(' '));
   }
 
   public showBreeds(): void {
-    this.view?.getElement()?.classList.remove(...ListClasses.HIDDEN.split(' '));
+    this.view?.getHTMLElement()?.classList.remove(...ListClasses.HIDDEN.split(' '));
   }
 
   private getBreeds(breedsArr: DataBreed[]): TypeCheckboxView[] {

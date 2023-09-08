@@ -71,7 +71,7 @@ export default class LoginView extends View {
     linkToSignUp.append(link);
 
     this.view
-      .getElement()
+      .getHTMLElement()
       ?.append(
         loginImage,
         loginTitle,

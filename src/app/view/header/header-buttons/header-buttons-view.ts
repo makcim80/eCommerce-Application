@@ -48,7 +48,7 @@ export default class HeaderButtonsView extends View {
     function createDivElement(): HTMLElement | null {
       const params = { tag: ListTags.CONTAINER, classNames: ListClasses.DIV };
       const div = new ElementCreator(params);
-      return div.getElement();
+      return div.getHTMLElement();
     }
 
     const div1 = createDivElement();
@@ -64,7 +64,7 @@ export default class HeaderButtonsView extends View {
     div3?.append(div1 || '', div2 || '');
 
     this.view
-      .getElement()
+      .getHTMLElement()
       ?.append(
         this.catalogAndAboutUsContainer?.getHTMLElement() || '',
         div3 || '',

@@ -75,7 +75,7 @@ export default class AddressCard extends View {
     const div1 = new ElementCreator(params);
 
     div1
-      ?.getElement()
+      ?.getHTMLElement()
       ?.append(
         this.inputCountry?.getHTMLElement() || '',
         this.inputCity?.getElement() || '',
@@ -84,9 +84,9 @@ export default class AddressCard extends View {
       );
 
     this.view
-      .getElement()
+      .getHTMLElement()
       ?.append(
-        div1.getElement() || '',
+        div1.getHTMLElement() || '',
         this.checkboxContainer?.getHTMLElement() || '',
         this.buttonsContainer?.getHTMLElement() || '',
         this.modalMessage?.getHTMLElement() || '',
@@ -304,8 +304,8 @@ export default class AddressCard extends View {
         },
       })
       .execute();
-    this.view.getElement()?.classList.remove(ListClasses.GRID);
-    this.view.getElement()?.classList.add(ListClasses.HIDDEN);
+    this.view.getHTMLElement()?.classList.remove(ListClasses.GRID);
+    this.view.getHTMLElement()?.classList.add(ListClasses.HIDDEN);
     return customer;
   }
 

@@ -11,9 +11,9 @@ const params = {
 export default class RegistrationSubmitView {
   public inputFieldCreator = new InputFieldCreator(params);
 
-  public input: HTMLInputElement | null;
+  public input: HTMLInputElement;
 
-  public label: HTMLLabelElement | null;
+  public label: HTMLLabelElement;
 
   constructor() {
     this.input = this.inputFieldCreator.getInput();
@@ -28,6 +28,6 @@ export default class RegistrationSubmitView {
   }
 
   public getElement(): HTMLElement | null {
-    return this.inputFieldCreator.getElement();
+    return this.inputFieldCreator.getHTMLElement();
   }
 }

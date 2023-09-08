@@ -9,6 +9,6 @@ export default class View implements GetHTMLElement {
   }
 
   public getHTMLElement(): HTMLElement | null {
-    return this.view.getElement();
+    return this.view.getHTMLElement();
   }
 }

@@ -32,7 +32,7 @@ export default class CheckboxContainerView extends View {
 
   public configureView(): void {
     this.view
-      ?.getElement()
+      ?.getHTMLElement()
       ?.append(
         this.shippingCheckbox?.getElement() || '',
         this.billingCheckbox?.getElement() || '',

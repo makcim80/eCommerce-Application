@@ -21,6 +21,6 @@ describe('test', () => {
   });
   test('check that a variable is not undefined', () => {
     const elem = new InputFieldCreator(params);
-    expect(elem.getElement()).toBeDefined();
+    expect(elem.getHTMLElement()).toBeDefined();
   });
 });

@@ -47,9 +47,9 @@ export default class PostalCodeProfile {
   }
 
   public getElement(): HTMLElement | null {
-    this.inputFieldCreator.getElement()?.classList.add(...ListClasses.INPUTFIELDCREATOR.split(' '));
-    this.inputFieldCreator.getElement()?.append(this.message?.getHTMLElement() || '');
-    return this.inputFieldCreator.getElement();
+    this.inputFieldCreator.getHTMLElement()?.classList.add(...ListClasses.INPUTFIELDCREATOR.split(' '));
+    this.inputFieldCreator.getHTMLElement()?.append(this.message?.getHTMLElement() || '');
+    return this.inputFieldCreator.getHTMLElement();
   }
 
   public getCorrectInput(): string {
