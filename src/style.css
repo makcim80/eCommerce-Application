@@ -49,7 +49,7 @@ body {
 }
 
 ::-webkit-calendar-picker-indicator {
-  filter: invert(1);
+  filter: invert(0.7);
 }
 
 .form-reg::-webkit-scrollbar {
@@ -63,4 +63,63 @@ body {
   background-color: #8EB2C6;
   border-radius: 9em;
   height: 20px;
+}
+
+.burger-menu {
+  transition: 0.3s linear;
+}
+
+.burger-line {
+  transition: opacity .2s ease-out;
+}
+
+.burger-menu-active {
+  transform: rotate(90deg);
+}
+
+.header-nav {
+  transform: translateX(100%)
+}
+
+.header-nav-active {
+  transform: translateX(0);
+}
+.screen-fade {
+  content: '';
+  position: fixed;
+  z-index: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(17, 74, 84, 0.5);
+  width: 100%;
+  height: 100%;
+}
+
+.field {
+  flex: 1 1 calc(50% - 86px);
+}
+
+.overlay {
+  transition: 0.2s;
+}
+
+.popup {
+    transform: scale(0);
+    transition: transform 0.2s;
+}
+
+.overlay.open {
+  visibility: visible;
+  opacity: 1;
+}
+
+.overlay.open .popup {
+  transform: scale(1);
+}
+
+.grid {
+	display: grid;
+	grid-template-columns: 240px 1fr;
 }

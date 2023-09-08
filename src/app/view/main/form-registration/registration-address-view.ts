@@ -38,7 +38,7 @@ export default class RegistrationAddressView {
   }
 
   public getElement(): HTMLElement | null {
-    return this.inputFieldCreator.getElement();
+    return this.inputFieldCreator.getHTMLElement();
   }
 
   public getCorrectInput(): string {
@@ -60,7 +60,7 @@ export default class RegistrationAddressView {
     const streetMessage = document.createElement(ListTags.CONTAINER);
     streetMessage.classList.add(...ListClasses.MESSAGE_HIDDEN.split(' '));
     streetMessage.textContent = ListTextContent.INVALID_STREET;
-    this.inputFieldCreator.getElement()?.append(streetMessage);
+    this.inputFieldCreator.getHTMLElement()?.append(streetMessage);
 
     if (!(this.input instanceof HTMLInputElement)) throw new Error();
 

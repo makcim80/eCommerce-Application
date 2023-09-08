@@ -8,4 +8,8 @@ export const enum ListAttributes {
   VALUE = 'value',
   HREF = 'href',
   STYLE = 'style',
+  STEP = 'step',
+  MIN = 'min',
+  MAX = 'max',
+  DISABLED = 'disabled',
 }

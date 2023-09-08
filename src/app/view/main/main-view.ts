@@ -12,7 +12,7 @@ export default class MainView extends View {
   }
 
   public setContent(content: View): void {
-    const htmlElement = this.view.getElement();
+    const htmlElement = this.view.getHTMLElement();
     while (htmlElement?.firstElementChild) {
       htmlElement?.firstElementChild.remove();
     }

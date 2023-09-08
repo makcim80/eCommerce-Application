@@ -40,7 +40,7 @@ export default class RegistrationBirthdayView {
   }
 
   public getElement(): HTMLElement | null {
-    return this.inputFieldCreator.getElement();
+    return this.inputFieldCreator.getHTMLElement();
   }
 
   public getCorrectInput(): string {
@@ -51,7 +51,7 @@ export default class RegistrationBirthdayView {
     const dateMessage = document.createElement(ListTags.CONTAINER);
     dateMessage.classList.add(...ListClasses.MESSAGE_HIDDEN.split(' '));
     dateMessage.textContent = ListTextContent.INVALID_AGE;
-    this.inputFieldCreator.getElement()?.append(dateMessage);
+    this.inputFieldCreator.getHTMLElement()?.append(dateMessage);
 
     if (!(this.input instanceof HTMLInputElement)) throw new Error();
 

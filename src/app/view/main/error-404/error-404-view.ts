@@ -41,7 +41,7 @@ export default class Error404View extends View {
     errorButton.setCallback(() => router.navigate(Pages.MAIN));
 
     this.view
-      .getElement()
-      ?.append(heading.getElement() || '', description.getElement() || '', errorButton.getElement() || '');
+      .getHTMLElement()
+      ?.append(heading.getHTMLElement() || '', description.getHTMLElement() || '', errorButton.getHTMLElement() || '');
   }
 }

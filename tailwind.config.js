@@ -3,19 +3,26 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        'profile-bg': '#fafcfc',
         'blue-color': '#8EB2C6',
         'login-color': '#222222',
         'footer-color': '#3A5874',
         'form-color': '#21364A',
         'neon-color': '#7df9ff',
         'input-color': '#FFE76E',
+        'address-color': '#e0c643',
         'successful-color': '#3EB972',
         'error-color': '#F74339',
         'modal-window-bg': '#FFFFFF',
+        'save-btn': '#ffdf40',
+        'label-profile': '#9797af',
+        'popup-color': '#ebebeb',
+        'modal-password': '#292929cc',
       },
       borderWidth: {
         // eslint-disable-next-line prettier/prettier
-        '3': '3px',
+        '1px': '1px',
+        '3px': '3px',
       },
       borderRadius: {
         'radius-sm': '50%',
@@ -25,17 +32,24 @@ module.exports = {
       },
       height: {
         '36px': '36px',
+        '42px': '42px',
         '21rem': '21rem',
       },
       screens: {
+        'sm-sm': '320px',
         'sm-s': '640px',
+        'sm-ss': '689px',
+        'max-ms': '805px',
         'lg-l': '1024px',
         '2xl': '1536px',
       },
       inset: {
         '50px': '50px',
+        '13%': '13%',
+        '41%': '41%',
         '50%': '50%',
         '69%': '69%',
+        '70%': '70%',
         'img-calc': 'calc(50% - 48px)',
       },
       width: {
@@ -44,7 +58,10 @@ module.exports = {
         '60%': '60%',
         '1/95': '95%',
         '36px': '36px',
+        '42px': '42px',
         '125px': '125px',
+        '30rem': '30rem',
+        '35rem': '35rem',
       },
       Height: {
         '25rem': '25rem',
@@ -58,6 +75,14 @@ module.exports = {
       spacing: {
         '16px': '16px',
         '18px': '18px',
+        '500px': '500px',
+        '720px': '720px',
+        '900px': '900px',
+      },
+      maxWidth: {
+        '13rem': '13rem',
+        '23rem': '23rem',
+        '28rem': '28rem',
       },
     },
   },

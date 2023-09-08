@@ -39,7 +39,7 @@ export default class EmailView {
   }
 
   public getElement(): HTMLElement | null {
-    return this.inputFieldCreator.getElement();
+    return this.inputFieldCreator.getHTMLElement();
   }
 
   public getCorrectInput(): string {
@@ -50,7 +50,7 @@ export default class EmailView {
     const emailMessage = document.createElement(ListTags.CONTAINER);
     emailMessage.classList.add(...ListClasses.MESSAGE_HIDDEN.split(' '));
     emailMessage.textContent = ListTextContent.INVALID_EMAIL;
-    this.inputFieldCreator.getElement()?.append(emailMessage);
+    this.inputFieldCreator.getHTMLElement()?.append(emailMessage);
 
     if (!(this.input instanceof HTMLInputElement)) throw new Error();
 

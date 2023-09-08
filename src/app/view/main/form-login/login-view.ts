@@ -35,6 +35,8 @@ export default class LoginView extends View {
 
   public apiRootPass: ByProjectKeyRequestBuilder;
 
+  public tokenStoreT!: TokenStore;
+
   constructor(router: Router) {
     const params = {
       tag: ListTags.CONTAINER,
@@ -69,7 +71,7 @@ export default class LoginView extends View {
     linkToSignUp.append(link);
 
     this.view
-      .getElement()
+      .getHTMLElement()
       ?.append(
         loginImage,
         loginTitle,
@@ -105,7 +107,6 @@ export default class LoginView extends View {
     const clientPass = new ClientBuilder()
       .withPasswordFlow(passwordAuthMiddlewareOptions)
       .withHttpMiddleware(httpMiddlewareOptions)
-      .withLoggerMiddleware()
       .build();
 
     return clientPass;
@@ -120,12 +121,10 @@ export default class LoginView extends View {
 
     this.tOptions = tOptions;
 
-    let tokenStoreT: TokenStore;
-
     const tokenCache: TokenCache = {
-      get: () => tokenStoreT,
+      get: () => this.tokenStoreT,
       set: (tokenStore, tokenCacheOptions?: TokenCacheOptions) => {
-        tokenStoreT = tokenStore;
+        this.tokenStoreT = tokenStore;
         tOptions = tokenCacheOptions;
       },
     };
@@ -146,7 +145,7 @@ export default class LoginView extends View {
       this.getCustomer()
         .then(() => {
           router.navigate(Pages.MAIN);
-          localStorage.setItem(Api.STORAGE, 'true');
+          localStorage.setItem(Api.STORAGE, `${this.tokenStoreT.token}`);
           const modalWindowParameters: ModalWindowParams = {
             type: 'login',
             status: 'success',
