@@ -46,7 +46,7 @@ export default class RegistrationView extends View {
 
   public shippingCheckboxView: CheckboxView | null;
 
-  public bothAddressCheckboxView: CheckboxView | null;
+  public bothAddressCheckboxView: CheckboxView;
 
   public shippingStreet: RegistrationAddressView | null;
 
@@ -66,7 +66,7 @@ export default class RegistrationView extends View {
 
   public passwordView: PasswordView | null;
 
-  public registrationSubmitView: RegistrationSubmitView | null;
+  public registrationSubmitView: RegistrationSubmitView;
 
   public apiRoot: ByProjectKeyRequestBuilder;
 
@@ -149,17 +149,29 @@ export default class RegistrationView extends View {
   }
 
   public setAttributesToElement(): void {
-    if (this.billingCity?.inputFieldCreator.getLabel() && this.billingCity?.inputFieldCreator.getInput()) {
+    if (
+      this.billingCity &&
+      this.billingCity?.inputFieldCreator.getLabel() &&
+      this.billingCity?.inputFieldCreator.getInput()
+    ) {
       this.billingCity.inputFieldCreator.getLabel().setAttribute(ListAttributes.FOR, ListOfValues.TOWN);
       this.billingCity.inputFieldCreator.getInput().setAttribute(ListAttributes.ID, ListOfValues.TOWN);
     }
 
-    if (this.billingStreet?.inputFieldCreator.getLabel() && this.billingStreet?.inputFieldCreator.getInput()) {
+    if (
+      this.billingStreet &&
+      this.billingStreet?.inputFieldCreator.getLabel() &&
+      this.billingStreet?.inputFieldCreator.getInput()
+    ) {
       this.billingStreet.inputFieldCreator.getLabel().setAttribute(ListAttributes.FOR, ListOfValues.STREET);
       this.billingStreet.inputFieldCreator.getInput().setAttribute(ListAttributes.ID, ListOfValues.STREET);
     }
 
-    if (this.billingPostCode?.inputFieldCreator.getLabel() && this.billingPostCode?.inputFieldCreator.getInput()) {
+    if (
+      this.billingPostCode &&
+      this.billingPostCode?.inputFieldCreator.getLabel() &&
+      this.billingPostCode?.inputFieldCreator.getInput()
+    ) {
       this.billingPostCode.inputFieldCreator.getLabel().setAttribute(ListAttributes.FOR, ListOfValues.POST);
       this.billingPostCode.inputFieldCreator.getInput().setAttribute(ListAttributes.ID, ListOfValues.POST);
     }
@@ -169,13 +181,13 @@ export default class RegistrationView extends View {
   }
 
   public textContentToElement(): void {
-    if (this.shippingCheckboxView?.inputFieldCreator.getLabel()) {
+    if (this.shippingCheckboxView && this.shippingCheckboxView?.inputFieldCreator.getLabel()) {
       this.shippingCheckboxView.inputFieldCreator.getLabel().textContent = ListTextContent.SHIPPING_ADDRESS;
     }
-    if (this.billingCheckboxView?.inputFieldCreator.getLabel()) {
+    if (this.billingCheckboxView && this.billingCheckboxView?.inputFieldCreator.getLabel()) {
       this.billingCheckboxView.inputFieldCreator.getLabel().textContent = ListTextContent.BILLING_ADDRESS;
     }
-    if (this.bothAddressCheckboxView?.inputFieldCreator.getLabel()) {
+    if (this.bothAddressCheckboxView && this.bothAddressCheckboxView?.inputFieldCreator.getLabel()) {
       this.bothAddressCheckboxView.inputFieldCreator.getLabel().textContent = ListTextContent.BOTH_ADDRESS;
     }
   }
@@ -188,11 +200,11 @@ export default class RegistrationView extends View {
     link.addEventListener('click', () => router.navigate(Pages.LOGIN));
     linkToSignIn.classList.add(...ListClasses.LINK_TO_LOG_REG.split(' '));
     linkToSignIn.append(link);
-    this.view.getHTMLElement()?.append(linkToSignIn);
+    this.view.addInnerElement(linkToSignIn);
   }
 
   public chooseDefaultAddress(): void {
-    this.bothAddressCheckboxView?.input?.addEventListener('change', () => {
+    this.bothAddressCheckboxView.input.addEventListener('change', () => {
       if (this.bothAddressCheckboxView?.input?.checked) {
         if (this.billingCity?.input) {
           this.billingCity.input.value = this.shippingCity?.input?.value || '';
@@ -265,9 +277,12 @@ export default class RegistrationView extends View {
   }
 
   public submit(): void {
-    this.registrationSubmitView?.getElement()?.addEventListener('click', () => {
-      this.createCustomer();
-    });
+    const registrationSubmitElement = this.registrationSubmitView.getElement();
+    if (registrationSubmitElement) {
+      registrationSubmitElement.addEventListener('click', () => {
+        this.createCustomer().then();
+      });
+    }
   }
 
   // eslint-disable-next-line

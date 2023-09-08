@@ -19,8 +19,10 @@ export default class InputFieldCreator extends ElementCreator {
     this.element.append(this.labelElement, this.inputElement);
   }
 
-  protected setTextContent(text = ''): void {
-    this.labelElement.textContent = text;
+  protected setTextContent(text: string | ISource['textContent'] = ''): void {
+    if (this.element && typeof text === 'string') {
+      this.labelElement.textContent = text;
+    }
   }
 
   public setCallback(callback: (event: Event) => void): void {

@@ -116,8 +116,7 @@ export default class ModalWindow extends View {
       .getHTMLElement()
       ?.append(this.headingElements?.getHTMLElement() || '', this.content?.getHTMLElement() || '');
 
-    this.view.getHTMLElement()?.append(this.modalWindowContainer.getHTMLElement() || '');
-
+    this.view.addInnerElement(this.modalWindowContainer);
     this.modalWindowContainer.setCallback((event) => {
       event.stopPropagation();
     });

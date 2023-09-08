@@ -10,7 +10,7 @@ import Router from '../../router/router';
 import { Pages } from '../../util/enums/pages';
 
 export default class HeaderView extends View {
-  public headerButtonsView: HeaderButtonsView | null;
+  public headerButtonsView: HeaderButtonsView;
 
   constructor(router: Router) {
     const params = {
@@ -37,7 +37,7 @@ export default class HeaderView extends View {
     headerContainer.addInnerElement(logo);
     logo.addEventListener('click', () => router.navigate(Pages.MAIN));
 
-    headerContainer.getHTMLElement()?.append(this.headerButtonsView?.getHTMLElement() || '');
+    headerContainer.addInnerElement(this.headerButtonsView);
   }
 
   public setSelectedItem(namePage: string): void {
