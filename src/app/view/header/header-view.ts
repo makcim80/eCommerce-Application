@@ -37,7 +37,7 @@ export default class HeaderView extends View {
     headerContainer.addInnerElement(logo);
     logo.addEventListener('click', () => router.navigate(Pages.MAIN));
 
-    headerContainer.getElement()?.append(this.headerButtonsView?.getHTMLElement() || '');
+    headerContainer.getHTMLElement()?.append(this.headerButtonsView?.getHTMLElement() || '');
   }
 
   public setSelectedItem(namePage: string): void {

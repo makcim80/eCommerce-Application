@@ -8,13 +8,7 @@ export default class ElementCreator implements GetHTMLElement {
     this.createElement(params);
   }
 
-  // Delete before next sprint branch created after all other branches is merged!
   public getHTMLElement(): HTMLElement | null {
-    return this.getElement();
-  }
-
-  // Rename to `getHTMLElement` in before next sprint branch created after all other branches is merged!
-  public getElement(): HTMLElement | null {
     return this.element;
   }
 

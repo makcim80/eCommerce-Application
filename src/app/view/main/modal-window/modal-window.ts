@@ -113,10 +113,10 @@ export default class ModalWindow extends View {
     this.createContentComponents();
 
     this.modalWindowContainer
-      .getElement()
-      ?.append(this.headingElements?.getElement() || '', this.content?.getElement() || '');
+      .getHTMLElement()
+      ?.append(this.headingElements?.getHTMLElement() || '', this.content?.getHTMLElement() || '');
 
-    this.view.getElement()?.append(this.modalWindowContainer.getElement() || '');
+    this.view.getHTMLElement()?.append(this.modalWindowContainer.getHTMLElement() || '');
 
     this.modalWindowContainer.setCallback((event) => {
       event.stopPropagation();
@@ -161,10 +161,10 @@ export default class ModalWindow extends View {
   private setStatusIconSrc(statusIcon: ElementCreator): void {
     switch (this.modalParams.status) {
       case 'success':
-        statusIcon.getElement()?.setAttribute(ListAttributes.SRC, ListPaths.CHECK_MARK);
+        statusIcon.getHTMLElement()?.setAttribute(ListAttributes.SRC, ListPaths.CHECK_MARK);
         break;
       case 'error':
-        statusIcon.getElement()?.setAttribute(ListAttributes.SRC, ListPaths.CROSS);
+        statusIcon.getHTMLElement()?.setAttribute(ListAttributes.SRC, ListPaths.CROSS);
         break;
       default:
         errors.modalParamsTypeUnexpected(this.modalParams.status);
@@ -209,7 +209,7 @@ export default class ModalWindow extends View {
   private setCloseCallback(component: ElementCreator): void {
     component.setCallback((events) => {
       events.stopPropagation();
-      this.view.getElement()?.setAttribute(ListAttributes.STYLE, ListOfValues.HIDDEN_HARD);
+      this.view.getHTMLElement()?.setAttribute(ListAttributes.STYLE, ListOfValues.HIDDEN_HARD);
     });
   }
 }

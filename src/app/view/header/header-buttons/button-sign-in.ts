@@ -22,12 +22,12 @@ export default class ButtonSignIn extends View {
   }
 
   public hideButton(): void {
-    this.view?.getElement()?.classList.remove(...ListClasses.BUTTON_SIGN_IN.split(' '));
-    this.view?.getElement()?.classList.add(...ListClasses.HIDDEN.split(' '));
+    this.view?.getHTMLElement()?.classList.remove(...ListClasses.BUTTON_SIGN_IN.split(' '));
+    this.view?.getHTMLElement()?.classList.add(...ListClasses.HIDDEN.split(' '));
   }
 
   public showButton(): void {
-    this.view?.getElement()?.classList.remove(...ListClasses.HIDDEN.split(' '));
-    this.view?.getElement()?.classList.add(...ListClasses.BUTTON_SIGN_IN.split(' '));
+    this.view?.getHTMLElement()?.classList.remove(...ListClasses.HIDDEN.split(' '));
+    this.view?.getHTMLElement()?.classList.add(...ListClasses.BUTTON_SIGN_IN.split(' '));
   }
 }

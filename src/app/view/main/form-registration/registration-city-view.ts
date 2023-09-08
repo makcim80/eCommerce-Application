@@ -38,7 +38,7 @@ export default class RegistrationCityView {
   }
 
   public getElement(): HTMLElement | null {
-    return this.inputFieldCreator.getElement();
+    return this.inputFieldCreator.getHTMLElement();
   }
 
   public getCorrectInput(): string {
@@ -53,7 +53,7 @@ export default class RegistrationCityView {
     const cityMessage = document.createElement(ListTags.CONTAINER);
     cityMessage.classList.add(...ListClasses.MESSAGE_HIDDEN.split(' '));
     cityMessage.textContent = ListTextContent.INVALID_CITY;
-    this.inputFieldCreator.getElement()?.append(cityMessage);
+    this.inputFieldCreator.getHTMLElement()?.append(cityMessage);
 
     if (!(this.input instanceof HTMLInputElement)) throw new Error();
 

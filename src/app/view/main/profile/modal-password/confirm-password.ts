@@ -67,7 +67,7 @@ export default class ConfirmPasswordView {
   }
 
   public getElement(): HTMLElement | null {
-    return this.inputFieldCreator.getElement();
+    return this.inputFieldCreator.getHTMLElement();
   }
 
   public getEyeImage(): HTMLElement | null | undefined {

@@ -44,15 +44,15 @@ export default class BirthProfile {
   }
 
   public getElement(): HTMLElement | null {
-    this.inputFieldCreator.getElement()?.classList.add(...ListClasses.INPUTFIELDCREATOR.split(' '));
+    this.inputFieldCreator.getHTMLElement()?.classList.add(...ListClasses.INPUTFIELDCREATOR.split(' '));
     this.inputFieldCreator
-      .getElement()
+      .getHTMLElement()
       ?.append(
         this.message?.getHTMLElement() || '',
         this.buttonEdit?.getHTMLElement() || '',
         this.buttonSave?.getHTMLElement() || '',
       );
-    return this.inputFieldCreator.getElement();
+    return this.inputFieldCreator.getHTMLElement();
   }
 
   public getCorrectInput(): string {

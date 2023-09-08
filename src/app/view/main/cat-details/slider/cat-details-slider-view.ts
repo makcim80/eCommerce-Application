@@ -146,7 +146,7 @@ export default class CatDetailsSliderView extends View {
       };
       const catImg = new ElementCreator(catImgParams);
 
-      catImg.getElement()?.setAttribute(ListAttributes.SRC, imgObj.url);
+      catImg.getHTMLElement()?.setAttribute(ListAttributes.SRC, imgObj.url);
 
       sliderPlaceholder.addInnerElement(catImg);
     });
@@ -176,7 +176,7 @@ export default class CatDetailsSliderView extends View {
       };
       const catImg = new ElementCreator(catImgParams);
 
-      catImg.getElement()?.setAttribute(ListAttributes.SRC, imgObj.url);
+      catImg.getHTMLElement()?.setAttribute(ListAttributes.SRC, imgObj.url);
 
       swiperSlide.view.addInnerElement(catImg);
       this.swiperSliderWrapper?.addInnerElement(swiperSlide);
@@ -257,8 +257,8 @@ export default class CatDetailsSliderView extends View {
   private setCloseCallback(component: ElementCreator): void {
     component.setCallback((events) => {
       events.stopPropagation();
-      this.view.getElement()?.setAttribute(ListAttributes.STYLE, ListOfValues.HIDDEN_HARD);
-      this.view.getElement()?.remove();
+      this.view.getHTMLElement()?.setAttribute(ListAttributes.STYLE, ListOfValues.HIDDEN_HARD);
+      this.view.getHTMLElement()?.remove();
     });
   }
 }

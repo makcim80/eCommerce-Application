@@ -234,7 +234,7 @@ export default class CatDetailsView extends View {
       textContent: this.descriptionEnUS,
     };
     const description = new ElementCreator(descriptionParams);
-    const descriptionHTMLElement: HTMLElement | null = description.getElement();
+    const descriptionHTMLElement: HTMLElement | null = description.getHTMLElement();
     if (descriptionHTMLElement instanceof HTMLElement) {
       descriptionHTMLElement.innerHTML = descriptionHTMLElement.innerHTML.split(';').join('<br>');
     }

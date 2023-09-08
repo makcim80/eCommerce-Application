@@ -31,7 +31,7 @@ export default class CatalogAndAboutUsButtonsContainer extends View {
     const navList = new ElementCreator(params);
     this.view.addInnerElement(navList);
     navList
-      .getElement()
+      .getHTMLElement()
       ?.append(this.buttonCatalog?.getHTMLElement() || '', this.buttonAboutUs?.getHTMLElement() || '');
   }
 }

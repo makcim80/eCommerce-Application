@@ -27,7 +27,7 @@ export default class EmptyMainView extends View {
     const div2 = document.createElement(ListTags.CONTAINER);
     div2.append(this.buttonSignIn?.getHTMLElement() || '');
 
-    this.view.getElement()?.append(div1, div2);
+    this.view.getHTMLElement()?.append(div1, div2);
     this.buttonSignUp?.getHTMLElement()?.classList.add(...ListClasses.BUTTONS_MAIN.split(' '));
     this.buttonSignIn?.getHTMLElement()?.classList.add(...ListClasses.BUTTONS_MAIN.split(' '));
   }

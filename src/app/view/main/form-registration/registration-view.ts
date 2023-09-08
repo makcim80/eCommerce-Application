@@ -113,7 +113,7 @@ export default class RegistrationView extends View {
     function createDivElement(): HTMLElement | null {
       const params = { tag: ListTags.CONTAINER, classNames: ListClasses.DIV_CONTAINER };
       const div = new ElementCreator(params);
-      return div.getElement();
+      return div.getHTMLElement();
     }
 
     const div1 = createDivElement();
@@ -143,9 +143,9 @@ export default class RegistrationView extends View {
     const div8 = document.createElement(ListTags.CONTAINER);
     div8.append(this.billingCheckboxView?.getElement() || '', div4 || '', div7 || '');
 
-    this.view.getElement()?.append(div1 || '', div2 || '', this.emailView?.getElement() || '');
-    this.view.getElement()?.append(this.passwordView?.getElement() || '', div6 || '', div3 || '', div5 || '', div8);
-    this.view.getElement()?.append(this.registrationSubmitView?.getElement() || '');
+    this.view.getHTMLElement()?.append(div1 || '', div2 || '', this.emailView?.getElement() || '');
+    this.view.getHTMLElement()?.append(this.passwordView?.getElement() || '', div6 || '', div3 || '', div5 || '', div8);
+    this.view.getHTMLElement()?.append(this.registrationSubmitView?.getElement() || '');
   }
 
   public setAttributesToElement(): void {
@@ -188,7 +188,7 @@ export default class RegistrationView extends View {
     link.addEventListener('click', () => router.navigate(Pages.LOGIN));
     linkToSignIn.classList.add(...ListClasses.LINK_TO_LOG_REG.split(' '));
     linkToSignIn.append(link);
-    this.view.getElement()?.append(linkToSignIn);
+    this.view.getHTMLElement()?.append(linkToSignIn);
   }
 
   public chooseDefaultAddress(): void {

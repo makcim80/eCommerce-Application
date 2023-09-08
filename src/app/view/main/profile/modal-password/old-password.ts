@@ -67,7 +67,7 @@ export default class OldPasswordView {
   }
 
   public getElement(): HTMLElement | null {
-    return this.inputFieldCreator.getElement();
+    return this.inputFieldCreator.getHTMLElement();
   }
 
   public getEyeImage(): HTMLElement | null | undefined {

@@ -22,12 +22,12 @@ export default class CheckboxInputView {
   }
 
   public configureView(): void {
-    this.inputFieldCreator.getElement()?.classList.add(...ListClasses.CHECKBOX_BUTTON.split(' '));
+    this.inputFieldCreator.getHTMLElement()?.classList.add(...ListClasses.CHECKBOX_BUTTON.split(' '));
     this.input?.setAttribute(ListAttributes.TYPE, ListOfValues.CHECKBOX);
     this.label?.classList.add(...ListClasses.LABEL_RADIO.split(' '));
   }
 
   public getElement(): HTMLElement | null {
-    return this.inputFieldCreator.getElement();
+    return this.inputFieldCreator.getHTMLElement();
   }
 }

@@ -26,7 +26,7 @@ export default class AddresesButtons extends View {
 
   public configureView(): void {
     this.view
-      .getElement()
+      .getHTMLElement()
       ?.append(
         this.buttonEdit?.getHTMLElement() || '',
         this.buttonSave?.getHTMLElement() || '',

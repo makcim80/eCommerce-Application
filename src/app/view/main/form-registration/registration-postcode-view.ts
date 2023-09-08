@@ -38,7 +38,7 @@ export default class RegistrationPostCodeView {
   }
 
   public getElement(): HTMLElement | null {
-    return this.inputFieldCreator.getElement();
+    return this.inputFieldCreator.getHTMLElement();
   }
 
   public getCorrectInput(): string {
@@ -53,7 +53,7 @@ export default class RegistrationPostCodeView {
     const postMessage = document.createElement(ListTags.CONTAINER);
     postMessage.classList.add(...ListClasses.MESSAGE_HIDDEN.split(' '));
     postMessage.textContent = ListTextContent.INVALID_POSTCODE;
-    this.inputFieldCreator.getElement()?.append(postMessage);
+    this.inputFieldCreator.getHTMLElement()?.append(postMessage);
 
     if (!(this.input instanceof HTMLInputElement)) throw new Error();
 

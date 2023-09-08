@@ -28,6 +28,6 @@ export default class RegistrationSubmitView {
   }
 
   public getElement(): HTMLElement | null {
-    return this.inputFieldCreator.getElement();
+    return this.inputFieldCreator.getHTMLElement();
   }
 }
