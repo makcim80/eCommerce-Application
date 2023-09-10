@@ -100,4 +100,10 @@ export const enum ListTextContent {
   BILLING = 'Billing',
   SHIPPING_DEFAULT = 'Shipping(default)',
   BILLING_DEFAULT = 'Billing(default)',
+  TOTAL = 'TOTAL',
+  ORIGINAL_PRICE = 'Original price',
+  ORDER = 'Order',
+  DISCOUNT = 'Discount(by promo code)',
+  CLEAR_BASKET = 'Clear basket',
+  PROMO_CODE = 'PROMO CODE',
 }

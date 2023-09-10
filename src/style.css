@@ -123,3 +123,13 @@ body {
 	display: grid;
 	grid-template-columns: 240px 1fr;
 }
+
+.summary {
+  background: linear-gradient(60deg, rgba(245,211,236,1) 9%, rgba(225,225,247,1) 69%, rgba(240,244,250,1) 83%);
+}
+
+.promocode  {
+  background: linear-gradient(135deg, #e56ed2 20%, #5a9ddb 70%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}

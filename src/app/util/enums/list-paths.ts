@@ -7,4 +7,5 @@ export const enum ListPaths {
   EYE_CLOSE = './assets/img/eye-close.png',
   CHECK_MARK = './assets/img/checkmark.svg',
   CROSS = './assets/img/cross.svg',
+  BASKET_DELETE = './assets/img/basket-delete.svg',
 }
