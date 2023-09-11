@@ -86,7 +86,7 @@ export const enum ListClasses {
   HEADER_NAV = 'header-nav h-4/6 fixed top-0 right-0 z-20 sm-s:flex sm-s:items-center sm-s:h-auto sm-s:relative sm-s:translate-x-0',
   NAV_LIST = 'flex-col flex p-24 bg-form-color h-full sm-s:flex-row sm-s:p-0 sm-s:bg-transparent sm-s:h-auto sm-s:w-auto',
   HEADER_NAV_ACTIVE = 'header-nav-active',
-  CARD_IMAGE = 'max-w-xs rounded-t-2xl',
+  CARD_IMAGE = 'rounded-t-2xl',
   TEXT_RED = 'text-red-600',
   TEXT_CROSS_OUT = 'line-through',
   CATALOG = 'flex flex-wrap p-2.5 sm-s:flex-nowrap',
@@ -144,5 +144,6 @@ export const enum ListClasses {
   CHECKBOX_CONTAINER = 'flex flex-col justify-center gap-y-2',
   SWIPER = 'swiper',
   SWIPER_SLIDE = 'swiper-slide',
+  SWIPER_SLIDE_W_FIT = 'swiper-slide-fit-w',
   SWIPER_WRAPPER = 'swiper-wrapper',
 }

@@ -1,11 +1,39 @@
 import { ClientResponse, ProductProjectionPagedQueryResponse } from '@commercetools/platform-sdk';
 import Swiper from 'swiper';
+import { SwiperOptions } from 'swiper/types/swiper-options';
 import { ListTags } from '../../../../util/enums/list-tags';
 import View from '../../../view';
 import CardView from './card/card-view';
 import { ListClasses } from '../../../../util/enums/list-classes';
 import Router from '../../../../router/router';
 import SwiperWrapperView from './swiper-wrapper/swiper-wrapper-view';
+
+const swiperInitParams: SwiperOptions = {
+  slidesPerView: 4,
+  slidesPerGroup: 4,
+  spaceBetween: 22,
+  breakpoints: {
+    0: {
+      slidesPerView: 1,
+      slidesPerGroup: 1,
+    },
+    480: {
+      slidesPerView: 2,
+      slidesPerGroup: 2,
+      spaceBetween: 8,
+    },
+    880: {
+      slidesPerView: 3,
+      slidesPerGroup: 3,
+      spaceBetween: 16,
+    },
+    1024: {
+      slidesPerView: 4,
+      slidesPerGroup: 4,
+      spaceBetween: 22,
+    },
+  },
+};
 
 export default class CardsView extends View {
   private swiper: Swiper | null;
@@ -100,11 +128,10 @@ export default class CardsView extends View {
     }
 
     Array.prototype.forEach.call(container.firstElementChild.children, (card) => {
-      // card.setAttribute('class', 'swiper-slide');
-      card.classList.add(ListClasses.SWIPER_SLIDE);
+      card.classList.add(...[ListClasses.SWIPER_SLIDE]);
     });
 
-    this.swiper = new Swiper(container, {});
+    this.swiper = new Swiper(container, swiperInitParams);
 
     console.log('Initialized!');
   }

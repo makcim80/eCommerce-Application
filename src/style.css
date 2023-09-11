@@ -123,3 +123,7 @@ body {
 	display: grid;
 	grid-template-columns: 240px 1fr;
 }
+
+.swiper-slide-fit-w {
+  width: fit-content !important;
+}
