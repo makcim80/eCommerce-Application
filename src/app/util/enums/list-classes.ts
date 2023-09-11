@@ -66,7 +66,7 @@ export const enum ListClasses {
   CAT_DETAILS_SLIDER_PLACEHOLDER = 'cats-slider-tmp flex w-500px h-500px overflow-x-scroll gap-x-4',
   CAT_DETAILS_SLIDER_IMG_PLACEHOLDER = 'cat-img-tmp w-500px h-500px object-contain h-full bg-profile-bg',
   CAT_DETAILS_SLIDER_SWIPER = 'swiper swiper-root select-none',
-  CAT_DETAILS_SLIDER_SWIPER_WRP = 'swiper-wrapper',
+  CAT_DETAILS_SLIDER_SWIPER_WRP = 'cat-details-swiper-wrapper swiper-wrapper',
   CAT_DETAILS_SLIDER_SWIPER_SLIDE = 'swiper-slide',
   CAT_DETAILS_SLIDER_SWIPER_IMG = 'cat-img w-full h-full object-contain bg-profile-bg',
   CAT_DETAILS_SLIDER_SWIPER_BTN_PREV = 'swiper-button-prev blue-color',
@@ -93,6 +93,7 @@ export const enum ListClasses {
   SIDEBAR = 'min-w-max flex flex-col gap-y-2.5',
   SIDEBAR_PRICE_INPUT = 'w-24 mr-2.5 border-2 border-black rounded px-1',
   CARDS = 'flex flex-wrap justify-evenly gap-2.5 ml-2 mr-2',
+  CARDS_SLIDER = 'catalog-swiper-slider swiper swiper-root select-none',
   CARD = 'bg-profile-bg rounded-2xl hover:scale-110 hover:shadow-2xl hover:shadow-zinc-900 transition active:scale-90 hover:z-30',
   PADDING_LEFT_1REM = 'pl-4',
   CARD_TITLE = 'text-2xl text-center',
@@ -141,4 +142,6 @@ export const enum ListClasses {
   INPUT_COUNTRY = 'flex justify-between w-full items-center py-2',
   GRID = 'grid',
   CHECKBOX_CONTAINER = 'flex flex-col justify-center gap-y-2',
+  SWIPER = 'swiper',
+  SWIPER_WRAPPER = 'swiper-wrapper',
 }

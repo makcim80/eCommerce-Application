@@ -9,6 +9,13 @@ import { breeds } from '../../../util/breed';
 import ProductsSearch from '../../../../components/products-search';
 import { ListTextContent } from '../../../util/enums/list-textContent';
 import Router from '../../../router/router';
+// import Swiper from 'swiper';
+// import { Pagination } from 'swiper/modules';
+// import { SwiperOptions } from 'swiper/types/swiper-options';
+// import { CSSSelector } from 'swiper/types/shared';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
 
 export default class CatalogView extends View {
   private readonly SORTING_ALPHABETICALLY = 'abc...';
