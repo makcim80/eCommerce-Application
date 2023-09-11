@@ -13,7 +13,7 @@ export default class CardsView extends View {
   constructor() {
     const params = {
       tag: ListTags.CONTAINER,
-      classNames: ListClasses.CAT_DETAILS_SLIDER_SWIPER,
+      classNames: [ListClasses.CARDS, ListClasses.CARDS_SLIDER],
     };
     super(params);
 
@@ -60,10 +60,10 @@ export default class CardsView extends View {
       swiperWrapper.view.addInnerElement(card);
     });
 
+    this.observeElementDOMAppearance(container, this.initSwiper.bind(this, container));
     container?.append(swiperWrapper.getHTMLElement() || '');
 
     console.log(container);
-    this.observeElementDOMAppearance(container, this.initSwiper.bind(this, container));
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -100,9 +100,12 @@ export default class CardsView extends View {
     }
 
     Array.prototype.forEach.call(container.firstElementChild.children, (card) => {
-      card.setAttribute('class', 'swiper-slide');
+      // card.setAttribute('class', 'swiper-slide');
+      card.classList.add(ListClasses.SWIPER_SLIDE);
     });
 
     this.swiper = new Swiper(container, {});
+
+    console.log('Initialized!');
   }
 }

@@ -67,7 +67,7 @@ export const enum ListClasses {
   CAT_DETAILS_SLIDER_IMG_PLACEHOLDER = 'cat-img-tmp w-500px h-500px object-contain h-full bg-profile-bg',
   CAT_DETAILS_SLIDER_SWIPER = 'swiper swiper-root select-none',
   CAT_DETAILS_SLIDER_SWIPER_WRP = 'cat-details-swiper-wrapper swiper-wrapper',
-  CAT_DETAILS_SLIDER_SWIPER_SLIDE = 'swiper-slide',
+  CAT_DETAILS_SLIDER_SWIPER_SLIDE = 'cat-details-swiper-slide swiper-slide',
   CAT_DETAILS_SLIDER_SWIPER_IMG = 'cat-img w-full h-full object-contain bg-profile-bg',
   CAT_DETAILS_SLIDER_SWIPER_BTN_PREV = 'swiper-button-prev blue-color',
   CAT_DETAILS_SLIDER_SWIPER_BTN_NEXT = 'swiper-button-next blue-color',
@@ -143,5 +143,6 @@ export const enum ListClasses {
   GRID = 'grid',
   CHECKBOX_CONTAINER = 'flex flex-col justify-center gap-y-2',
   SWIPER = 'swiper',
+  SWIPER_SLIDE = 'swiper-slide',
   SWIPER_WRAPPER = 'swiper-wrapper',
 }
