@@ -8,4 +8,5 @@ export const enum ListPaths {
   CHECK_MARK = './assets/img/checkmark.svg',
   CROSS = './assets/img/cross.svg',
   BASKET_DELETE = './assets/img/basket-delete.svg',
+  BASKET_EMPTY = './assets/img/bag.svg',
 }

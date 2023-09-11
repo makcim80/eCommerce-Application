@@ -106,4 +106,5 @@ export const enum ListTextContent {
   DISCOUNT = 'Discount(by promo code)',
   CLEAR_BASKET = 'Clear basket',
   PROMO_CODE = 'PROMO CODE',
+  BASKET_EMPTY = 'Your cart is empty... Find the products you need in the catalog',
 }
