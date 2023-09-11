@@ -88,11 +88,23 @@ export default class HeaderButtonsView extends View {
   public setSelectedItem(namePage: string): void {
     this.buttonSignUp?.getHTMLElement()?.classList.remove(...ListClasses.BUTTON_ACTIVE.split(' '));
     this.buttonSignIn?.getHTMLElement()?.classList.remove(...ListClasses.BUTTON_ACTIVE.split(' '));
+    this.buttonUserProfile?.getHTMLElement()?.classList.remove(...ListClasses.BUTTON_ACTIVE.split(' '));
+    this.catalogAndAboutUsContainer?.buttonCatalog
+      ?.getHTMLElement()
+      ?.classList.remove(...ListClasses.BUTTON_ACTIVE.split(' '));
     if (namePage === Pages.LOGIN) {
       this.buttonSignIn?.getHTMLElement()?.classList.add(...ListClasses.BUTTON_ACTIVE.split(' '));
     }
     if (namePage === Pages.REGISTRATION) {
       this.buttonSignUp?.getHTMLElement()?.classList.add(...ListClasses.BUTTON_ACTIVE.split(' '));
+    }
+    if (namePage === Pages.PROFILE) {
+      this.buttonUserProfile?.getHTMLElement()?.classList.add(...ListClasses.BUTTON_ACTIVE.split(' '));
+    }
+    if (namePage === Pages.CATALOG) {
+      this.catalogAndAboutUsContainer?.buttonCatalog
+        ?.getHTMLElement()
+        ?.classList.add(...ListClasses.BUTTON_ACTIVE.split(' '));
     }
   }
 
