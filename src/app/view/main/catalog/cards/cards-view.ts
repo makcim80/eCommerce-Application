@@ -2,7 +2,7 @@ import { ClientResponse, ProductProjectionPagedQueryResponse } from '@commerceto
 import Swiper from 'swiper';
 import { SwiperOptions } from 'swiper/types/swiper-options';
 import { CSSSelector } from 'swiper/types/shared';
-import { Pagination } from 'swiper/modules';
+import { Pagination, EffectCreative } from 'swiper/modules';
 import { ListTags } from '../../../../util/enums/list-tags';
 import View from '../../../view';
 import CardView from './card/card-view';
@@ -13,41 +13,52 @@ import SwiperPaginationView from './swiper-pagination-view/swiper-pagination-vie
 
 import './cards-view.css';
 
-const swiperInitParams: SwiperOptions = {
-  modules: [Pagination],
-  slidesPerView: 4,
-  slidesPerGroup: 4,
-  spaceBetween: 22,
-  pagination: {
-    el: '.swiper-pagination' as CSSSelector,
-    dynamicBullets: false,
-    clickable: true,
-    renderBullet(index: number, className: string) {
-      return `<span class="${className}"><span>${index + 1}</span></span>`;
+// eslint-disable-next-line max-lines-per-function
+const getSwiperInitParams = (initCB?: () => void): SwiperOptions => {
+  return {
+    modules: [Pagination, EffectCreative],
+    slidesPerView: 4,
+    slidesPerGroup: 4,
+    spaceBetween: 22,
+    pagination: {
+      el: '.swiper-pagination' as CSSSelector,
+      dynamicBullets: false,
+      clickable: true,
+      renderBullet(index: number, className: string): string {
+        return `<span class="${className}"><span>${index + 1}</span></span>`;
+      },
     },
-  },
-  autoHeight: true,
-  breakpoints: {
-    0: {
-      slidesPerView: 1,
-      slidesPerGroup: 1,
+    autoHeight: true,
+    breakpoints: {
+      0: {
+        slidesPerView: 1,
+        slidesPerGroup: 1,
+      },
+      480: {
+        slidesPerView: 2,
+        slidesPerGroup: 2,
+        spaceBetween: 8,
+      },
+      880: {
+        slidesPerView: 3,
+        slidesPerGroup: 3,
+        spaceBetween: 16,
+      },
+      1024: {
+        slidesPerView: 4,
+        slidesPerGroup: 4,
+        spaceBetween: 22,
+      },
     },
-    480: {
-      slidesPerView: 2,
-      slidesPerGroup: 2,
-      spaceBetween: 8,
+    on: {
+      init(): void {
+        console.log('afterInit fired!');
+        if (initCB) {
+          initCB();
+        }
+      },
     },
-    880: {
-      slidesPerView: 3,
-      slidesPerGroup: 3,
-      spaceBetween: 16,
-    },
-    1024: {
-      slidesPerView: 4,
-      slidesPerGroup: 4,
-      spaceBetween: 22,
-    },
-  },
+  };
 };
 
 export default class CardsView extends View {
@@ -135,6 +146,56 @@ export default class CardsView extends View {
     swiperSliderObserver.observe(document, observeParams);
   }
 
+  // eslint-disable-next-line max-lines-per-function
+  private observeCardIntersections(): void {
+    const observerOptions = {
+      root: this.view.getHTMLElement(),
+      rootMargin: '64px 0px 64px -40px',
+      threshold: 1,
+    };
+
+    let lastIntersect: number = 0;
+
+    function intersectionObserverCallBack(entries: IntersectionObserverEntry[]): void {
+      // console.log('Intersection!');
+      // console.log(entries);
+      // console.log(entries[0].isIntersecting);
+      // console.log(entries[0].intersectionRect);
+      // console.log(entries[0].time);
+      entries.forEach((entry) => {
+        const timeFromLastIntersect = entry.time - lastIntersect;
+        lastIntersect = entry.time;
+        if (!entry.isIntersecting) {
+          if (timeFromLastIntersect > 200) {
+            entry.target.classList.remove('catalog-card-soft-displayed');
+            entry.target.classList.remove('catalog-card-soft-displayed-fast');
+            entry.target.classList.add('catalog-card-soft-hidden');
+          } else {
+            entry.target.classList.remove('catalog-card-soft-displayed');
+            entry.target.classList.remove('catalog-card-soft-displayed-fast');
+            entry.target.classList.add('catalog-card-soft-hidden-fast');
+          }
+        } else if (timeFromLastIntersect > 200) {
+          entry.target.classList.remove('catalog-card-soft-hidden');
+          entry.target.classList.remove('catalog-card-soft-hidden-fast');
+          entry.target.classList.add('catalog-card-soft-displayed');
+        } else {
+          entry.target.classList.remove('catalog-card-soft-hidden');
+          entry.target.classList.remove('catalog-card-soft-hidden-fast');
+          entry.target.classList.add('catalog-card-soft-displayed-fast');
+        }
+      });
+    }
+
+    const observer = new IntersectionObserver(intersectionObserverCallBack, observerOptions);
+    const targets = document.querySelectorAll('.swiper-slide');
+    targets.forEach((target, index) => {
+      if (index >= 0) {
+        observer.observe(target);
+      }
+    });
+  }
+
   private initSwiper(container: HTMLElement | null): void {
     if (!(container instanceof HTMLElement)) {
       throw new Error('Error in CardsView: container must be instance of HTMLElement!');
@@ -149,18 +210,27 @@ export default class CardsView extends View {
       card.classList.add(...[ListClasses.SWIPER_SLIDE]);
     });
 
-    this.swiper = new Swiper(container, swiperInitParams);
-    this.swiper.on('afterInit', () => {
-      this.swiper?.updateAutoHeight(1000);
-      this.swiper?.update();
-    });
+    this.swiper = new Swiper(container, getSwiperInitParams());
+    // this.swiper.on('afterInit', () => {
+    //   console.log('afterInit fired!');
+    //   // this.swiper?.updateAutoHeight(1000);
+    //   // this.swiper?.update();
+    //   this.observeCardIntersections();
+    // });
     this.swiper.on('slideNextTransitionEnd', () => {
-      this.swiper?.update();
-      this.swiper?.updateAutoHeight(1000);
-      console.log('slideNextTransitionEnd fired!');
+      // this.swiper?.update();
+      // this.swiper?.updateAutoHeight(1000);
+      // console.log('slideNextTransitionEnd fired!');
     });
-    // slideNextTransitionEnd
+    this.swiper.on('touchStart', () => {
+      // console.log('touchStart fired!');
+    });
+    this.swiper.on('transitionEnd', () => {
+      // console.log('transitionEnd fired!');
+    });
 
     console.log('Initialized!');
+
+    this.observeCardIntersections();
   }
 }
