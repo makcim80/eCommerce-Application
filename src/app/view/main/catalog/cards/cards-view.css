@@ -12,6 +12,7 @@
 
 .catalog-card {
   /*transition: opacity 0.5s ease-in-out;*/
+  min-height: 544px;
   padding: 1rem 0;
 }
 
@@ -60,6 +61,11 @@
 
 .catalog-swiper-slider-wrapper > .swiper-slide {
   height: unset !important;
+}
+
+.catalog-swiper-slider-pagination {
+  padding-left: 64px;
+  padding-right: 64px;
 }
 
 .catalog-swiper-slider-pagination > .swiper-pagination-bullet {

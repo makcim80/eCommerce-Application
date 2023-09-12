@@ -57,6 +57,14 @@ const getSwiperInitParams = (initCB?: () => void): SwiperOptions => {
           initCB();
         }
       },
+      // breakpoint(swiper: Swiper): void {
+      //   if (typeof swiper.params.pagination !== 'boolean') {
+      //     if (swiper.params.pagination?.dynamicBullets) {
+      //       console.log('Re-init pagination!');
+      //       swiper.pagination.init();
+      //     }
+      //   }
+      // },
     },
   };
 };
