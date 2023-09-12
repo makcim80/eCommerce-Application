@@ -150,6 +150,16 @@ export default class CardsView extends View {
     });
 
     this.swiper = new Swiper(container, swiperInitParams);
+    this.swiper.on('afterInit', () => {
+      this.swiper?.updateAutoHeight(1000);
+      this.swiper?.update();
+    });
+    this.swiper.on('slideNextTransitionEnd', () => {
+      this.swiper?.update();
+      this.swiper?.updateAutoHeight(1000);
+      console.log('slideNextTransitionEnd fired!');
+    });
+    // slideNextTransitionEnd
 
     console.log('Initialized!');
   }

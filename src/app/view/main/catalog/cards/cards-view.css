@@ -1,5 +1,19 @@
+/*.catalog-swiper-slider-wrapper {*/
+/*  align-items: stretch !important;*/
+/*}*/
+
+.catalog-card {
+  padding: 1rem 0;
+}
+
+.catalog-card-img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: contain;
+}
+
 .catalog-swiper-slider-wrapper > .swiper-slide {
-  height: 100% !important;
+  height: unset !important;
 }
 
 .catalog-swiper-slider-pagination > .swiper-pagination-bullet {
