@@ -72,7 +72,7 @@ export const enum ListClasses {
   CAT_DETAILS_SLIDER_SWIPER_BTN_PREV = 'swiper-button-prev blue-color',
   CAT_DETAILS_SLIDER_SWIPER_BTN_NEXT = 'swiper-button-next blue-color',
   CAT_DETAILS_SLIDER_SWIPER_BTN_CLOSE = 'swiper-button-close border-2 border-blue-color rounded-full text-xl text-blue-color hover:text-input-color hover:border-input-color active:scale-75 transition-all duration-300 w-42px h-42px',
-  CAT_DETAILS_SLIDER_SWIPER_PAGINATION = 'swiper-pagination',
+  CAT_DETAILS_SLIDER_SWIPER_PAGINATION = 'cat-details-swiper-pagination swiper-pagination',
   BUTTON_LOGOUT = 'mr-5 block text-black text-xs sm-s:text-sm lg-l:text-lg 2xl:text-2xl hover:border-b-2 hover:border-input-color hover:border-solid hover:text-input-color 2xl:ml-5',
   HIDDEN = 'hidden',
   BUTTONS_CATALOG_ABOUT_US = 'mr-6 sm-sm:text-2xl sm-sm:mb-5 sm-s:mb-0 text-white opacity-90 text-xs sm-s:text-sm lg-l:text-lg 2xl:text-2xl hover:border-b-2 hover:border-input-color hover:border-solid hover:text-input-color',
@@ -146,4 +146,5 @@ export const enum ListClasses {
   SWIPER_SLIDE = 'swiper-slide',
   SWIPER_SLIDE_W_FIT = 'swiper-slide-fit-w',
   SWIPER_WRAPPER = 'swiper-wrapper',
+  SWIPER_PAGINATION = 'swiper-pagination',
 }

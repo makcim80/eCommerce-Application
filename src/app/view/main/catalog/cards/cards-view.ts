@@ -1,17 +1,26 @@
 import { ClientResponse, ProductProjectionPagedQueryResponse } from '@commercetools/platform-sdk';
 import Swiper from 'swiper';
 import { SwiperOptions } from 'swiper/types/swiper-options';
+import { CSSSelector } from 'swiper/types/shared';
+import { Pagination } from 'swiper/modules';
 import { ListTags } from '../../../../util/enums/list-tags';
 import View from '../../../view';
 import CardView from './card/card-view';
 import { ListClasses } from '../../../../util/enums/list-classes';
 import Router from '../../../../router/router';
 import SwiperWrapperView from './swiper-wrapper/swiper-wrapper-view';
+import SwiperPaginationView from './swiper-pagination-view/swiper-pagination-view';
 
 const swiperInitParams: SwiperOptions = {
+  modules: [Pagination],
   slidesPerView: 4,
   slidesPerGroup: 4,
   spaceBetween: 22,
+  pagination: {
+    el: '.swiper-pagination' as CSSSelector,
+    dynamicBullets: false,
+    clickable: true,
+  },
   breakpoints: {
     0: {
       slidesPerView: 1,
@@ -89,7 +98,9 @@ export default class CardsView extends View {
     });
 
     this.observeElementDOMAppearance(container, this.initSwiper.bind(this, container));
+
     container?.append(swiperWrapper.getHTMLElement() || '');
+    container?.append(new SwiperPaginationView().getHTMLElement() || '');
 
     console.log(container);
   }
@@ -123,11 +134,12 @@ export default class CardsView extends View {
       throw new Error('Error in CardsView: container must be instance of HTMLElement!');
     }
 
-    if (!container.firstElementChild) {
+    const swiperWrapper = container.firstElementChild;
+    if (!swiperWrapper) {
       throw new Error('Error in CardsView: container must have at least one child!');
     }
 
-    Array.prototype.forEach.call(container.firstElementChild.children, (card) => {
+    Array.prototype.forEach.call(swiperWrapper.children, (card) => {
       card.classList.add(...[ListClasses.SWIPER_SLIDE]);
     });
 
