@@ -7,7 +7,7 @@ export default class SwiperPaginationView extends View {
   constructor() {
     const swiperSliderBtnPrevParams: ISource = {
       tag: ListTags.CONTAINER,
-      classNames: ListClasses.SWIPER_PAGINATION,
+      classNames: ListClasses.CARDS_SLIDER_PAGINATION,
     };
     super(swiperSliderBtnPrevParams);
   }

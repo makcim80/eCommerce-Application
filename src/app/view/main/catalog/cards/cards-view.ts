@@ -11,6 +11,8 @@ import Router from '../../../../router/router';
 import SwiperWrapperView from './swiper-wrapper/swiper-wrapper-view';
 import SwiperPaginationView from './swiper-pagination-view/swiper-pagination-view';
 
+import './cards-view.css';
+
 const swiperInitParams: SwiperOptions = {
   modules: [Pagination],
   slidesPerView: 4,
@@ -20,7 +22,11 @@ const swiperInitParams: SwiperOptions = {
     el: '.swiper-pagination' as CSSSelector,
     dynamicBullets: false,
     clickable: true,
+    renderBullet(index: number, className: string) {
+      return `<span class="${className}"><span>${index + 1}</span></span>`;
+    },
   },
+  autoHeight: true,
   breakpoints: {
     0: {
       slidesPerView: 1,

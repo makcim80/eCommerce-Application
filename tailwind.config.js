@@ -3,21 +3,22 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'profile-bg': '#fafcfc',
+        'white-text': '#FFFFFF',
+        'profile-bg': '#FAFCFC',
         'blue-color': '#8EB2C6',
         'login-color': '#222222',
         'footer-color': '#3A5874',
         'form-color': '#21364A',
-        'neon-color': '#7df9ff',
+        'neon-color': '#7DF9FF',
         'input-color': '#FFE76E',
-        'address-color': '#e0c643',
+        'address-color': '#E0C643',
         'successful-color': '#3EB972',
         'error-color': '#F74339',
         'modal-window-bg': '#FFFFFF',
-        'save-btn': '#ffdf40',
+        'save-btn': '#FFDF40',
         'label-profile': '#9797af',
-        'popup-color': '#ebebeb',
-        'modal-password': '#292929cc',
+        'popup-color': '#EBEBEB',
+        'modal-password': '#292929CC',
       },
       borderWidth: {
         // eslint-disable-next-line prettier/prettier

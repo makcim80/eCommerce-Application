@@ -94,6 +94,8 @@ export const enum ListClasses {
   SIDEBAR_PRICE_INPUT = 'w-24 mr-2.5 border-2 border-black rounded px-1',
   CARDS = 'flex flex-wrap justify-evenly gap-2.5 ml-2 mr-2',
   CARDS_SLIDER = 'catalog-swiper-slider swiper swiper-root select-none',
+  CARDS_SLIDER_WRAPPER = 'catalog-swiper-slider-wrapper',
+  CARDS_SLIDER_PAGINATION = 'catalog-swiper-slider-pagination swiper-pagination',
   CARD = 'bg-profile-bg rounded-2xl hover:scale-110 hover:shadow-2xl hover:shadow-zinc-900 transition active:scale-90 hover:z-30',
   PADDING_LEFT_1REM = 'pl-4',
   CARD_TITLE = 'text-2xl text-center',

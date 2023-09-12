@@ -1,0 +1,37 @@
+.catalog-swiper-slider-wrapper > .swiper-slide {
+  height: 100% !important;
+}
+
+.catalog-swiper-slider-pagination > .swiper-pagination-bullet {
+  display: inline-flex;
+  color: theme('colors.white-text');
+  font-weight: 700;
+  text-align: center;
+  background-color: theme('colors.blue-color');
+  opacity: 0.75;
+  transition: scale 100ms;
+  border-radius: 100%;
+  width: 2em;
+  height: 2em;
+}
+
+.swiper-pagination-bullet > span {
+  margin: auto;
+}
+
+.catalog-swiper-slider-pagination > .swiper-pagination-bullet:hover {
+  color: #000000;
+  background-color: theme('colors.input-color');
+  scale: 1.2;
+}
+
+.catalog-swiper-slider-pagination > .swiper-pagination-bullet:active {
+  color: #000000;
+  background-color: theme('colors.input-color');
+  scale: 1.4;
+}
+
+.catalog-swiper-slider-pagination > .swiper-pagination-bullet-active {
+  color: #000000;
+  background-color: theme('colors.input-color');
+}

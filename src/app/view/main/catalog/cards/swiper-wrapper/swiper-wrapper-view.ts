@@ -7,7 +7,7 @@ export default class SwiperWrapperView extends View {
   constructor() {
     const swiperSliderBtnPrevParams: ISource = {
       tag: ListTags.CONTAINER,
-      classNames: ListClasses.SWIPER_WRAPPER,
+      classNames: [ListClasses.CARDS_SLIDER_WRAPPER, ListClasses.SWIPER_WRAPPER],
     };
     super(swiperSliderBtnPrevParams);
   }
