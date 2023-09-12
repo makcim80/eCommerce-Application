@@ -6,9 +6,9 @@ import ButtonSignUp from '../../header/header-buttons/button-sign-up';
 import View from '../../view';
 
 export default class EmptyMainView extends View {
-  public buttonSignUp: ButtonSignUp | null;
+  public buttonSignUp: ButtonSignUp;
 
-  public buttonSignIn: ButtonSignIn | null;
+  public buttonSignIn: ButtonSignIn;
 
   constructor(router: Router) {
     const params = {

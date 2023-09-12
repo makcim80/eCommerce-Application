@@ -42,4 +42,5 @@ export const enum ListOfValues {
   BILLING_DEFAULT = 'billing-default',
   STEP = '1',
   BASKET_DELETE_BUTTON = 'basket-delete-button',
+  BASKET_EMPTY = 'basket-empty',
 }

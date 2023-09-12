@@ -37,11 +37,15 @@ module.exports = {
       },
       screens: {
         'sm-sm': '320px',
+        '445px': '445px',
         '606px': '606px',
         'sm-s': '640px',
         'sm-ss': '689px',
         'max-ms': '805px',
+        '900px': '900px',
         'lg-l': '1024px',
+        '1200px': '1200px',
+        '1350px': '1350px',
         '2xl': '1536px',
       },
       inset: {
@@ -93,6 +97,10 @@ module.exports = {
       },
       minHeight: {
         '8rem': '8rem',
+      },
+      flexGrow: {
+        100: '100',
+        99: '99',
       },
       boxShadow: {
         '5xl': '0 2px 6px rgba(28,28,30,.3)',
