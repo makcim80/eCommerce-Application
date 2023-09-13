@@ -9,6 +9,7 @@ import PriceCardView from './price-card/price';
 import { Pages } from '../../../../../util/enums/pages';
 import Router from '../../../../../router/router';
 import ImgPreloaderCardView from './img-preloader-card/img-preloader-card-view';
+import AddToCartBtnView from './add-to-cart-btn/add-to-cart-btn-view';
 
 export default class CardView extends View {
   private readonly sku: string;
@@ -28,6 +29,8 @@ export default class CardView extends View {
 
   private description: DescriptionCardView;
 
+  private basketBtn: AddToCartBtnView;
+
   constructor(router: Router, sku: string) {
     const params = {
       tag: ListTags.CONTAINER,
@@ -43,6 +46,7 @@ export default class CardView extends View {
     this.price = new PriceCardView();
     this.name = new NameCardView();
     this.description = new DescriptionCardView();
+    this.basketBtn = new AddToCartBtnView();
     this.configureView(router);
   }
 
@@ -84,6 +88,7 @@ export default class CardView extends View {
         this.description.getHTMLElement() || '',
         this.discountedPrice.getHTMLElement() || '',
         this.price.getHTMLElement() || '',
+        this.basketBtn.getHTMLElement() || '',
       );
     this.view.setCallback(() => router.navigate(`${Pages.CAT_DETAILS}/${this.sku}`));
   }

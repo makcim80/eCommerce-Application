@@ -41,6 +41,15 @@
   }
 }
 
+@keyframes transform {
+  0% {
+    transform: translate3d(calc(0px), calc(0px), calc(0px)) rotateX(0deg) rotateY(0deg) rotateZ(0deg) scale(1)
+  }
+  100% {
+    transform: translate3d(calc(0px), calc(0px), calc(0px)) rotateX(0deg) rotateY(0deg) rotateZ(0deg) scale(0.5)
+  }
+}
+
 @keyframes soft-hide {
   0% {
     opacity: 1;
