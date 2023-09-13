@@ -83,7 +83,7 @@ export const enum ListClasses {
   BURGER_LINE_ONE = 'burger-line block absolute left-0 h-0.5 w-full translate-y-5 bg-white',
   BURGER_LINE_TWO = 'burger-line block absolute left-0 h-0.5 w-full burger-line-two bg-white',
   BURGER_LINE_THREE = 'burger-line block absolute left-0 h-0.5 w-full translate-y-2.5 bg-white',
-  HEADER_NAV = 'header-nav h-4/6 fixed top-0 right-0 z-20 sm-s:flex sm-s:items-center sm-s:h-auto sm-s:relative sm-s:translate-x-0',
+  HEADER_NAV = 'header-nav h-4/6 fixed top-0 right-0 z-30 sm-s:flex sm-s:items-center sm-s:h-auto sm-s:relative sm-s:translate-x-0',
   NAV_LIST = 'flex-col flex p-24 bg-form-color h-full sm-s:flex-row sm-s:p-0 sm-s:bg-transparent sm-s:h-auto sm-s:w-auto',
   HEADER_NAV_ACTIVE = 'header-nav-active',
   TEXT_RED = 'text-red-600',
