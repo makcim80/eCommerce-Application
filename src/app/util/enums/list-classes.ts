@@ -52,7 +52,7 @@ export const enum ListClasses {
   MODAL_BUTTON_SUCCESSFUL = 'border-successful-color hover:bg-successful-color',
   MODAL_BUTTON_ERROR = 'border-error-color hover:bg-error-color',
   CAT_DETAILS_CONTAINER = 'cat-details-container flex flex-col items-center px-3 pb-3 pt-24',
-  CAT_DETAILS_CONTENT = 'cat-details-content flex border-2 border-footer-color w-900px max-w-full bg-profile-bg p-2.5 max-md:flex-wrap max-md:justify-center',
+  CAT_DETAILS_CONTENT = 'cat-details-content flex border-2 border-footer-color rounded-2xl w-900px max-w-full bg-profile-bg p-2.5 max-md:flex-wrap max-md:justify-center',
   CAT_DETAILS_CONTENT_RIGHT = 'cat-details-content-right flex flex-col p-10',
   CAT_DETAILS_NAME = 'cat-name text-xl font-bold',
   CAT_DETAILS_DESCRIPTION = 'cat-description mt-4 text-lg',

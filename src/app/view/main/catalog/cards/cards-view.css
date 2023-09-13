@@ -17,29 +17,37 @@
 }
 
 .catalog-card.catalog-card-soft-displayed {
-  transition: opacity 0.5s ease-in-out;
-  opacity: 1;
+  animation: soft-display ease-in-out 0.5s forwards;
 }
 
 .catalog-card.catalog-card-soft-hidden {
-  transition: opacity 0.5s ease-in-out;
-  opacity: 0;
+  animation: soft-hide ease-in-out 0.5s forwards;
 }
 
 .catalog-card.catalog-card-soft-displayed-fast {
-  transition: opacity 0.2s ease-in-out;
-  opacity: 1;
+  animation: soft-display ease-in-out 0.2s forwards;
 }
 
 .catalog-card.catalog-card-soft-hidden-fast {
-  transition: opacity 0.2s ease-in-out;
-  opacity: 0;
+  animation: soft-hide ease-in-out 0.2s forwards;
 }
 
-@keyframes catalog-card-opacity {
-  0%   {opacity:1}
-  50%  {opacity:0}
-  100%  {opacity:1}
+@keyframes soft-display {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes soft-hide {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
 }
 
 .catalog-card-img {
