@@ -49,6 +49,11 @@ const getSwiperInitParams = (initCB?: () => void): SwiperOptions => {
         slidesPerGroup: 4,
         spaceBetween: 22,
       },
+      1440: {
+        slidesPerView: 5,
+        slidesPerGroup: 5,
+        spaceBetween: 22,
+      },
     },
     on: {
       init(): void {
