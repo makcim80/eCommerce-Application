@@ -97,6 +97,7 @@ export const enum ListClasses {
   CARDS_SLIDER_PAGINATION = 'catalog-swiper-slider-pagination swiper-pagination',
   CARD = 'catalog-card bg-profile-bg rounded-2xl border-2 border-footer-color hover:scale-110 hover:shadow-2xl hover:shadow-zinc-900 transition active:scale-90 hover:z-30',
   CARD_IMAGE = 'catalog-card-img',
+  CARD_IMAGE_PRELOADER = 'catalog-card-img-preloader',
   CARD_TITLE = 'catalog-card-title text-2xl text-center',
   CARD_DESCRIPTION = 'catalog-card-description',
   CARD_PRICE = 'catalog-card-price text-center',
@@ -151,4 +152,5 @@ export const enum ListClasses {
   SWIPER_SLIDE_W_FIT = 'swiper-slide-fit-w',
   SWIPER_WRAPPER = 'swiper-wrapper',
   SWIPER_PAGINATION = 'swiper-pagination',
+  SWIPER_PRELOADER = 'swiper-lazy-preloader swiper-lazy-preloader-black',
 }

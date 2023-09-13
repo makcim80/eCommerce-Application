@@ -51,9 +51,15 @@
 }
 
 .catalog-card-img {
+  position: relative;
   width: 100%;
   aspect-ratio: 1;
   object-fit: contain;
+}
+
+.catalog-card > .catalog-card-img-preloader {
+  position: absolute;
+  top: 25%;
 }
 
 .catalog > .catalog-swiper-slider {

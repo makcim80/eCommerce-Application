@@ -40,4 +40,5 @@ export const enum ListOfValues {
   BILLING = 'billing',
   SHIPPING_DEFAULT = 'shipping-default',
   BILLING_DEFAULT = 'billing-default',
+  LOADING_LAZY = 'lazy',
 }

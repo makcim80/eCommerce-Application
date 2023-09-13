@@ -12,4 +12,5 @@ export const enum ListAttributes {
   MIN = 'min',
   MAX = 'max',
   DISABLED = 'disabled',
+  LOADING = 'loading',
 }
