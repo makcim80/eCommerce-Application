@@ -63,12 +63,13 @@ const getSwiperInitParams = (initCB?: () => void): SwiperOptions => {
         }
       },
       // breakpoint(swiper: Swiper): void {
-      //   if (typeof swiper.params.pagination !== 'boolean') {
-      //     if (swiper.params.pagination?.dynamicBullets) {
-      //       console.log('Re-init pagination!');
-      //       swiper.pagination.init();
-      //     }
-      //   }
+      //   console.log('breakpoint fired! Swiper obj:', swiper, swiper.pagination.bullets.length);
+      //   // if (typeof swiper.params.pagination !== 'boolean') {
+      //   //   if (swiper.params.pagination?.dynamicBullets) {
+      //   //     console.log('Re-init pagination!');
+      //   //     swiper.pagination.init();
+      //   //   }
+      //   // }
       // },
     },
   };
@@ -163,7 +164,7 @@ export default class CardsView extends View {
   private observeCardIntersections(): void {
     const observerOptions = {
       root: this.view.getHTMLElement(),
-      rootMargin: '64px 64px 64px -40px',
+      rootMargin: '64px 64px 64px -20px',
       threshold: 1,
     };
 
