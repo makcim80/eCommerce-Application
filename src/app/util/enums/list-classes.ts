@@ -101,6 +101,7 @@ export const enum ListClasses {
   CARD_DESCRIPTION = 'catalog-card-description',
   CARD_PRICE = 'catalog-card-price text-center',
   PADDING_LEFT_1REM = 'pl-4',
+  PADDING_RIGHT_1REM = 'pr-4',
   BUTTON_APPLY_RESET = 'bg-red-400 text-white m-3 py-1 px-3 rounded-md hover:text-white hover:decoration-white hover:underline',
   PADDING_TOP_075REM = 'pt-3',
   BACKGROUND_TRANSPARENT = 'bg-transparent',
