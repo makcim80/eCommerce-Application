@@ -158,7 +158,7 @@ export default class CardsView extends View {
   private observeCardIntersections(): void {
     const observerOptions = {
       root: this.view.getHTMLElement(),
-      rootMargin: '64px 0px 64px -40px',
+      rootMargin: '64px 64px 64px -40px',
       threshold: 1,
     };
 

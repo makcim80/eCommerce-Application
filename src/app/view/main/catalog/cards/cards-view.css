@@ -59,8 +59,10 @@
 .catalog > .catalog-swiper-slider {
   z-index: 0;
   border: 1px solid red;
-  padding: 64px;
-  margin: -64px;
+  /*padding: 64px;*/
+  /*margin: -64px;*/
+  padding: 64px 0.625rem 96px 64px;
+  margin: -64px -0.625rem -64px -64px;
 }
 
 /*.catalog-swiper-slider-wrapper div:nth-child(4) {*/
