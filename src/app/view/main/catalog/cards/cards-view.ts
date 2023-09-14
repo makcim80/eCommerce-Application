@@ -62,20 +62,13 @@ const getSwiperInitParams = (initCB?: () => void): SwiperOptions => {
           initCB();
         }
       },
-      // breakpoint(swiper: Swiper): void {
-      //   console.log('breakpoint fired! Swiper obj:', swiper, swiper.pagination.bullets.length);
-      //   // if (typeof swiper.params.pagination !== 'boolean') {
-      //   //   if (swiper.params.pagination?.dynamicBullets) {
-      //   //     console.log('Re-init pagination!');
-      //   //     swiper.pagination.init();
-      //   //   }
-      //   // }
-      // },
     },
   };
 };
 
 export default class CardsView extends View {
+  private readonly swiperPagination: SwiperPaginationView;
+
   private swiper: Swiper | null;
 
   constructor() {
@@ -86,6 +79,7 @@ export default class CardsView extends View {
     super(params);
 
     this.swiper = null;
+    this.swiperPagination = new SwiperPaginationView();
   }
 
   // eslint-disable-next-line max-lines-per-function
@@ -131,15 +125,15 @@ export default class CardsView extends View {
     this.observeElementDOMAppearance(container, this.initSwiper.bind(this, container));
 
     container?.append(swiperWrapper.getHTMLElement() || '');
-    container?.append(new SwiperPaginationView().getHTMLElement() || '');
-
-    console.log(container);
+    container?.append(this.swiperPagination.getHTMLElement() || '');
   }
 
   // eslint-disable-next-line class-methods-use-this
   private observeElementDOMAppearance(observingHTMLElement: HTMLElement | null, observerCallback: () => void): void {
     if (!(observingHTMLElement instanceof HTMLElement)) {
-      throw new Error('Error in CardsView: observingHTMLElement must be instance of HTMLElement!');
+      throw new Error(
+        'Error while setup dom appearance observer: observingHTMLElement must be instance of HTMLElement!',
+      );
     }
     const swiperSliderObserver = new MutationObserver(() => {
       const observingElement = observingHTMLElement;
@@ -160,6 +154,29 @@ export default class CardsView extends View {
     swiperSliderObserver.observe(document, observeParams);
   }
 
+  // eslint-disable-next-line class-methods-use-this
+  private observeHTMLElementResize(
+    observingHTMLElement: HTMLElement | null,
+    observerCallback?: (
+      observingElement: HTMLElement,
+      entries: ResizeObserverEntry[],
+      observer: ResizeObserver,
+    ) => void,
+  ): void {
+    if (!(observingHTMLElement instanceof HTMLElement)) {
+      throw new Error(
+        'Error while setup HTML Element resize observer: observingHTMLElement must be instance of HTMLElement!',
+      );
+    }
+    const swiperSliderPaginationObserver = new ResizeObserver((entries, observer) => {
+      if (observerCallback) {
+        observerCallback(observingHTMLElement, entries, observer);
+      }
+    });
+
+    swiperSliderPaginationObserver.observe(observingHTMLElement);
+  }
+
   // eslint-disable-next-line max-lines-per-function
   private observeCardIntersections(): void {
     const observerOptions = {
@@ -171,11 +188,6 @@ export default class CardsView extends View {
     let lastIntersect: number = 0;
 
     function intersectionObserverCallBack(entries: IntersectionObserverEntry[]): void {
-      // console.log('Intersection!');
-      // console.log(entries);
-      // console.log(entries[0].isIntersecting);
-      // console.log(entries[0].intersectionRect);
-      // console.log(entries[0].time);
       entries.forEach((entry) => {
         const timeFromLastIntersect = entry.time - lastIntersect;
         lastIntersect = entry.time;
@@ -208,6 +220,85 @@ export default class CardsView extends View {
         observer.observe(target);
       }
     });
+  }
+
+  // eslint-disable-next-line class-methods-use-this,max-lines-per-function
+  private paginationResizeHandler(observingPaginationElement: HTMLElement, entries: ResizeObserverEntry[]): void {
+    console.log('--- Pagination resize observing element and entries:', observingPaginationElement, entries);
+    const { observeElementDOMStyleAdding } = this;
+    // eslint-disable-next-line max-lines-per-function
+    entries.forEach((entry) => {
+      console.log('Pagination resize entry: ', entry);
+
+      const paginationBullet = observingPaginationElement.firstElementChild;
+      if (!(paginationBullet instanceof HTMLElement)) {
+        throw new Error('Error in CardsView: empty pagination container!');
+      }
+
+      if (entry.contentRect.height > 1.5 * paginationBullet.offsetHeight) {
+        let paginationBullets = Array.from(observingPaginationElement.children);
+        const currentSlideBullet = observingPaginationElement.getElementsByClassName(
+          'swiper-pagination-bullet-active',
+        )[0];
+        const currentSlideBulletIndex = paginationBullets.indexOf(currentSlideBullet);
+        if (currentSlideBulletIndex < 3) {
+          paginationBullets = paginationBullets.slice(0, currentSlideBulletIndex + 3).reverse();
+          // currentSlideBulletIndex = paginationBullets.indexOf(currentSlideBullet);
+          // paginationBullets[currentSlideBulletIndex - 2]?.setAttribute(ListAttributes.STYLE, 'width: 1em; height: 1em;');
+          // paginationBullets[currentSlideBulletIndex - 1]?.setAttribute(
+          //   ListAttributes.STYLE,
+          //   'width: 1.5em; height: 1.5em;',
+          // );
+          // paginationBullets[currentSlideBulletIndex + 1]?.setAttribute(
+          //   ListAttributes.STYLE,
+          //   'width: 1.5em; height: 1.5em;',
+          // );
+          // paginationBullets[currentSlideBulletIndex + 2]?.setAttribute(ListAttributes.STYLE, 'width: 1em; height: 1em;');
+
+          paginationBullets.forEach((bullet) => {
+            if (!(bullet instanceof HTMLElement)) {
+              throw new Error('Error in CardsView: missing bullet while set observer!');
+            }
+            observeElementDOMStyleAdding(bullet, 'swiper-pagination-bullet-active', (records, observer) => {
+              console.log('Attributes mutation!', records[0].target, observer);
+            });
+          });
+        } else {
+          paginationBullets = paginationBullets.slice(currentSlideBulletIndex - 2, currentSlideBulletIndex + 3);
+        }
+      }
+    });
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  private observeElementDOMStyleAdding(
+    observingHTMLElement: HTMLElement | null,
+    observingClass: string,
+    observerCallback: (records: MutationRecord[], observer: MutationObserver) => void,
+  ): void {
+    if (!(observingHTMLElement instanceof HTMLElement)) {
+      throw new Error(
+        'Error while setup dom appearance observer: observingHTMLElement must be instance of HTMLElement!',
+      );
+    }
+    const elementClassObserver = new MutationObserver((records, observer) => {
+      const observingElement = observingHTMLElement;
+      if (observingElement) {
+        if (observingElement.classList.contains(observingClass)) {
+          observerCallback(records, observer);
+        }
+      }
+    });
+
+    const observeParams: MutationObserverInit = {
+      attributes: true,
+      attributeOldValue: true,
+      attributeFilter: ['class'],
+      childList: false,
+      characterData: false,
+      subtree: false,
+    };
+    elementClassObserver.observe(observingHTMLElement, observeParams);
   }
 
   private initSwiper(container: HTMLElement | null): void {
@@ -246,5 +337,6 @@ export default class CardsView extends View {
     console.log('Initialized!');
 
     this.observeCardIntersections();
+    this.observeHTMLElementResize(this.swiperPagination.getHTMLElement(), this.paginationResizeHandler.bind(this));
   }
 }
