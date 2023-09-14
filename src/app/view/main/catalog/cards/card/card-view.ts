@@ -10,6 +10,7 @@ import { Pages } from '../../../../../util/enums/pages';
 import Router from '../../../../../router/router';
 import ImgPreloaderCardView from './img-preloader-card/img-preloader-card-view';
 import AddToCartBtnView from './add-to-cart-btn/add-to-cart-btn-view';
+import AddToCartBtnWrpView from './add-to-cart-btn-wrp/add-to-cart-btn-wrp-view';
 
 export default class CardView extends View {
   private readonly sku: string;
@@ -29,6 +30,8 @@ export default class CardView extends View {
 
   private description: DescriptionCardView;
 
+  private basketBtnWrp: AddToCartBtnWrpView;
+
   private basketBtn: AddToCartBtnView;
 
   constructor(router: Router, sku: string) {
@@ -46,6 +49,7 @@ export default class CardView extends View {
     this.price = new PriceCardView();
     this.name = new NameCardView();
     this.description = new DescriptionCardView();
+    this.basketBtnWrp = new AddToCartBtnWrpView();
     this.basketBtn = new AddToCartBtnView();
     this.configureView(router);
   }
@@ -79,6 +83,7 @@ export default class CardView extends View {
   }
 
   private configureView(router: Router): void {
+    this.basketBtnWrp.view.addInnerElement(this.basketBtn);
     this.view
       .getHTMLElement()
       ?.append(
@@ -88,7 +93,7 @@ export default class CardView extends View {
         this.description.getHTMLElement() || '',
         this.discountedPrice.getHTMLElement() || '',
         this.price.getHTMLElement() || '',
-        this.basketBtn.getHTMLElement() || '',
+        this.basketBtnWrp.getHTMLElement() || '',
       );
     this.view.setCallback(() => router.navigate(`${Pages.CAT_DETAILS}/${this.sku}`));
   }

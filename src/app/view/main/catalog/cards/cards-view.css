@@ -2,18 +2,18 @@
 /*  align-items: stretch !important;*/
 /*}*/
 
+.catalog-card {
+  /*transition: opacity 0.5s ease-in-out;*/
+  min-height: 584px;
+  padding: 1rem 0;
+}
+
 .catalog-card-title {
   margin-top: 0.5em;
 }
 
 .catalog-card-description {
   margin: 0.5em 0;
-}
-
-.catalog-card {
-  /*transition: opacity 0.5s ease-in-out;*/
-  min-height: 544px;
-  padding: 1rem 0;
 }
 
 .catalog-card.catalog-card-soft-displayed {
