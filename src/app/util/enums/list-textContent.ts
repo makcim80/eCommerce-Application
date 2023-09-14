@@ -109,7 +109,7 @@ export const enum ListTextContent {
   BASKET_EMPTY = 'Your cart is empty... Find the products you need in the catalog',
   SWIPER_ERR = 'swiperSliderHTMLElement is null!',
   MAIN_CONTENT_TITLE = 'A LITTLE ABOUT US',
-  MAIN_CONTENT = `  Our shop is a marketplace for the sale ofkittens. We make the process of adoption and relocation as fast and easy as possible. 
+  MAIN_CONTENT = `  Our shop is a marketplace for the sale of kittens. We make the process of adoption and relocation as fast and easy as possible. 
   Our furry friends are unique. They are kept healthy by being fed natural vitamin-filled meals. We are delighted to choose and bring your
   new kittens to you and help them  get accustomed to a new family. We are also glad to advise our customers on all matters. The main aim of our
   company is to take care of our furry friends by matching them with a perfectly loving home. We pride ourselves in finding the best cats for our

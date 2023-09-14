@@ -9,4 +9,8 @@ describe('test', () => {
     const elem = new Router(routes);
     expect(elem).toHaveProperty(['constructor']);
   });
+  test('navigate', () => {
+    const elem = new Router(routes);
+    expect(elem.navigate('url'));
+  });
 });
