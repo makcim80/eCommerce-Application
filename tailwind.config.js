@@ -91,6 +91,10 @@ module.exports = {
         '23rem': '23rem',
         '28rem': '28rem',
         '8rem': '8rem',
+        '665px': '665px',
+      },
+      maxHeight: {
+        '374px': '374px',
       },
       flex: {
         '2flex': '0 0 9rem',
@@ -104,6 +108,10 @@ module.exports = {
       },
       boxShadow: {
         '5xl': '0 2px 6px rgba(28,28,30,.3)',
+      },
+      fontFamily: {
+        'serif-s': ['ui-serif', 'Rubik Wet Paint'],
+        'mono-s': ['ui-sans-serif', 'Roboto'],
       },
     },
   },
