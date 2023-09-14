@@ -7,6 +7,8 @@ import Product from '../../../../components/product';
 import Errors, { CatDetailsViewErrors } from './utils/errors';
 import ElementCreator from '../../../util/element-creator';
 import CatDetailsSliderView, { CatDetailsSliderSliderConfig } from './slider/cat-details-slider-view';
+import AddToCartBtnView from '../catalog/cards/card/add-to-cart-btn/add-to-cart-btn-view';
+import AddToCartBtnWrpView from '../catalog/cards/card/add-to-cart-btn-wrp/add-to-cart-btn-wrp-view';
 
 const createParams = (id?: string): ISource => {
   return {
@@ -42,6 +44,10 @@ export default class CatDetailsView extends View {
 
   private contentRight: ElementCreator | null;
 
+  private readonly basketBtnWrp: AddToCartBtnWrpView;
+
+  private readonly basketBtn: AddToCartBtnView;
+
   constructor(id: string) {
     super(createParams());
 
@@ -55,6 +61,8 @@ export default class CatDetailsView extends View {
     this.priceCurrencyCode = null;
     this.priceDefault = null;
     this.priceDiscount = null;
+    this.basketBtnWrp = new AddToCartBtnWrpView();
+    this.basketBtn = new AddToCartBtnView();
 
     this.content = null;
     this.contentRight = null;
@@ -158,6 +166,7 @@ export default class CatDetailsView extends View {
     this.makeName();
     this.makeDescription();
     this.makePrice();
+    this.addBasketBtn();
 
     if (this.content) {
       if (this.contentRight) {
@@ -291,5 +300,14 @@ export default class CatDetailsView extends View {
 
   private parsePrice(price: number): string {
     return `${this.priceCurrencyCode} ${(price / 100).toFixed(2)}`;
+  }
+
+  private addBasketBtn(): void {
+    if (!this.contentRight) {
+      throw this.errors.contentRightIsNull();
+    }
+
+    this.basketBtnWrp.view.addInnerElement(this.basketBtn);
+    this.contentRight.addInnerElement(this.basketBtnWrp);
   }
 }
