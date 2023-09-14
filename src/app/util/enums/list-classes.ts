@@ -95,7 +95,7 @@ export const enum ListClasses {
   CARDS_SLIDER = 'catalog-swiper-slider swiper swiper-root select-none',
   CARDS_SLIDER_WRAPPER = 'catalog-swiper-slider-wrapper',
   CARDS_SLIDER_PAGINATION = 'catalog-swiper-slider-pagination swiper-pagination',
-  CARD = 'catalog-card bg-profile-bg !flex flex-col rounded-2xl border-2 border-footer-color hover:scale-110 hover:shadow-2xl hover:shadow-zinc-900 transition active:scale-90 hover:z-30',
+  CARD = 'catalog-card bg-profile-bg !flex flex-col rounded-2xl border-2 border-footer-color hover:scale-110 hover:shadow-2xl hover:shadow-zinc-900 transition [&:not(.active-block)]:active:scale-90 hover:z-30',
   CARD_IMAGE = 'catalog-card-img',
   CARD_IMAGE_PRELOADER = 'catalog-card-img-preloader',
   CARD_TITLE = 'catalog-card-title text-2xl text-center',

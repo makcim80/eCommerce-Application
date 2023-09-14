@@ -9,7 +9,7 @@ import PriceCardView from './price-card/price';
 import { Pages } from '../../../../../util/enums/pages';
 import Router from '../../../../../router/router';
 import ImgPreloaderCardView from './img-preloader-card/img-preloader-card-view';
-import AddToCartBtnView from './add-to-cart-btn/add-to-cart-btn-view';
+import AddToCartBtnView, { Config } from './add-to-cart-btn/add-to-cart-btn-view';
 import AddToCartBtnWrpView from './add-to-cart-btn-wrp/add-to-cart-btn-wrp-view';
 
 export default class CardView extends View {
@@ -32,7 +32,7 @@ export default class CardView extends View {
 
   private basketBtnWrp: AddToCartBtnWrpView;
 
-  private basketBtn: AddToCartBtnView;
+  private readonly basketBtn: AddToCartBtnView;
 
   constructor(router: Router, sku: string) {
     const params = {
@@ -40,6 +40,11 @@ export default class CardView extends View {
       classNames: [ListClasses.CARD, ListClasses.POINTER],
     };
     super(params);
+
+    const basketBtnConfig: Config = {
+      parent: 'scalable',
+      scaleSelector: '.catalog-card',
+    };
 
     this.sku = sku;
     this.imgWrapper = null;
@@ -50,7 +55,7 @@ export default class CardView extends View {
     this.name = new NameCardView();
     this.description = new DescriptionCardView();
     this.basketBtnWrp = new AddToCartBtnWrpView();
-    this.basketBtn = new AddToCartBtnView();
+    this.basketBtn = new AddToCartBtnView(basketBtnConfig);
     this.configureView(router);
   }
 
