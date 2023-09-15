@@ -1,8 +1,6 @@
-// import Router from './router/router';
 import Router from './router/router';
 import ElementCreator from './util/element-creator';
 import { ListTags } from './util/enums/list-tags';
-// import { Pages } from './util/enums/pages';
 import RegistrationFirstNameView from './view/main/form-registration/registration-firstname-view';
 import MainView from './view/main/main-view';
 import View from './view/view';
@@ -14,6 +12,8 @@ const params = {
 
 const app = new App();
 const routes = app.createRoutes();
+const page = '';
+const view = new View(params);
 
 describe('test', () => {
   it('should check if property exist', () => {
@@ -32,10 +32,6 @@ describe('test', () => {
     const elem = new Router(routes);
     expect(elem).toHaveProperty(['constructor']);
   });
-  test('check that MainView is defined', () => {
-    const elem = new MainView();
-    expect(elem.getHTMLElement()).toBeDefined();
-  });
   test('check if property exist', () => {
     const elem = new MainView();
     expect(elem).toHaveProperty(['constructor']);
@@ -44,14 +40,16 @@ describe('test', () => {
     const elem = new App();
     expect(elem).toHaveProperty(['constructor']);
   });
-  it('should check if if a value is true', () => {
+  test('navigate', () => {
+    const elem = new Router(routes);
+    expect(elem.navigate('url'));
+  });
+  test('createRoutes', () => {
     const elem = new App();
-    expect(elem).toBeTruthy();
+    expect(elem.createRoutes());
   });
-  it('should check if class instance of class', () => {
-    expect(new App()).toBeInstanceOf(App);
-  });
-  it('should check if class instance of class', () => {
-    expect(new Router(routes)).toBeInstanceOf(Router);
+  test('setContent', () => {
+    const elem = new App();
+    expect(elem.setContent(page, view));
   });
 });

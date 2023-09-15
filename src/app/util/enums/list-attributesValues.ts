@@ -43,4 +43,6 @@ export const enum ListOfValues {
   STEP = '1',
   BASKET_DELETE_BUTTON = 'basket-delete-button',
   BASKET_EMPTY = 'basket-empty',
+  PROMOCODE_IMG = 'promocode-image',
+  MAIN_CAT = 'main-cat',
 }

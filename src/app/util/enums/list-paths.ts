@@ -9,4 +9,11 @@ export const enum ListPaths {
   CROSS = './assets/img/cross.svg',
   BASKET_DELETE = './assets/img/basket-delete.svg',
   BASKET_EMPTY = './assets/img/bag.svg',
+  FIRST_CATS = './assets/img/first-cats.jpg',
+  SHORTHAIRED = './assets/img/shorthaired.jpg',
+  TOTAL_AMOUNT = './assets/img/totalAmount.jpg',
+  MAIN_CAT = './assets/img/main-cat.webp',
+  KITTEN1 = './assets/img/kitten1.png',
+  KITTEN2 = './assets/img/kitten2.png',
+  KITTEN3 = './assets/img/kitten3.png',
 }

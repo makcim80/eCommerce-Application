@@ -2,7 +2,7 @@
   --modal-window-w: 368px;
   --modal-window-h: 88px;
   position: absolute;
-  z-index: 1;
+  z-index: 99;
   bottom: 96px;
   left: calc(50% - var(--modal-window-w) / 2);
   width: var(--modal-window-w);
