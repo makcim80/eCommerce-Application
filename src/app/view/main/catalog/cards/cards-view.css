@@ -68,8 +68,8 @@
 
 .catalog > .catalog-swiper-slider {
   z-index: 0;
-  padding: 64px 1.5rem 96px 64px;
-  margin: -64px 0 0 -40px;
+  padding: 64px 3rem 112px 64px;
+  margin: -64px -1.5rem -16px -40px;
 }
 
 .catalog-swiper-slider-wrapper > .swiper-slide {
@@ -77,8 +77,9 @@
 }
 
 .catalog-swiper-slider-pagination {
-  padding-left: 64px;
+  padding-left: 96px;
   padding-right: 64px;
+  padding-bottom: 24px;
 }
 
 .catalog-swiper-slider-pagination > .swiper-pagination-bullet {
