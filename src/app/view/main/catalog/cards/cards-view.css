@@ -114,3 +114,8 @@
   color: #000000;
   background-color: theme('colors.input-color');
 }
+
+.catalog-swiper-slider-pagination.dynamic > span:not(.dynamic--displayed, .swiper-pagination-bullet-active) {
+  display: none;
+  color: rgba(109, 252, 103, 0.5);
+}

@@ -13,6 +13,56 @@ import SwiperPaginationView from './swiper-pagination-view/swiper-pagination-vie
 
 import './cards-view.css';
 
+interface DynamicBulletsStyles {
+  prevSmall: string[];
+  prevMedium: string[];
+  current: string[];
+  nextMedium: string[];
+  nextSmall: string[];
+}
+
+// function getFullElementWidth(element: HTMLElement): number | null {
+//   const measuredElement = element instanceof HTMLElement ? element : document.querySelector(element);
+//   let fullWidth: number | null = null;
+//
+//   if (measuredElement instanceof HTMLElement) {
+//     const styles = window.getComputedStyle(measuredElement);
+//     const marginX = parseFloat(styles.marginLeft) + parseFloat(styles.marginRight);
+//
+//     fullWidth = measuredElement.offsetWidth + marginX;
+//   }
+//
+//   return fullWidth;
+// }
+
+function getFullElementStylesWidth(element: HTMLElement): number | null {
+  const measuredElement = element instanceof HTMLElement ? element : document.querySelector(element);
+  let fullStylesWidth: number | null = null;
+
+  if (measuredElement instanceof HTMLElement) {
+    const styles = window.getComputedStyle(measuredElement);
+    const marginX = parseFloat(styles.marginLeft) + parseFloat(styles.marginRight);
+
+    fullStylesWidth = parseFloat(styles.width) + marginX;
+  }
+
+  return fullStylesWidth;
+}
+
+function getFullElementContentWidth(element: HTMLElement): number | null {
+  const measuredElement = element instanceof HTMLElement ? element : document.querySelector(element);
+  let contentWidth: number | null = null;
+
+  if (measuredElement instanceof HTMLElement) {
+    const styles = window.getComputedStyle(measuredElement);
+    const paddingX = parseFloat(styles.paddingLeft) + parseFloat(styles.paddingRight);
+
+    contentWidth = measuredElement.offsetWidth - paddingX;
+  }
+
+  return contentWidth;
+}
+
 // eslint-disable-next-line max-lines-per-function
 const getSwiperInitParams = (initCB?: () => void): SwiperOptions => {
   return {
@@ -223,9 +273,14 @@ export default class CardsView extends View {
   }
 
   // eslint-disable-next-line class-methods-use-this,max-lines-per-function
-  private paginationResizeHandler(observingPaginationElement: HTMLElement, entries: ResizeObserverEntry[]): void {
-    console.log('--- Pagination resize observing element and entries:', observingPaginationElement, entries);
+  private paginationResizeHandler(
+    observingPaginationElement: HTMLElement,
+    entries: ResizeObserverEntry[],
+    observer: ResizeObserver,
+  ): void {
+    console.log('--- Pagination resize observing element and entries:', observingPaginationElement, entries, observer);
     const { observeElementDOMStyleAdding } = this;
+
     // eslint-disable-next-line max-lines-per-function
     entries.forEach((entry) => {
       console.log('Pagination resize entry: ', entry);
@@ -235,45 +290,120 @@ export default class CardsView extends View {
         throw new Error('Error in CardsView: empty pagination container!');
       }
 
-      if (entry.contentRect.height > 1.5 * paginationBullet.offsetHeight) {
-        let paginationBullets = Array.from(observingPaginationElement.children);
-        const currentSlideBullet = observingPaginationElement.getElementsByClassName(
-          'swiper-pagination-bullet-active',
-        )[0];
-        const currentSlideBulletIndex = paginationBullets.indexOf(currentSlideBullet);
-        if (currentSlideBulletIndex < 3) {
-          paginationBullets = paginationBullets.slice(0, currentSlideBulletIndex + 3).reverse();
-          // currentSlideBulletIndex = paginationBullets.indexOf(currentSlideBullet);
-          // paginationBullets[currentSlideBulletIndex - 2]?.setAttribute(ListAttributes.STYLE, 'width: 1em; height: 1em;');
-          // paginationBullets[currentSlideBulletIndex - 1]?.setAttribute(
-          //   ListAttributes.STYLE,
-          //   'width: 1.5em; height: 1.5em;',
-          // );
-          // paginationBullets[currentSlideBulletIndex + 1]?.setAttribute(
-          //   ListAttributes.STYLE,
-          //   'width: 1.5em; height: 1.5em;',
-          // );
-          // paginationBullets[currentSlideBulletIndex + 2]?.setAttribute(ListAttributes.STYLE, 'width: 1em; height: 1em;');
+      const paginationBullets = Array.from(observingPaginationElement.children);
+      const currentSlideBullet = observingPaginationElement.getElementsByClassName(
+        'swiper-pagination-bullet-active',
+      )[0];
+      // const currentSlideBulletIndex = paginationBullets.indexOf(currentSlideBullet);
+      const bulletWidth = getFullElementStylesWidth(paginationBullet);
+      const paginationContainerContentWidth = getFullElementContentWidth(observingPaginationElement);
+      if (!(bulletWidth !== null && paginationContainerContentWidth !== null)) {
+        throw new Error(
+          `Error in CardsView: in paginationResizeHandler error while bullet and pagination container calculation! Current values: ${bulletWidth}, ${paginationContainerContentWidth}`,
+        );
+      }
 
-          paginationBullets.forEach((bullet) => {
-            if (!(bullet instanceof HTMLElement)) {
-              throw new Error('Error in CardsView: missing bullet while set observer!');
-            }
-            observeElementDOMStyleAdding(bullet, 'swiper-pagination-bullet-active', (records, observer) => {
-              console.log('Attributes mutation!', records[0].target, observer);
-            });
-          });
-        } else {
-          paginationBullets = paginationBullets.slice(currentSlideBulletIndex - 2, currentSlideBulletIndex + 3);
-        }
+      const isBulletsFit =
+        paginationContainerContentWidth - bulletWidth * observingPaginationElement.children.length > bulletWidth * 0.5;
+      console.log('Bullet offsetWidth, paginationContainerContentWidth:', bulletWidth, paginationContainerContentWidth);
+
+      if (
+        !isBulletsFit &&
+        observingPaginationElement.children.length > 5 &&
+        entry.contentRect.height > 1.5 * paginationBullet.offsetHeight
+      ) {
+        this.manageDynamicBullets(currentSlideBullet, observingPaginationElement);
+
+        paginationBullets.forEach((bullet) => {
+          if (!(bullet instanceof HTMLElement)) {
+            throw new Error('Error in CardsView: missing bullet while set observer!');
+          }
+          // bullet.setAttribute(ListAttributes.STYLE, 'color: red;');
+          observeElementDOMStyleAdding(
+            bullet,
+            ['swiper-pagination-bullet-active', 'dynamic'],
+            (records, mutationObserver) => {
+              console.log(
+                'Attributes mutation!',
+                records,
+                records[0].oldValue,
+                records[0].target.firstChild?.textContent,
+                records[0].target instanceof HTMLElement
+                  ? records[0].target.firstElementChild?.classList.toString()
+                  : null,
+                mutationObserver,
+              );
+              this.manageDynamicBullets(records[0].target, observingPaginationElement);
+            },
+          );
+        });
+        observingPaginationElement.classList.add('dynamic');
+
+        observer.unobserve(observingPaginationElement);
+        window.requestAnimationFrame(() => {
+          observer.observe(observingPaginationElement);
+        });
+      } else if (isBulletsFit && observingPaginationElement.classList.contains('dynamic')) {
+        observingPaginationElement.classList.remove('dynamic');
+        observer.unobserve(observingPaginationElement);
+        window.requestAnimationFrame(() => {
+          observer.observe(observingPaginationElement);
+        });
       }
     });
+
+    // observer.disconnect();
+  }
+
+  // eslint-disable-next-line class-methods-use-this,max-lines-per-function
+  private manageDynamicBullets(currentBullet: HTMLElement | Node, paginationElement: HTMLElement): void {
+    const dynamicBulletsStyles: DynamicBulletsStyles = {
+      prevSmall: ['dynamic--displayed', 'prev-small'],
+      prevMedium: ['dynamic--displayed', 'prev-medium'],
+      current: ['dynamic--displayed'],
+      nextMedium: ['dynamic--displayed', 'next-medium'],
+      nextSmall: ['dynamic--displayed', 'next-small'],
+    };
+
+    const paginationBullets = Array.from(paginationElement.children);
+    const currentSlideBullet = paginationElement.getElementsByClassName('swiper-pagination-bullet-active')[0];
+    const currentSlideBulletIndex = paginationBullets.indexOf(currentSlideBullet);
+
+    paginationBullets.forEach((bullet, index) => {
+      if (index !== currentSlideBulletIndex) {
+        bullet.classList.remove(
+          dynamicBulletsStyles.current[0],
+          dynamicBulletsStyles.prevSmall[1],
+          dynamicBulletsStyles.prevMedium[1],
+          dynamicBulletsStyles.nextMedium[1],
+          dynamicBulletsStyles.nextSmall[1],
+        );
+      }
+    });
+
+    const controlledBullets = {
+      '-2':
+        currentBullet.previousSibling?.previousSibling instanceof HTMLElement
+          ? currentBullet.previousSibling?.previousSibling
+          : null,
+      '-1': currentBullet.previousSibling instanceof HTMLElement ? currentBullet.previousSibling : null,
+      '0': currentBullet instanceof HTMLElement ? currentBullet : null,
+      '1': currentBullet.nextSibling instanceof HTMLElement ? currentBullet.nextSibling : null,
+      '2':
+        currentBullet.nextSibling?.nextSibling instanceof HTMLElement ? currentBullet.nextSibling?.nextSibling : null,
+    };
+    controlledBullets['-2']?.classList.add(...dynamicBulletsStyles.prevSmall);
+    controlledBullets['-1']?.classList.add(...dynamicBulletsStyles.prevMedium);
+    // controlledBullets['0']?.classList.add(...dynamicBulletsStyles.current);
+    controlledBullets['1']?.classList.add(...dynamicBulletsStyles.nextMedium);
+    controlledBullets['2']?.classList.add(...dynamicBulletsStyles.nextSmall);
+    console.log(controlledBullets, paginationElement);
   }
 
   // eslint-disable-next-line class-methods-use-this
   private observeElementDOMStyleAdding(
     observingHTMLElement: HTMLElement | null,
-    observingClass: string,
+    observingClasses: [string, string],
     observerCallback: (records: MutationRecord[], observer: MutationObserver) => void,
   ): void {
     if (!(observingHTMLElement instanceof HTMLElement)) {
@@ -283,8 +413,9 @@ export default class CardsView extends View {
     }
     const elementClassObserver = new MutationObserver((records, observer) => {
       const observingElement = observingHTMLElement;
+      // console.log('--- All class mutations:', records);
       if (observingElement) {
-        if (observingElement.classList.contains(observingClass)) {
+        if (observingElement.classList.contains(observingClasses[0])) {
           observerCallback(records, observer);
         }
       }
