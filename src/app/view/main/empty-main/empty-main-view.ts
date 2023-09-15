@@ -5,7 +5,8 @@ import ButtonSignIn from '../../header/header-buttons/button-sign-in';
 import ButtonSignUp from '../../header/header-buttons/button-sign-up';
 import View from '../../view';
 import PromocodeSliderView from '../main-content/promocode-slider/promo-code-slider';
-import MainContentView from '../main-content/main-content-view';
+import AboutUsBlockView from '../main-content/main-information/about-us-block';
+import BuyKittenBlockView from '../main-content/main-information/buy-kitten-block';
 
 export default class EmptyMainView extends View {
   public buttonSignUp: ButtonSignUp;
@@ -14,17 +15,20 @@ export default class EmptyMainView extends View {
 
   public promocodeSlider: PromocodeSliderView;
 
-  private mainContent: MainContentView;
+  private aboutUsBlock: AboutUsBlockView;
+
+  private buyKittenBlock: BuyKittenBlockView;
 
   constructor(router: Router) {
     const params = {
-      tag: ListTags.MAIN,
+      tag: ListTags.CONTAINER,
     };
     super(params);
     this.buttonSignUp = new ButtonSignUp(router);
     this.buttonSignIn = new ButtonSignIn(router);
     this.promocodeSlider = new PromocodeSliderView();
-    this.mainContent = new MainContentView();
+    this.aboutUsBlock = new AboutUsBlockView();
+    this.buyKittenBlock = new BuyKittenBlockView();
     this.configureView();
   }
 
@@ -41,6 +45,13 @@ export default class EmptyMainView extends View {
     promocodesContainer.classList.add(...ListClasses.PADDING_PROMOCODE_SLIDER.split(' '));
     promocodesContainer.append(this.promocodeSlider.getHTMLElement() || '');
 
-    this.view.getHTMLElement()?.append(buttonsContainer, promocodesContainer, this.mainContent.getHTMLElement() || '');
+    this.view
+      .getHTMLElement()
+      ?.append(
+        buttonsContainer,
+        promocodesContainer,
+        this.aboutUsBlock.getHTMLElement() || '',
+        this.buyKittenBlock.getHTMLElement() || '',
+      );
   }
 }

@@ -1,13 +1,13 @@
-import ElementCreator from '../../../util/element-creator';
-import { ListAttributes } from '../../../util/enums/list-attributes';
-import { ListOfValues } from '../../../util/enums/list-attributesValues';
-import { ListClasses } from '../../../util/enums/list-classes';
-import { ListPaths } from '../../../util/enums/list-paths';
-import { ListTags } from '../../../util/enums/list-tags';
-import { ListTextContent } from '../../../util/enums/list-textContent';
-import View from '../../view';
+import ElementCreator from '../../../../util/element-creator';
+import { ListAttributes } from '../../../../util/enums/list-attributes';
+import { ListOfValues } from '../../../../util/enums/list-attributesValues';
+import { ListClasses } from '../../../../util/enums/list-classes';
+import { ListPaths } from '../../../../util/enums/list-paths';
+import { ListTags } from '../../../../util/enums/list-tags';
+import { ListTextContent } from '../../../../util/enums/list-textContent';
+import View from '../../../view';
 
-export default class MainContentView extends View {
+export default class AboutUsBlockView extends View {
   constructor() {
     const params = {
       tag: ListTags.CONTAINER,
@@ -17,7 +17,7 @@ export default class MainContentView extends View {
     this.configureView();
   }
 
-  public configureView(): void {
+  private configureView(): void {
     const params = {
       tag: ListTags.H3,
       classNames: ListClasses.MAIN_CONTENT_TITLE,

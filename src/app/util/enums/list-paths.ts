@@ -13,4 +13,7 @@ export const enum ListPaths {
   SHORTHAIRED = './assets/img/shorthaired.jpg',
   TOTAL_AMOUNT = './assets/img/totalAmount.jpg',
   MAIN_CAT = './assets/img/main-cat.webp',
+  KITTEN1 = './assets/img/kitten1.png',
+  KITTEN2 = './assets/img/kitten2.png',
+  KITTEN3 = './assets/img/kitten3.png',
 }

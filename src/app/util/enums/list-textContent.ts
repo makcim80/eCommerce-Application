@@ -113,6 +113,9 @@ export const enum ListTextContent {
   Our furry friends are unique. They are kept healthy by being fed natural vitamin-filled meals. We are delighted to choose and bring your
   new kittens to you and help them  get accustomed to a new family. We are also glad to advise our customers on all matters. The main aim of our
   company is to take care of our furry friends by matching them with a perfectly loving home. We pride ourselves in finding the best cats for our
-  clients in the most hassle free way possible. Let us help you find your most desired companion! Some more information you can read on our page
-  "About us"`,
+  clients in the most hassle free way possible. Let us help you find your most desired companion!`,
+  MAIN_CONTENT_TITLE_INFORMATION = 'How to buy a kitten?',
+  KITTEN1 = 'We choose responsible cat breeders from across the country as per your location.',
+  KITTEN2 = 'Our cat professionals assist you in choosing the perfect kitty.',
+  KITTEN3 = 'Your furry family member arrives at your door step with our delivery executive.',
 }
