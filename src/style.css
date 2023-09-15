@@ -84,10 +84,12 @@ body {
 .header-nav-active {
   transform: translateX(0);
 }
+
 .screen-fade {
   content: '';
   position: fixed;
-  z-index: 98;
+  /* z-index: 98; */
+  z-index: 30;
   top: 0;
   left: 0;
   right: 0;
@@ -128,8 +130,12 @@ body {
   background: linear-gradient(60deg, rgba(245,211,236,1) 9%, rgba(225,225,247,1) 69%, rgba(240,244,250,1) 83%);
 }
 
-.promocode  {
+.promocode {
   background: linear-gradient(135deg, #e56ed2 20%, #5a9ddb 70%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+
+.swiper-slide-fit-w {
+  width: fit-content !important;
 }

@@ -45,4 +45,5 @@ export const enum ListOfValues {
   BASKET_EMPTY = 'basket-empty',
   PROMOCODE_IMG = 'promocode-image',
   MAIN_CAT = 'main-cat',
+  LOADING_LAZY = 'lazy',
 }

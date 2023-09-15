@@ -48,7 +48,7 @@ export default class PromocodeSliderView extends View {
   constructor() {
     const params = {
       tag: ListTags.CONTAINER,
-      classNames: ListClasses.SWIPER,
+      classNames: ListClasses.SWIPER_MAIN_PAGE,
     };
     super(params);
     this.swiper = null;
