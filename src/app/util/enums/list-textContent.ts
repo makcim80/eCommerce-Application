@@ -100,4 +100,22 @@ export const enum ListTextContent {
   BILLING = 'Billing',
   SHIPPING_DEFAULT = 'Shipping(default)',
   BILLING_DEFAULT = 'Billing(default)',
+  TOTAL = 'TOTAL',
+  ORIGINAL_PRICE = 'Original price',
+  ORDER = 'Order',
+  DISCOUNT = 'Discount',
+  CLEAR_BASKET = 'Clear basket',
+  PROMO_CODE = 'PROMO CODE',
+  BASKET_EMPTY = 'Your cart is empty... Find the products you need in the catalog',
+  SWIPER_ERR = 'swiperSliderHTMLElement is null!',
+  MAIN_CONTENT_TITLE = 'A LITTLE ABOUT US',
+  MAIN_CONTENT = `  Our shop is a marketplace for the sale of kittens. We make the process of adoption and relocation as fast and easy as possible. 
+  Our furry friends are unique. They are kept healthy by being fed natural vitamin-filled meals. We are delighted to choose and bring your
+  new kittens to you and help them  get accustomed to a new family. We are also glad to advise our customers on all matters. The main aim of our
+  company is to take care of our furry friends by matching them with a perfectly loving home. We pride ourselves in finding the best cats for our
+  clients in the most hassle free way possible. Let us help you find your most desired companion!`,
+  MAIN_CONTENT_TITLE_INFORMATION = 'How to buy a kitten?',
+  KITTEN1 = 'We choose responsible cat breeders from across the country as per your location.',
+  KITTEN2 = 'Our cat professionals assist you in choosing the perfect kitty.',
+  KITTEN3 = 'Your furry family member arrives at your door step with our delivery executive.',
 }

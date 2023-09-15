@@ -38,10 +38,16 @@ module.exports = {
       },
       screens: {
         'sm-sm': '320px',
+        '445px': '445px',
+        '515px': '515px',
+        '606px': '606px',
         'sm-s': '640px',
         'sm-ss': '689px',
         'max-ms': '805px',
+        '900px': '900px',
         'lg-l': '1024px',
+        '1200px': '1200px',
+        '1350px': '1350px',
         '2xl': '1536px',
       },
       inset: {
@@ -68,6 +74,8 @@ module.exports = {
         '25rem': '25rem',
       },
       fontSize: {
+        '0.55rem': '0.55rem',
+        '0.65rem': '0.65rem',
         'xx-s': '0.7rem',
       },
       padding: {
@@ -84,6 +92,28 @@ module.exports = {
         '13rem': '13rem',
         '23rem': '23rem',
         '28rem': '28rem',
+        '8rem': '8rem',
+        '665px': '665px',
+      },
+      maxHeight: {
+        '374px': '374px',
+      },
+      flex: {
+        '2flex': '0 0 9rem',
+      },
+      minHeight: {
+        '8rem': '8rem',
+      },
+      flexGrow: {
+        100: '100',
+        99: '99',
+      },
+      boxShadow: {
+        '5xl': '0 2px 6px rgba(28,28,30,.3)',
+      },
+      fontFamily: {
+        'serif-s': ['ui-serif', 'Rubik Wet Paint'],
+        'mono-s': ['ui-sans-serif', 'Roboto'],
       },
     },
   },
