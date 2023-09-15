@@ -113,9 +113,20 @@
 .catalog-swiper-slider-pagination > .swiper-pagination-bullet-active {
   color: #000000;
   background-color: theme('colors.input-color');
+  scale: 1.1;
 }
 
 .catalog-swiper-slider-pagination.dynamic > span:not(.dynamic--displayed, .swiper-pagination-bullet-active) {
   display: none;
   color: rgba(109, 252, 103, 0.5);
+}
+
+.prev-medium,
+.next-medium {
+  scale: 0.85;
+}
+
+.prev-small,
+.next-small {
+  scale: 0.70;
 }
