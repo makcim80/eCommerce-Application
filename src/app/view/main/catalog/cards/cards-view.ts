@@ -3,6 +3,7 @@ import Swiper from 'swiper';
 import { SwiperOptions } from 'swiper/types/swiper-options';
 import { CSSSelector } from 'swiper/types/shared';
 import { Pagination, EffectCreative } from 'swiper/modules';
+import { ProductProjection } from '@commercetools/platform-sdk/dist/declarations/src/generated/models/product';
 import { ListTags } from '../../../../util/enums/list-tags';
 import View from '../../../view';
 import CardView from './card/card-view';
@@ -12,6 +13,11 @@ import SwiperWrapperView from './swiper-wrapper/swiper-wrapper-view';
 import SwiperPaginationView from './swiper-pagination-view/swiper-pagination-view';
 
 import './cards-view.css';
+import {
+  getFullElementContentWidth,
+  getFullElementStylesWidth,
+  observeElementDOMAppearance,
+} from '../../../../util/utils';
 
 interface DynamicBulletsStyles {
   prevSmall: string[];
@@ -21,90 +27,50 @@ interface DynamicBulletsStyles {
   nextSmall: string[];
 }
 
-// function getFullElementWidth(element: HTMLElement): number | null {
-//   const measuredElement = element instanceof HTMLElement ? element : document.querySelector(element);
-//   let fullWidth: number | null = null;
-//
-//   if (measuredElement instanceof HTMLElement) {
-//     const styles = window.getComputedStyle(measuredElement);
-//     const marginX = parseFloat(styles.marginLeft) + parseFloat(styles.marginRight);
-//
-//     fullWidth = measuredElement.offsetWidth + marginX;
-//   }
-//
-//   return fullWidth;
-// }
+const baseSwiperInitParams: SwiperOptions = {
+  modules: [Pagination, EffectCreative],
+  slidesPerView: 4,
+  slidesPerGroup: 4,
+  spaceBetween: 22,
+  pagination: {
+    el: '.swiper-pagination' as CSSSelector,
+    dynamicBullets: false,
+    clickable: true,
+    renderBullet(index: number, className: string): string {
+      return `<span class="${className}"><span>${index + 1}</span></span>`;
+    },
+  },
+  autoHeight: true,
+  breakpoints: {
+    0: {
+      slidesPerView: 1,
+      slidesPerGroup: 1,
+    },
+    480: {
+      slidesPerView: 2,
+      slidesPerGroup: 2,
+      spaceBetween: 8,
+    },
+    880: {
+      slidesPerView: 3,
+      slidesPerGroup: 3,
+      spaceBetween: 16,
+    },
+    1024: {
+      slidesPerView: 4,
+      slidesPerGroup: 4,
+      spaceBetween: 22,
+    },
+    1440: {
+      slidesPerView: 5,
+      slidesPerGroup: 5,
+      spaceBetween: 22,
+    },
+  },
+};
 
-function getFullElementStylesWidth(element: HTMLElement): number | null {
-  const measuredElement = element instanceof HTMLElement ? element : document.querySelector(element);
-  let fullStylesWidth: number | null = null;
-
-  if (measuredElement instanceof HTMLElement) {
-    const styles = window.getComputedStyle(measuredElement);
-    const marginX = parseFloat(styles.marginLeft) + parseFloat(styles.marginRight);
-
-    fullStylesWidth = parseFloat(styles.width) + marginX;
-  }
-
-  return fullStylesWidth;
-}
-
-function getFullElementContentWidth(element: HTMLElement): number | null {
-  const measuredElement = element instanceof HTMLElement ? element : document.querySelector(element);
-  let contentWidth: number | null = null;
-
-  if (measuredElement instanceof HTMLElement) {
-    const styles = window.getComputedStyle(measuredElement);
-    const paddingX = parseFloat(styles.paddingLeft) + parseFloat(styles.paddingRight);
-
-    contentWidth = measuredElement.offsetWidth - paddingX;
-  }
-
-  return contentWidth;
-}
-
-// eslint-disable-next-line max-lines-per-function
 const getSwiperInitParams = (initCB?: () => void): SwiperOptions => {
-  return {
-    modules: [Pagination, EffectCreative],
-    slidesPerView: 4,
-    slidesPerGroup: 4,
-    spaceBetween: 22,
-    pagination: {
-      el: '.swiper-pagination' as CSSSelector,
-      dynamicBullets: false,
-      clickable: true,
-      renderBullet(index: number, className: string): string {
-        return `<span class="${className}"><span>${index + 1}</span></span>`;
-      },
-    },
-    autoHeight: true,
-    breakpoints: {
-      0: {
-        slidesPerView: 1,
-        slidesPerGroup: 1,
-      },
-      480: {
-        slidesPerView: 2,
-        slidesPerGroup: 2,
-        spaceBetween: 8,
-      },
-      880: {
-        slidesPerView: 3,
-        slidesPerGroup: 3,
-        spaceBetween: 16,
-      },
-      1024: {
-        slidesPerView: 4,
-        slidesPerGroup: 4,
-        spaceBetween: 22,
-      },
-      1440: {
-        slidesPerView: 5,
-        slidesPerGroup: 5,
-        spaceBetween: 22,
-      },
-    },
+  return Object.assign(baseSwiperInitParams, {
     on: {
       init(): void {
         console.log('afterInit fired!');
@@ -113,10 +79,12 @@ const getSwiperInitParams = (initCB?: () => void): SwiperOptions => {
         }
       },
     },
-  };
+  });
 };
 
 export default class CardsView extends View {
+  private readonly swiperWrapper: SwiperWrapperView;
+
   private readonly swiperPagination: SwiperPaginationView;
 
   private swiper: Swiper | null;
@@ -129,16 +97,15 @@ export default class CardsView extends View {
     super(params);
 
     this.swiper = null;
+    this.swiperWrapper = new SwiperWrapperView();
     this.swiperPagination = new SwiperPaginationView();
   }
 
-  // eslint-disable-next-line max-lines-per-function
   public async configureView(
     products: ClientResponse<ProductProjectionPagedQueryResponse>,
     router?: Router,
   ): Promise<void> {
     const container = this.getHTMLElement();
-
     if (container instanceof HTMLDivElement) container.innerHTML = '';
 
     let routerGuarded: Router;
@@ -148,16 +115,22 @@ export default class CardsView extends View {
       throw new Error('Error: Missing router in CardsView component!');
     }
 
-    const swiperWrapper = new SwiperWrapperView();
+    this.generateSlides(products.body.results, routerGuarded);
 
-    products.body.results.forEach((product) => {
-      const card = new CardView(routerGuarded, product.masterVariant.sku ? product.masterVariant.sku : 'corrupted-sku');
+    observeElementDOMAppearance(container, this.initSwiper.bind(this, container));
+
+    container?.append(this.swiperWrapper.getHTMLElement() || '');
+    container?.append(this.swiperPagination.getHTMLElement() || '');
+  }
+
+  private generateSlides(products: ProductProjection[], router: Router): void {
+    products.forEach((product) => {
+      const card = new CardView(router, product.masterVariant.sku ? product.masterVariant.sku : 'corrupted-sku');
       if (product.masterVariant.images) card.setSrcImg(product.masterVariant.images[0].url);
       card.setAltImg(product.name['en-US']);
       if (product.masterVariant.prices) {
         const price = product.masterVariant.prices[0].value;
         const discountedPrice = product.masterVariant.prices[0].discounted?.value;
-
         card.setPriceHeading(`${price.currencyCode} ${(price.centAmount / 100).toFixed(2)}`);
         if (discountedPrice) {
           card.crossOutPrice();
@@ -169,39 +142,8 @@ export default class CardsView extends View {
       card.setNameHeading(product.name['en-US']);
       if (product.description) card.setDescriptionHeading(product.description['en-US']);
 
-      swiperWrapper.view.addInnerElement(card);
+      this.swiperWrapper.view.addInnerElement(card);
     });
-
-    this.observeElementDOMAppearance(container, this.initSwiper.bind(this, container));
-
-    container?.append(swiperWrapper.getHTMLElement() || '');
-    container?.append(this.swiperPagination.getHTMLElement() || '');
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  private observeElementDOMAppearance(observingHTMLElement: HTMLElement | null, observerCallback: () => void): void {
-    if (!(observingHTMLElement instanceof HTMLElement)) {
-      throw new Error(
-        'Error while setup dom appearance observer: observingHTMLElement must be instance of HTMLElement!',
-      );
-    }
-    const swiperSliderObserver = new MutationObserver(() => {
-      const observingElement = observingHTMLElement;
-      if (observingElement) {
-        if (document.contains(observingElement)) {
-          observerCallback();
-          swiperSliderObserver.disconnect();
-        }
-      }
-    });
-
-    const observeParams = {
-      attributes: false,
-      childList: true,
-      characterData: false,
-      subtree: true,
-    };
-    swiperSliderObserver.observe(document, observeParams);
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -413,7 +355,6 @@ export default class CardsView extends View {
     }
     const elementClassObserver = new MutationObserver((records, observer) => {
       const observingElement = observingHTMLElement;
-      // console.log('--- All class mutations:', records);
       if (observingElement) {
         if (observingElement.classList.contains(observingClasses[0])) {
           observerCallback(records, observer);
@@ -447,25 +388,6 @@ export default class CardsView extends View {
     });
 
     this.swiper = new Swiper(container, getSwiperInitParams());
-    // this.swiper.on('afterInit', () => {
-    //   console.log('afterInit fired!');
-    //   // this.swiper?.updateAutoHeight(1000);
-    //   // this.swiper?.update();
-    //   this.observeCardIntersections();
-    // });
-    this.swiper.on('slideNextTransitionEnd', () => {
-      // this.swiper?.update();
-      // this.swiper?.updateAutoHeight(1000);
-      // console.log('slideNextTransitionEnd fired!');
-    });
-    this.swiper.on('touchStart', () => {
-      // console.log('touchStart fired!');
-    });
-    this.swiper.on('transitionEnd', () => {
-      // console.log('transitionEnd fired!');
-    });
-
-    console.log('Initialized!');
 
     this.observeCardIntersections();
     this.observeHTMLElementResize(this.swiperPagination.getHTMLElement(), this.paginationResizeHandler.bind(this));
