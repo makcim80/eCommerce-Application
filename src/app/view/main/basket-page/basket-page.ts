@@ -9,6 +9,7 @@ import BasketEmptyView from './basket-empty/basket-empty-view';
 import Router from '../../../router/router';
 import ProductLine from './one-product-line/product-line';
 import { discountCodes, discountCodesId } from '../../../util/discount-codes';
+import ModalClearBasket from './modal-clear-basket/modal-clear-basket';
 
 export default class BasketPageView extends View {
   private readonly quantityMin = '1';
@@ -21,6 +22,8 @@ export default class BasketPageView extends View {
 
   private basketEmpty: BasketEmptyView;
 
+  private modalClearBasket: ModalClearBasket;
+
   constructor(router: Router, cart: Carts) {
     const params = {
       tag: ListTags.CONTAINER,
@@ -30,6 +33,7 @@ export default class BasketPageView extends View {
     this.basketList = new BasketList();
     this.basketSummary = new BasketSummary();
     this.basketEmpty = new BasketEmptyView(router);
+    this.modalClearBasket = new ModalClearBasket();
     this.configureView(cart);
   }
 
@@ -43,13 +47,15 @@ export default class BasketPageView extends View {
       this.basketList.configureView(cartArr);
       this.setSummaryPrice(cartBody, cartArr);
       this.getHTMLElement()?.append(this.basketList.getHTMLElement() || '', this.basketSummary.getHTMLElement() || '');
+      this.getHTMLElement()?.append(this.modalClearBasket.getHTMLElement() || '');
       this.basketList.getOrdersArr().forEach((order) => {
         this.quantityChangeListener(order, cart);
         this.quantityIncreaseListener(order, cart);
         this.quantityReduceListener(order, cart);
         this.deleteProductListener(order, cart);
       });
-      this.clearBasketListener(cart);
+      this.clearBasketListener();
+      this.confirmationClearBasketListener(cart);
       if (!cartBody.discountCodes.length) {
         this.applyPromoCodeListener(cart);
       } else {
@@ -201,10 +207,24 @@ export default class BasketPageView extends View {
     }
   }
 
-  private clearBasketListener(cart: Carts): void {
+  private clearBasketListener(): void {
     const buttonClearBasket = this.basketSummary.buttonClear.getButton();
     if (buttonClearBasket instanceof HTMLButtonElement) {
-      buttonClearBasket.addEventListener('click', async () => {
+      buttonClearBasket.addEventListener('click', () => {
+        this.modalClearBasket?.getHTMLElement()?.classList.add(...ListClasses.OVERLAY_OPEN.split(' '));
+        const textMessage = this.modalClearBasket?.textMessage?.getHTMLElement();
+        if (textMessage) {
+          textMessage.textContent = 'Are you sure you would like to remove all products from you basket?';
+        }
+      });
+    }
+  }
+
+  private confirmationClearBasketListener(cart: Carts): void {
+    const buttonYes = this.modalClearBasket.buttonYes.getHTMLElement();
+    if (buttonYes instanceof HTMLButtonElement) {
+      buttonYes.addEventListener('click', async () => {
+        this.modalClearBasket.getHTMLElement()?.classList.remove(ListClasses.OVERLAY_OPEN);
         await cart.deleteCart();
         await this.configureView(cart);
       });
