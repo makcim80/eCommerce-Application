@@ -1,3 +1,4 @@
+import Carts from '../components/carts';
 import Router from './router/router';
 import { Api } from './util/enums/api';
 import { ID_SELECTOR, Pages } from './util/enums/pages';
@@ -20,12 +21,15 @@ export default class App {
 
   private readonly router: Router;
 
+  private cart: Carts;
+
   constructor() {
     this.header = null;
     this.main = null;
     this.footer = null;
     const routes = this.createRoutes();
     this.router = new Router(routes);
+    this.cart = new Carts();
     this.createView();
   }
 
@@ -90,14 +94,21 @@ export default class App {
         path: `${Pages.CATALOG}`,
         callback: async (): Promise<void> => {
           const { default: CatalogView } = await import('./view/main/catalog/catalog-view');
-          this.setContent(Pages.CATALOG, new CatalogView(this.router));
+          this.setContent(Pages.CATALOG, new CatalogView(this.router, this.cart));
         },
       },
       {
         path: `${Pages.CAT_DETAILS}/${ID_SELECTOR}`,
         callback: async (id): Promise<void> => {
           const { default: CatDetailsView } = await import('./view/main/cat-details/cat-details-view');
-          this.setContent(Pages.CAT_DETAILS, new CatDetailsView(id));
+          this.setContent(Pages.CAT_DETAILS, new CatDetailsView(id, this.cart));
+        },
+      },
+      {
+        path: `${Pages.BASKET}`,
+        callback: async (): Promise<void> => {
+          const { default: BasketPageView } = await import('./view/main/basket-page/basket-page');
+          this.setContent(Pages.BASKET, new BasketPageView(this.router, this.cart));
         },
       },
     ];
