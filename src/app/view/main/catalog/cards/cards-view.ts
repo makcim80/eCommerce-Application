@@ -112,12 +112,31 @@ export default class CardsView extends View {
       throw new Error('Error: Missing router in CardsView component!');
     }
 
+    this.clearSlides();
     this.generateSlides(products.body.results, routerGuarded);
-
-    observeElementDOMAppearance(container, this.initSwiper.bind(this, container));
 
     container?.append(this.swiperWrapper.getHTMLElement() || '');
     container?.append(this.swiperPagination.getHTMLElement() || '');
+
+    if (document.contains(this.view.getHTMLElement())) {
+      this.initSwiper(container);
+    } else {
+      observeElementDOMAppearance(container, this.initSwiper.bind(this, container));
+    }
+  }
+
+  private clearSlides(): void {
+    const currentSwiperWrapperElement = this.swiperWrapper.getHTMLElement();
+
+    if (!currentSwiperWrapperElement) {
+      throw new Error('Error in CardsView: Missing HTML Element from swiperWrapper component!');
+    }
+
+    if (currentSwiperWrapperElement.firstElementChild) {
+      while (currentSwiperWrapperElement.firstElementChild) {
+        currentSwiperWrapperElement.firstElementChild.remove();
+      }
+    }
   }
 
   private generateSlides(products: ProductProjection[], router: Router): void {
@@ -198,7 +217,11 @@ export default class CardsView extends View {
       card.classList.add(...[ListClasses.SWIPER_SLIDE]);
     });
 
-    this.swiper = new Swiper(container, getSwiperInitParams());
+    if (this.swiper) {
+      this.swiper.init(container);
+    } else {
+      this.swiper = new Swiper(container, getSwiperInitParams());
+    }
 
     this.observeCardIntersections();
   }
