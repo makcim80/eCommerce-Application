@@ -354,7 +354,7 @@ export default class CatDetailsView extends View {
       removeBasketBtnElem.addEventListener('click', async () => {
         const { cart } = this;
         removeBasketBtnElem.disabled = true;
-        this.removeBasketBtn.inactiveButton();
+        this.removeBasketBtn.inactiveRemoveButton();
         await cart.removeLineItemCart(this.productId);
         basketBtnElem.disabled = false;
         this.basketBtn.activeButton();
