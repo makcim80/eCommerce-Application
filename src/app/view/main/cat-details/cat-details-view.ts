@@ -9,6 +9,7 @@ import ElementCreator from '../../../util/element-creator';
 import CatDetailsSliderView, { CatDetailsSliderSliderConfig } from './slider/cat-details-slider-view';
 import AddToCartBtnView from '../catalog/cards/card/add-to-cart-btn/add-to-cart-btn-view';
 import AddToCartBtnWrpView from '../catalog/cards/card/add-to-cart-btn-wrp/add-to-cart-btn-wrp-view';
+import Carts from '../../../../components/carts';
 
 const createParams = (id?: string): ISource => {
   return {
@@ -48,12 +49,17 @@ export default class CatDetailsView extends View {
 
   private readonly basketBtn: AddToCartBtnView;
 
-  constructor(id: string) {
+  private readonly removeBasketBtn: AddToCartBtnView;
+
+  private readonly cart: Carts;
+
+  constructor(id: string, cart: Carts) {
     super(createParams());
 
     this.errors = Errors;
     this.productId = id;
     this.response = null;
+    this.cart = cart;
 
     this.nameEnUS = null;
     this.imagesObjectsArr = null;
@@ -63,6 +69,7 @@ export default class CatDetailsView extends View {
     this.priceDiscount = null;
     this.basketBtnWrp = new AddToCartBtnWrpView();
     this.basketBtn = new AddToCartBtnView();
+    this.removeBasketBtn = new AddToCartBtnView();
 
     this.content = null;
     this.contentRight = null;
@@ -308,6 +315,50 @@ export default class CatDetailsView extends View {
     }
 
     this.basketBtnWrp.view.addInnerElement(this.basketBtn);
+    this.basketBtnWrp.view.addInnerElement(this.removeBasketBtn);
     this.contentRight.addInnerElement(this.basketBtnWrp);
+
+    if (this.cart.keysSkuLineItemIdArr().includes(this.productId)) {
+      this.basketBtn.inactiveButton();
+      this.removeBasketBtn.activeRemoveButton();
+    } else {
+      this.basketBtn.activeButton();
+      this.removeBasketBtn.inactiveRemoveButton();
+    }
+    this.buttonAddToBasketListener();
+    this.buttonRemoveFromBasketListener();
+  }
+
+  private buttonAddToBasketListener(): void {
+    const basketBtnElem = this.basketBtn.getHTMLElement();
+    const removeBasketBtnElem = this.removeBasketBtn.getHTMLElement();
+
+    if (basketBtnElem instanceof HTMLButtonElement && removeBasketBtnElem instanceof HTMLButtonElement) {
+      basketBtnElem.addEventListener('click', async () => {
+        const { cart } = this;
+        basketBtnElem.disabled = true;
+        this.basketBtn.inactiveButton();
+        if (!cart.getCartId()) await cart.createCart();
+        await cart.addLineItemCart(this.productId);
+        removeBasketBtnElem.disabled = false;
+        this.removeBasketBtn.activeRemoveButton();
+      });
+    }
+  }
+
+  private buttonRemoveFromBasketListener(): void {
+    const basketBtnElem = this.basketBtn.getHTMLElement();
+    const removeBasketBtnElem = this.removeBasketBtn.getHTMLElement();
+
+    if (removeBasketBtnElem instanceof HTMLButtonElement && basketBtnElem instanceof HTMLButtonElement) {
+      removeBasketBtnElem.addEventListener('click', async () => {
+        const { cart } = this;
+        removeBasketBtnElem.disabled = true;
+        this.removeBasketBtn.inactiveButton();
+        await cart.removeLineItemCart(this.productId);
+        basketBtnElem.disabled = false;
+        this.basketBtn.activeButton();
+      });
+    }
   }
 }

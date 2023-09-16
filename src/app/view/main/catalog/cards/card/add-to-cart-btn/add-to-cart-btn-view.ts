@@ -32,6 +32,42 @@ export default class AddToCartBtnView extends View {
     this.configureView();
   }
 
+  public inactiveButton(): void {
+    const btnElem = this.getHTMLElement();
+    if (btnElem instanceof HTMLButtonElement) {
+      btnElem.classList.add(ListClasses.BACKGROUND_GRAY);
+      btnElem.textContent = 'In Basket';
+      btnElem.disabled = true;
+    }
+  }
+
+  public activeButton(): void {
+    const btnElem = this.getHTMLElement();
+    if (btnElem instanceof HTMLButtonElement) {
+      btnElem.classList.remove(ListClasses.BACKGROUND_GRAY);
+      btnElem.textContent = 'Add to Basket';
+      btnElem.disabled = false;
+    }
+  }
+
+  public inactiveRemoveButton(): void {
+    const btnElem = this.getHTMLElement();
+    if (btnElem instanceof HTMLButtonElement) {
+      btnElem.classList.add(ListClasses.BACKGROUND_GRAY);
+      btnElem.textContent = 'Out of Basket';
+      btnElem.disabled = true;
+    }
+  }
+
+  public activeRemoveButton(): void {
+    const btnElem = this.getHTMLElement();
+    if (btnElem instanceof HTMLButtonElement) {
+      btnElem.classList.remove(ListClasses.BACKGROUND_GRAY);
+      btnElem.textContent = 'Remove from Basket';
+      btnElem.disabled = false;
+    }
+  }
+
   private configureView(): void {
     this.view.setCallback((event) => {
       event.stopPropagation();
