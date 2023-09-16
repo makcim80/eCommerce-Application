@@ -192,7 +192,9 @@ export default class CatalogView extends View {
       this.sidebar.getSubCategory().hiddenContainer();
       this.resetFiltering();
       const products = await new ProductsSearch().getProducts(searchInput);
-      this.cards.configureView(products, this.router, this.cart).then();
+      this.cards.configureView(products, this.router, this.cart, false).then(() => {
+        this.cards.initSwiper(this.cards.getHTMLElement());
+      });
     }
   }
 

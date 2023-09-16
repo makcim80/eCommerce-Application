@@ -37,7 +37,6 @@
 
 .swiper-button-next:active,
 .swiper-button-prev:active {
-  scale: 0.8;
 }
 
 .swiper-pagination-bullet {
@@ -48,11 +47,6 @@
 
 .swiper-pagination-bullet:hover {
   background-color: theme('colors.input-color');
-  scale: 1.5;
-}
-
-.swiper-pagination-bullet:active {
-  scale: 2;
 }
 
 .swiper-pagination-bullet-active {
