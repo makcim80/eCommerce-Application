@@ -6,6 +6,7 @@ export const enum Pages {
   CATALOG = 'catalog',
   CAT_DETAILS = 'cat-details',
   PROFILE = 'profile',
+  BASKET = 'basket',
 }
 
 export const ID_SELECTOR = '{id}';
