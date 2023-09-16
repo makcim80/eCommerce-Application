@@ -75,10 +75,8 @@
   right: 0;
   bottom: 0;
   left: 0;
-  /*background-color: rgba(17, 74, 84, 0.1);*/
   border: unset;
   border-radius: unset;
-  /*animation: preloader-bg-blink 1s infinite !important;*/
   animation: unset !important;
   width: unset;
   height: unset;
@@ -132,19 +130,16 @@
 .catalog-swiper-slider-pagination > .swiper-pagination-bullet:hover {
   color: #000000;
   background-color: theme('colors.input-color');
-  /*scale: 1.2;*/
 }
 
 .catalog-swiper-slider-pagination > .swiper-pagination-bullet:active {
   color: #000000;
   background-color: theme('colors.input-color');
-  /*scale: 1.4;*/
 }
 
 .catalog-swiper-slider-pagination > .swiper-pagination-bullet-active {
   color: #000000;
   background-color: theme('colors.input-color');
-  /*scale: 1.1;*/
 }
 
 .catalog-swiper-slider-pagination.swiper-pagination-bullets-dynamic .swiper-pagination-bullet-active-prev,
