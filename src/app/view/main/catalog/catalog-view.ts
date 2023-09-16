@@ -12,6 +12,7 @@ import Router from '../../../router/router';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
+import Carts from '../../../../components/carts';
 
 export default class CatalogView extends View {
   private readonly SORTING_ALPHABETICALLY = 'abc...';
@@ -32,7 +33,9 @@ export default class CatalogView extends View {
 
   private router: Router;
 
-  constructor(router: Router) {
+  private cart: Carts;
+
+  constructor(router: Router, cart: Carts) {
     const params = {
       tag: ListTags.CONTAINER,
       classNames: ListClasses.CATALOG,
@@ -40,6 +43,7 @@ export default class CatalogView extends View {
     super(params);
 
     this.router = router;
+    this.cart = cart;
 
     this.sidebar = new SidebarView();
     this.cards = new CardsView();
@@ -65,16 +69,16 @@ export default class CatalogView extends View {
 
     if (filterArr.length && this.optionSorting()) {
       const products = await new ProductsFiltering().getProducts(filterArr, this.optionSorting());
-      this.cards.configureView(products, this.router).then();
+      this.cards.configureView(products, this.router, this.cart).then();
     } else if (filterArr.length) {
       const products = await new ProductsFiltering().getProducts(filterArr);
-      this.cards.configureView(products, this.router).then();
+      this.cards.configureView(products, this.router, this.cart).then();
     } else if (this.optionSorting()) {
       const products = await new ProductsFiltering().getProducts(filterArr, this.optionSorting());
-      this.cards.configureView(products, this.router).then();
+      this.cards.configureView(products, this.router, this.cart).then();
     } else {
       const products = await new Products().getProducts();
-      this.cards.configureView(products, this.router).then();
+      this.cards.configureView(products, this.router, this.cart).then();
     }
   }
 
@@ -169,7 +173,7 @@ export default class CatalogView extends View {
     this.sidebar.getSubCategory().hiddenContainer();
     this.resetFiltering();
     const products = await new Products().getProducts();
-    this.cards.configureView(products, this.router).then();
+    this.cards.configureView(products, this.router, this.cart).then();
   }
 
   private resetFiltering(): void {
@@ -188,7 +192,7 @@ export default class CatalogView extends View {
       this.sidebar.getSubCategory().hiddenContainer();
       this.resetFiltering();
       const products = await new ProductsSearch().getProducts(searchInput);
-      this.cards.configureView(products, this.router).then();
+      this.cards.configureView(products, this.router, this.cart).then();
     }
   }
 
@@ -215,10 +219,10 @@ export default class CatalogView extends View {
     if (fieldOption.length) filterArr.push(`categories.id: ${fieldOption.join(', ')}`);
     if (filterArr.length) {
       const products = await new ProductsFiltering().getProducts(filterArr);
-      this.cards.configureView(products, this.router).then();
+      this.cards.configureView(products, this.router, this.cart).then();
     } else {
       const products = await new Products().getProducts();
-      this.cards.configureView(products, this.router).then();
+      this.cards.configureView(products, this.router, this.cart).then();
     }
   }
 
@@ -242,13 +246,13 @@ export default class CatalogView extends View {
     if (fieldOption.length) filterArr.push(`categories.id: ${fieldOption.join(', ')}`);
     if (filterArr.length) {
       const products = await new ProductsFiltering().getProducts(filterArr);
-      this.cards.configureView(products, this.router).then();
+      this.cards.configureView(products, this.router, this.cart).then();
     }
   }
 
   private async configureView(): Promise<void> {
     const products = await new Products().getProducts();
-    this.cards.configureView(products, this.router).then();
+    this.cards.configureView(products, this.router, this.cart).then();
 
     this.getHTMLElement()?.append(this.sidebar.getHTMLElement() || '', this.cards.getHTMLElement() || '');
   }

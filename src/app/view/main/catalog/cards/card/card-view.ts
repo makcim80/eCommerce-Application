@@ -11,6 +11,7 @@ import Router from '../../../../../router/router';
 import ImgPreloaderCardView from './img-preloader-card/img-preloader-card-view';
 import AddToCartBtnView, { Config } from './add-to-cart-btn/add-to-cart-btn-view';
 import AddToCartBtnWrpView from './add-to-cart-btn-wrp/add-to-cart-btn-wrp-view';
+import Carts from '../../../../../../components/carts';
 
 export default class CardView extends View {
   private readonly sku: string;
@@ -34,7 +35,7 @@ export default class CardView extends View {
 
   private readonly basketBtn: AddToCartBtnView;
 
-  constructor(router: Router, sku: string) {
+  constructor(router: Router, sku: string, cart: Carts) {
     const params = {
       tag: ListTags.CONTAINER,
       classNames: [ListClasses.CARD, ListClasses.POINTER],
@@ -56,7 +57,7 @@ export default class CardView extends View {
     this.description = new DescriptionCardView();
     this.basketBtnWrp = new AddToCartBtnWrpView();
     this.basketBtn = new AddToCartBtnView(basketBtnConfig);
-    this.configureView(router);
+    this.configureView(router, cart);
   }
 
   public setSrcImg(src: string): void {
@@ -87,7 +88,7 @@ export default class CardView extends View {
     this.description.setDescriptionHeading(description);
   }
 
-  private configureView(router: Router): void {
+  private configureView(router: Router, cart: Carts): void {
     this.basketBtnWrp.view.addInnerElement(this.basketBtn);
     this.view
       .getHTMLElement()
@@ -101,5 +102,24 @@ export default class CardView extends View {
         this.basketBtnWrp.getHTMLElement() || '',
       );
     this.view.setCallback(() => router.navigate(`${Pages.CAT_DETAILS}/${this.sku}`));
+    if (cart.keysSkuLineItemIdArr().includes(this.sku)) {
+      this.basketBtn.inactiveButton();
+    } else {
+      this.basketBtn.activeButton();
+      this.buttonAddToBasketListener(cart);
+    }
+  }
+
+  private buttonAddToBasketListener(cart: Carts): void {
+    const basketBtnElem = this.basketBtn.getHTMLElement();
+
+    if (basketBtnElem instanceof HTMLButtonElement) {
+      basketBtnElem.addEventListener('click', async () => {
+        basketBtnElem.disabled = true;
+        this.basketBtn.inactiveButton();
+        if (!cart.getCartId()) await cart.createCart();
+        await cart.addLineItemCart(this.sku);
+      });
+    }
   }
 }

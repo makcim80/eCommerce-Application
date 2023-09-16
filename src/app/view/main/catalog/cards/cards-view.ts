@@ -18,6 +18,7 @@ import {
   getFullElementStylesWidth,
   observeElementDOMAppearance,
 } from '../../../../util/utils';
+import Carts from '../../../../../components/carts';
 
 interface DynamicBulletsStyles {
   prevSmall: string[];
@@ -103,7 +104,8 @@ export default class CardsView extends View {
 
   public async configureView(
     products: ClientResponse<ProductProjectionPagedQueryResponse>,
-    router?: Router,
+    router: Router,
+    cart: Carts,
   ): Promise<void> {
     const container = this.getHTMLElement();
     if (container instanceof HTMLDivElement) container.innerHTML = '';
@@ -115,7 +117,7 @@ export default class CardsView extends View {
       throw new Error('Error: Missing router in CardsView component!');
     }
 
-    this.generateSlides(products.body.results, routerGuarded);
+    this.generateSlides(products.body.results, routerGuarded, cart);
 
     observeElementDOMAppearance(container, this.initSwiper.bind(this, container));
 
@@ -123,9 +125,9 @@ export default class CardsView extends View {
     container?.append(this.swiperPagination.getHTMLElement() || '');
   }
 
-  private generateSlides(products: ProductProjection[], router: Router): void {
+  private generateSlides(products: ProductProjection[], router: Router, cart: Carts): void {
     products.forEach((product) => {
-      const card = new CardView(router, product.masterVariant.sku ? product.masterVariant.sku : 'corrupted-sku');
+      const card = new CardView(router, product.masterVariant.sku ? product.masterVariant.sku : 'corrupted-sku', cart);
       if (product.masterVariant.images) card.setSrcImg(product.masterVariant.images[0].url);
       card.setAltImg(product.name['en-US']);
       if (product.masterVariant.prices) {
