@@ -221,8 +221,6 @@ export default class CardsView extends View {
     });
 
     if (this.swiper) {
-      // this.swiper = null;
-      // this.swiper = new Swiper(container, getSwiperInitParams());
       this.swiper.init(container);
     } else {
       this.swiper = new Swiper(container, getSwiperInitParams());
