@@ -100,6 +100,13 @@ export default class App {
           this.setContent(Pages.CAT_DETAILS, new CatDetailsView(id));
         },
       },
+      {
+        path: `${Pages.ABOUT_US}`,
+        callback: async (): Promise<void> => {
+          const { default: AboutUsView } = await import('./view/main/about-us/about-us-view');
+          this.setContent(Pages.ABOUT_US, new AboutUsView());
+        },
+      },
     ];
   }
 
