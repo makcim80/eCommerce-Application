@@ -101,6 +101,7 @@ export default class CardsView extends View {
   public async configureView(
     products: ClientResponse<ProductProjectionPagedQueryResponse>,
     router?: Router,
+    initSwiper: boolean = true,
   ): Promise<void> {
     const container = this.getHTMLElement();
     if (container instanceof HTMLDivElement) container.innerHTML = '';
@@ -118,10 +119,12 @@ export default class CardsView extends View {
     container?.append(this.swiperWrapper.getHTMLElement() || '');
     container?.append(this.swiperPagination.getHTMLElement() || '');
 
-    if (document.contains(this.view.getHTMLElement())) {
-      this.initSwiper(container);
-    } else {
-      observeElementDOMAppearance(container, this.initSwiper.bind(this, container));
+    if (initSwiper) {
+      if (document.contains(this.view.getHTMLElement())) {
+        this.initSwiper(container);
+      } else {
+        observeElementDOMAppearance(container, this.initSwiper.bind(this, container));
+      }
     }
   }
 
@@ -203,7 +206,7 @@ export default class CardsView extends View {
     });
   }
 
-  private initSwiper(container: HTMLElement | null): void {
+  public initSwiper(container: HTMLElement | null): void {
     if (!(container instanceof HTMLElement)) {
       throw new Error('Error in CardsView: container must be instance of HTMLElement!');
     }
@@ -218,6 +221,8 @@ export default class CardsView extends View {
     });
 
     if (this.swiper) {
+      // this.swiper = null;
+      // this.swiper = new Swiper(container, getSwiperInitParams());
       this.swiper.init(container);
     } else {
       this.swiper = new Swiper(container, getSwiperInitParams());

@@ -1,3 +1,7 @@
+.catalog > .catalog-cards {
+  flex-grow: 1;
+}
+
 .catalog-card {
   min-height: 584px;
   padding: 1rem 0;
@@ -105,12 +109,6 @@
 
 .catalog-swiper-slider-wrapper > .swiper-slide {
   height: unset !important;
-}
-
-.catalog-swiper-slider-pagination {
-  /*padding-left: 96px;*/
-  /*padding-right: 64px;*/
-  /*padding-bottom: 24px;*/
 }
 
 .catalog-swiper-slider-pagination > .swiper-pagination-bullet {
