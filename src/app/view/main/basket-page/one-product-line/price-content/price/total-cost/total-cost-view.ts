@@ -2,7 +2,7 @@ import { ListClasses } from '../../../../../../../util/enums/list-classes';
 import { ListTags } from '../../../../../../../util/enums/list-tags';
 import View from '../../../../../../view';
 
-export default class DiscountView extends View {
+export default class TotalCostView extends View {
   constructor() {
     const params = {
       tag: ListTags.H6,
@@ -11,11 +11,11 @@ export default class DiscountView extends View {
     super(params);
   }
 
-  public setDiscountedPriceHeading(discountedPrice: string): void {
+  public setTotalCost(totalCost: string): void {
     const elemDiscountedPrice = this.getHTMLElement();
 
     if (elemDiscountedPrice instanceof HTMLHeadingElement) {
-      elemDiscountedPrice.textContent = discountedPrice;
+      elemDiscountedPrice.textContent = totalCost;
     }
   }
 }

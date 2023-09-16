@@ -21,7 +21,14 @@ export default class ButtonQuantityInput extends View {
       input.setAttribute(ListAttributes.TYPE, ListOfValues.NUMBER);
       input.setAttribute(ListAttributes.STEP, ListOfValues.STEP);
       input.setAttribute(ListAttributes.MIN, ListOfValues.STEP);
-      input.value = '1';
+    }
+  }
+
+  public setQuantity(quantity: string): void {
+    const inputElem = this.getHTMLElement();
+
+    if (inputElem instanceof HTMLInputElement) {
+      inputElem.value = quantity;
     }
   }
 }

@@ -21,4 +21,16 @@ export default class PromocodeElements extends View {
       .getHTMLElement()
       ?.append(this.promocodeInput.getHTMLElement() || '', this.buttonApply.getHTMLElement() || '');
   }
+
+  public getButtonApply(): HTMLElement | null {
+    return this.buttonApply.getHTMLElement();
+  }
+
+  public inactiveButton(): void {
+    this.getButtonApply()?.classList.add(...ListClasses.HIDDEN.split(' '));
+  }
+
+  public activeButton(): void {
+    this.getButtonApply()?.classList.remove(...ListClasses.HIDDEN.split(' '));
+  }
 }
