@@ -61,9 +61,40 @@
   object-fit: contain;
 }
 
-.catalog-card > .catalog-card-img-preloader {
+.catalog-card-img-wrp {
+  position: relative;
+}
+
+.catalog-card-img-wrp > .catalog-card-img-preloader {
   position: absolute;
-  top: 25%;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  /*background-color: rgba(17, 74, 84, 0.1);*/
+  border: unset;
+  border-radius: unset;
+  /*animation: preloader-bg-blink 1s infinite !important;*/
+  animation: unset !important;
+  width: unset;
+  height: unset;
+  margin: unset;
+}
+
+@keyframes preloader-bg-blink {
+  0% {
+    background-color: rgba(17, 74, 84, 0);
+  }
+  50% {
+    background-color: rgba(17, 74, 84, 0.1);
+  }
+  100% {
+    background-color: rgba(17, 74, 84, 0);
+  }
+}
+
+.paw-template {
+  filter: drop-shadow(3px 5px 2px rgba(0, 0, 0, 0.5));
 }
 
 .catalog > .catalog-swiper-slider {
