@@ -77,9 +77,9 @@
 }
 
 .catalog-swiper-slider-pagination {
-  padding-left: 96px;
-  padding-right: 64px;
-  padding-bottom: 24px;
+  /*padding-left: 96px;*/
+  /*padding-right: 64px;*/
+  /*padding-bottom: 24px;*/
 }
 
 .catalog-swiper-slider-pagination > .swiper-pagination-bullet {
@@ -93,6 +93,7 @@
   border-radius: 100%;
   width: 2em;
   height: 2em;
+  font-size: 1rem;
 }
 
 .swiper-pagination-bullet > span {
@@ -102,19 +103,29 @@
 .catalog-swiper-slider-pagination > .swiper-pagination-bullet:hover {
   color: #000000;
   background-color: theme('colors.input-color');
-  scale: 1.2;
+  /*scale: 1.2;*/
 }
 
 .catalog-swiper-slider-pagination > .swiper-pagination-bullet:active {
   color: #000000;
   background-color: theme('colors.input-color');
-  scale: 1.4;
+  /*scale: 1.4;*/
 }
 
 .catalog-swiper-slider-pagination > .swiper-pagination-bullet-active {
   color: #000000;
   background-color: theme('colors.input-color');
-  scale: 1.1;
+  /*scale: 1.1;*/
+}
+
+.catalog-swiper-slider-pagination.swiper-pagination-bullets-dynamic .swiper-pagination-bullet-active-prev,
+.catalog-swiper-slider-pagination.swiper-pagination-bullets-dynamic .swiper-pagination-bullet-active-next {
+  transform: none;
+}
+
+.catalog-swiper-slider-pagination.swiper-pagination-bullets-dynamic .swiper-pagination-bullet-active-prev-prev,
+.catalog-swiper-slider-pagination.swiper-pagination-bullets-dynamic .swiper-pagination-bullet-active-next-next {
+  transform: scale(0.75);
 }
 
 .catalog-swiper-slider-pagination.dynamic > span:not(.dynamic--displayed, .swiper-pagination-bullet-active) {
