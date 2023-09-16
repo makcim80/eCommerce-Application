@@ -104,7 +104,7 @@ export const enum ListClasses {
   CARD_PRICE = 'catalog-card-price text-center',
   // CARD_BTN_ADD_TO_BASKET_WRP = 'card-add-to-basket-wrp flex grow flex-col items-center justify-end',
   CARD_BTN_ADD_TO_BASKET_WRP = 'card-add-to-basket-wrp flex grow flex-row gap-x-2.5 justify-center items-end',
-  CARD_BTN_ADD_TO_BASKET = 'card-add-to-basket bg-red-400 text-white py-1 px-3 rounded-md hover:text-white hover:decoration-white hover:underline w-fit h-fit',
+  CARD_BTN_ADD_TO_BASKET = 'card-add-to-basket text-white py-1 px-3 rounded-md hover:text-white hover:decoration-white hover:underline w-fit h-fit',
   PADDING_LEFT_1REM = 'pl-4',
   PADDING_RIGHT_1REM = 'pr-4',
   BUTTON_APPLY_RESET = 'bg-red-400 text-white m-3 py-1 px-3 rounded-md hover:text-white hover:decoration-white hover:underline',
@@ -197,5 +197,6 @@ export const enum ListClasses {
   SWIPER_WRAPPER = 'swiper-wrapper',
   SWIPER_PAGINATION = 'swiper-pagination',
   SWIPER_PRELOADER = 'swiper-lazy-preloader swiper-lazy-preloader-black',
+  BACKGROUND_RED = 'bg-red-400',
   BACKGROUND_GRAY = 'bg-gray-500',
 }
