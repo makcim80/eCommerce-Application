@@ -123,10 +123,15 @@ export default class CardView extends View {
         this.basketBtn.removeTextButton();
         basketBtnElem.classList.add('loader');
         basketBtnElem.disabled = true;
-        if (!cart.getCartId()) await cart.createCart();
-        await cart.addLineItemCart(this.sku);
-        basketBtnElem.classList.remove('loader');
-        this.basketBtn.inactiveButton();
+        try {
+          if (!cart.getCartId()) await cart.createCart();
+          await cart.addLineItemCart(this.sku);
+        } catch {
+          basketBtnElem.classList.remove('loader');
+        } finally {
+          basketBtnElem.classList.remove('loader');
+          this.basketBtn.inactiveButton();
+        }
       });
     }
   }
