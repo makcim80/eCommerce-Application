@@ -34,7 +34,7 @@ export default class FooterView extends View {
       tag: ListTags.CONTAINER,
       classNames: ListClasses.FOLLOW_US_DIV,
     };
-    const footerContainer = new ElementCreator(params1);
+    const footerContainerOfLinks = new ElementCreator(params1);
 
     const params2 = {
       tag: ListTags.CONTAINER,
@@ -43,13 +43,19 @@ export default class FooterView extends View {
     };
     const textCopyright = new ElementCreator(params2);
 
+    const params3 = {
+      tag: ListTags.CONTAINER,
+      classNames: ListClasses.FOOTER_BLOCK,
+    };
+    const footerContainer = new ElementCreator(params3);
+
+    footerContainerOfLinks
+      .getHTMLElement()
+      ?.append(this.footerLinks?.getHTMLElement() || '', this.footerSocialLinks?.getHTMLElement() || '');
+
     footerContainer
       .getHTMLElement()
-      ?.append(
-        this.footerLinks?.getHTMLElement() || '',
-        this.footerSocialLinks?.getHTMLElement() || '',
-        textCopyright.getHTMLElement() || '',
-      );
+      ?.append(footerContainerOfLinks.getHTMLElement() || '', textCopyright.getHTMLElement() || '');
 
     footerContent.addInnerElement(footerContainer);
     this.view.addInnerElement(footerContent);
