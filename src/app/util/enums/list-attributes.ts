@@ -13,4 +13,6 @@ export const enum ListAttributes {
   MAX = 'max',
   DISABLED = 'disabled',
   LOADING = 'loading',
+  TARGET = 'target',
+  DATA = 'data-attribite',
 }

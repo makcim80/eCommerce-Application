@@ -19,7 +19,7 @@ export default class CatalogAndAboutUsButtonsContainer extends View {
     super(params);
 
     this.buttonCatalog = new ButtonCatalog(router);
-    this.buttonAboutUs = new ButtonAboutUs();
+    this.buttonAboutUs = new ButtonAboutUs(router);
     this.configureView();
   }
 

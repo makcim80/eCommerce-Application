@@ -36,7 +36,7 @@ export default class App {
   private createView(): void {
     this.header = new HeaderView(this.router);
     this.main = new MainView();
-    this.footer = new FooterView();
+    this.footer = new FooterView(this.router);
 
     document.body.append(
       this.header.getHTMLElement() || '',
@@ -109,6 +109,13 @@ export default class App {
         callback: async (): Promise<void> => {
           const { default: BasketPageView } = await import('./view/main/basket-page/basket-page');
           this.setContent(Pages.BASKET, new BasketPageView(this.router, this.cart));
+        },
+      },
+      {
+        path: `${Pages.ABOUT_US}`,
+        callback: async (): Promise<void> => {
+          const { default: AboutUsView } = await import('./view/main/about-us/about-us-view');
+          this.setContent(Pages.ABOUT_US, new AboutUsView());
         },
       },
     ];
