@@ -13,6 +13,7 @@ import AddToCartBtnView, { Config } from './add-to-cart-btn/add-to-cart-btn-view
 import AddToCartBtnWrpView from './add-to-cart-btn-wrp/add-to-cart-btn-wrp-view';
 import CardImgWrpView from './card-img-wrp/card-img-wrp-view';
 import Carts from '../../../../../../components/carts';
+import './card-view.css';
 
 export default class CardView extends View {
   private readonly sku: string;
@@ -119,10 +120,13 @@ export default class CardView extends View {
 
     if (basketBtnElem instanceof HTMLButtonElement) {
       basketBtnElem.addEventListener('click', async () => {
+        this.basketBtn.removeTextButton();
+        basketBtnElem.classList.add('loader');
         basketBtnElem.disabled = true;
-        this.basketBtn.inactiveButton();
         if (!cart.getCartId()) await cart.createCart();
         await cart.addLineItemCart(this.sku);
+        basketBtnElem.classList.remove('loader');
+        this.basketBtn.inactiveButton();
       });
     }
   }

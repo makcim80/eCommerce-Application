@@ -72,6 +72,13 @@ export default class AddToCartBtnView extends View {
     }
   }
 
+  public removeTextButton(): void {
+    const btnElem = this.getHTMLElement();
+    if (btnElem instanceof HTMLButtonElement) {
+      btnElem.textContent = '';
+    }
+  }
+
   private configureView(): void {
     this.view.setCallback((event) => {
       event.stopPropagation();
