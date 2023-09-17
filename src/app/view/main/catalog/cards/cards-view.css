@@ -1,3 +1,7 @@
+.catalog > .catalog-cards {
+  flex-grow: 1;
+}
+
 .catalog-card {
   min-height: 584px;
   padding: 1rem 0;
@@ -61,9 +65,38 @@
   object-fit: contain;
 }
 
-.catalog-card > .catalog-card-img-preloader {
+.catalog-card-img-wrp {
+  position: relative;
+}
+
+.catalog-card-img-wrp > .catalog-card-img-preloader {
   position: absolute;
-  top: 25%;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  border: unset;
+  border-radius: unset;
+  animation: unset !important;
+  width: unset;
+  height: unset;
+  margin: unset;
+}
+
+@keyframes preloader-bg-blink {
+  0% {
+    background-color: rgba(17, 74, 84, 0);
+  }
+  50% {
+    background-color: rgba(17, 74, 84, 0.1);
+  }
+  100% {
+    background-color: rgba(17, 74, 84, 0);
+  }
+}
+
+.paw-template {
+  filter: drop-shadow(3px 5px 2px rgba(0, 0, 0, 0.5));
 }
 
 .catalog > .catalog-swiper-slider {
@@ -74,12 +107,6 @@
 
 .catalog-swiper-slider-wrapper > .swiper-slide {
   height: unset !important;
-}
-
-.catalog-swiper-slider-pagination {
-  padding-left: 96px;
-  padding-right: 64px;
-  padding-bottom: 24px;
 }
 
 .catalog-swiper-slider-pagination > .swiper-pagination-bullet {
@@ -93,6 +120,7 @@
   border-radius: 100%;
   width: 2em;
   height: 2em;
+  font-size: 1rem;
 }
 
 .swiper-pagination-bullet > span {
@@ -102,19 +130,26 @@
 .catalog-swiper-slider-pagination > .swiper-pagination-bullet:hover {
   color: #000000;
   background-color: theme('colors.input-color');
-  scale: 1.2;
 }
 
 .catalog-swiper-slider-pagination > .swiper-pagination-bullet:active {
   color: #000000;
   background-color: theme('colors.input-color');
-  scale: 1.4;
 }
 
 .catalog-swiper-slider-pagination > .swiper-pagination-bullet-active {
   color: #000000;
   background-color: theme('colors.input-color');
-  scale: 1.1;
+}
+
+.catalog-swiper-slider-pagination.swiper-pagination-bullets-dynamic .swiper-pagination-bullet-active-prev,
+.catalog-swiper-slider-pagination.swiper-pagination-bullets-dynamic .swiper-pagination-bullet-active-next {
+  transform: none;
+}
+
+.catalog-swiper-slider-pagination.swiper-pagination-bullets-dynamic .swiper-pagination-bullet-active-prev-prev,
+.catalog-swiper-slider-pagination.swiper-pagination-bullets-dynamic .swiper-pagination-bullet-active-next-next {
+  transform: scale(0.75);
 }
 
 .catalog-swiper-slider-pagination.dynamic > span:not(.dynamic--displayed, .swiper-pagination-bullet-active) {

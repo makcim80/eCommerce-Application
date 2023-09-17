@@ -11,12 +11,13 @@ import Router from '../../../../../router/router';
 import ImgPreloaderCardView from './img-preloader-card/img-preloader-card-view';
 import AddToCartBtnView, { Config } from './add-to-cart-btn/add-to-cart-btn-view';
 import AddToCartBtnWrpView from './add-to-cart-btn-wrp/add-to-cart-btn-wrp-view';
+import CardImgWrpView from './card-img-wrp/card-img-wrp-view';
 
 export default class CardView extends View {
   private readonly sku: string;
 
   // TODO: add img wrapper for img and imgPreloader.
-  private imgWrapper: null;
+  private imgWrapper: CardImgWrpView;
 
   private img: ImgCardView;
 
@@ -47,7 +48,7 @@ export default class CardView extends View {
     };
 
     this.sku = sku;
-    this.imgWrapper = null;
+    this.imgWrapper = new CardImgWrpView();
     this.img = new ImgCardView();
     this.imgPreloader = new ImgPreloaderCardView();
     this.discountedPrice = new DiscountedPriceCardView();
@@ -89,11 +90,14 @@ export default class CardView extends View {
 
   private configureView(router: Router): void {
     this.basketBtnWrp.view.addInnerElement(this.basketBtn);
+
+    this.imgWrapper.view.addInnerElement(this.img);
+    this.imgWrapper.view.addInnerElement(this.imgPreloader);
+
     this.view
       .getHTMLElement()
       ?.append(
-        this.img.getHTMLElement() || '',
-        this.imgPreloader.getHTMLElement() || '',
+        this.imgWrapper.getHTMLElement() || '',
         this.name.getHTMLElement() || '',
         this.description.getHTMLElement() || '',
         this.discountedPrice.getHTMLElement() || '',
