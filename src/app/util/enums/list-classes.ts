@@ -102,7 +102,6 @@ export const enum ListClasses {
   CARD_TITLE = 'catalog-card-title text-2xl text-center',
   CARD_DESCRIPTION = 'catalog-card-description',
   CARD_PRICE = 'catalog-card-price text-center',
-  // CARD_BTN_ADD_TO_BASKET_WRP = 'card-add-to-basket-wrp flex grow flex-col items-center justify-end',
   CARD_BTN_ADD_TO_BASKET_WRP = 'card-add-to-basket-wrp flex grow flex-row gap-x-2.5 justify-center items-end',
   CARD_BTN_ADD_TO_BASKET = 'card-add-to-basket text-white py-1 px-3 rounded-md hover:text-white hover:decoration-white hover:underline w-fit h-fit',
   PADDING_LEFT_1REM = 'pl-4',

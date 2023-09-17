@@ -20,18 +20,5 @@ export default class OriginalPriceSummary extends View {
     this.view
       .getHTMLElement()
       ?.append(this.originalPriceTitle.getHTMLElement() || '', this.originalPrice.getHTMLElement() || '');
-
-    // const total = this.originalPrice.getHTMLElement();
-    // if (total) {
-    //   total.innerHTML = 'EUR 730.40';
-    // }
   }
-
-  // public setOriginalPrice(originalPrice: string): void {
-  //   const total = this.originalPrice.getHTMLElement();
-
-  //   if (total instanceof HTMLHeadingElement) {
-  //     total.textContent = originalPrice;
-  //   }
-  // }
 }

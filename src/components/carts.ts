@@ -1,13 +1,7 @@
-// import {
-//   // TokenCacheOptions,
-//   // TokenStore,
-//   TokenCache,
-// } from '@commercetools/sdk-client-v2';
 import { Cart, ClientResponse, MyCartUpdateAction, createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
 import { ByProjectKeyRequestBuilder } from '@commercetools/platform-sdk/dist/declarations/src/generated/client/by-project-key-request-builder';
 import AnonymClient from './BuildClientAnonymous';
 import { Api } from '../app/util/enums/api';
-// import ExistingTokenClient from './BuildClientExistingToken';
 import RefreshTokenClient from './BuildClientRefreshToken';
 
 export default class Carts {
@@ -21,17 +15,13 @@ export default class Carts {
 
   private accessToken!: string;
 
-  // private existingTokenClient: ExistingTokenClient;
-
   private refreshTokenClient: RefreshTokenClient;
 
   constructor() {
     this.Id = '';
     this.version = 1;
     this.anonymClient = new AnonymClient();
-    // this.existingTokenClient = new ExistingTokenClient();
     this.refreshTokenClient = new RefreshTokenClient();
-    // this.createCart();
   }
 
   public getCartId(): string {
@@ -54,27 +44,11 @@ export default class Carts {
         .execute();
       this.Id = cart.body.id;
       this.version = cart.body.version;
-      // localStorage.setItem(Api.STORAGE, `${this.anonymClient.tokenCache().get().token}`);
       localStorage.setItem(Api.REFRESH_TOKEN, `${this.anonymClient.tokenCache().get().refreshToken}`);
     } catch (error) {
-      // localStorage.removeItem(Api.STORAGE);
       localStorage.removeItem(Api.REFRESH_TOKEN);
       console.error('Carts', error);
     }
-    // await this.updateCart('b6549679-2e6b-46f6-ac0e-9e8a2e640000', 3);
-    // await this.addLineItemCart('aby-01');
-    // await this.changeLineItemQuantityCart('aby-01', 3);
-    // await this.addLineItemCart('aby-01');
-    // await this.changeLineItemQuantityCart('aby-01', 1);
-    // await this.addLineItemCart('ben-01');
-    // await this.changeLineItemQuantityCart('ben-01', 4);
-    // await this.addLineItemCart('pet-01');
-    // await this.removeLineItemCart('aby-01');
-    // await this.removeLineItemCart('ben-01');
-    // console.log(this.keysSkuLineItemIdArr());
-    // await this.addDiscountCodeCart('SHORTHAIRED2023');
-    // await this.removeDiscountCodeCart('762a6079-dd94-4b99-bb0b-feaec4b07906');
-    // await this.getCart();
   }
 
   public async addLineItemCart(sku: string): Promise<void> {
@@ -84,7 +58,6 @@ export default class Carts {
         sku,
       },
     ];
-    // const cart = await this.updateCart(this.apiRootExistingToken(), actions);
     const cart = await this.updateCart(this.apiRootRefreshToken(), actions);
     if (!cart) throw new Error();
     const lastIndexItem = cart.body.lineItems.length - 1;
@@ -101,7 +74,6 @@ export default class Carts {
         quantity,
       },
     ];
-    // await this.updateCart(this.apiRootExistingToken(), actions);
     await this.updateCart(this.apiRootRefreshToken(), actions);
   }
 
@@ -114,7 +86,6 @@ export default class Carts {
         lineItemId,
       },
     ];
-    // await this.updateCart(this.apiRootExistingToken(), actions);
     await this.updateCart(this.apiRootRefreshToken(), actions);
     this.skuLineItemId.delete(sku);
     if (!this.skuLineItemId.size) {
@@ -129,7 +100,6 @@ export default class Carts {
         code,
       },
     ];
-    // await this.updateCart(this.apiRootExistingToken(), actions);
     await this.updateCart(this.apiRootRefreshToken(), actions);
   }
 
@@ -143,7 +113,6 @@ export default class Carts {
         },
       },
     ];
-    // await this.updateCart(this.apiRootExistingToken(), actions);
     await this.updateCart(this.apiRootRefreshToken(), actions);
   }
 
@@ -151,19 +120,7 @@ export default class Carts {
     return Array.from(this.skuLineItemId.keys());
   }
 
-  // private apiRootExistingToken(): ByProjectKeyRequestBuilder {
-  //   // this.accessToken = this.anonymClient.tokenCache().get().token;
-  //   this.accessToken = localStorage.getItem(Api.STORAGE) || '';
-  //   const apiRoot = createApiBuilderFromCtpClient(
-  //     this.existingTokenClient.existingTokenClient(`Bearer ${this.accessToken}`),
-  //   ).withProjectKey({
-  //     projectKey: Api.PROJECT_KEY,
-  //   });
-  //   return apiRoot;
-  // }
-
   private apiRootRefreshToken(): ByProjectKeyRequestBuilder {
-    // this.refreshToken = this.anonymClient.tokenCache().get().refreshToken;
     const refreshToken = localStorage.getItem(Api.REFRESH_TOKEN) || '';
     const apiRoot = createApiBuilderFromCtpClient(
       this.refreshTokenClient.refreshTokenClient(refreshToken),
@@ -192,7 +149,7 @@ export default class Carts {
       this.version = cart.body.version;
       return cart;
     } catch (error) {
-      // console.error('Carts', error);
+      console.error('Carts', error);
     }
     return null;
   }

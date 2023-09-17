@@ -190,7 +190,6 @@ export default class BasketPageView extends View {
           lineItem.totalPrice.fractionDigits,
         )}`,
       );
-      // order.setQuantity(`${lineItem.quantity}`);
     }
     if (cartArr?.length && cartBody) {
       this.setSummaryPrice(cartBody, cartArr);

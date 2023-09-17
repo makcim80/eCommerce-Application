@@ -10,6 +10,7 @@ import CatDetailsSliderView, { CatDetailsSliderSliderConfig } from './slider/cat
 import AddToCartBtnView from '../catalog/cards/card/add-to-cart-btn/add-to-cart-btn-view';
 import AddToCartBtnWrpView from '../catalog/cards/card/add-to-cart-btn-wrp/add-to-cart-btn-wrp-view';
 import Carts from '../../../../components/carts';
+import ModalMessage from '../profile/modal-message/message-modal';
 
 const createParams = (id?: string): ISource => {
   return {
@@ -53,6 +54,8 @@ export default class CatDetailsView extends View {
 
   private readonly cart: Carts;
 
+  private readonly modalRemoveProduct: ModalMessage;
+
   constructor(id: string, cart: Carts) {
     super(createParams());
 
@@ -60,7 +63,6 @@ export default class CatDetailsView extends View {
     this.productId = id;
     this.response = null;
     this.cart = cart;
-
     this.nameEnUS = null;
     this.imagesObjectsArr = null;
     this.descriptionEnUS = null;
@@ -70,6 +72,7 @@ export default class CatDetailsView extends View {
     this.basketBtnWrp = new AddToCartBtnWrpView();
     this.basketBtn = new AddToCartBtnView();
     this.removeBasketBtn = new AddToCartBtnView();
+    this.modalRemoveProduct = new ModalMessage();
 
     this.content = null;
     this.contentRight = null;
@@ -182,6 +185,7 @@ export default class CatDetailsView extends View {
         throw this.errors.contentRightIsNull();
       }
       this.view.addInnerElement(this.content);
+      this.view.addInnerElement(this.modalRemoveProduct);
     } else {
       throw this.errors.contentIsNull();
     }
@@ -352,12 +356,24 @@ export default class CatDetailsView extends View {
 
     if (removeBasketBtnElem instanceof HTMLButtonElement && basketBtnElem instanceof HTMLButtonElement) {
       removeBasketBtnElem.addEventListener('click', async () => {
+        this.modalRemoveProduct.getHTMLElement()?.classList.add(...ListClasses.OVERLAY_OPEN);
+        const textMessage = this.modalRemoveProduct.textMessage?.getHTMLElement();
         const { cart } = this;
         removeBasketBtnElem.disabled = true;
         this.removeBasketBtn.inactiveRemoveButton();
-        await cart.removeLineItemCart(this.productId);
-        basketBtnElem.disabled = false;
-        this.basketBtn.activeButton();
+        try {
+          await cart.removeLineItemCart(this.productId);
+          if (textMessage) {
+            textMessage.textContent = 'The product has been successfully removed';
+          }
+        } catch {
+          if (textMessage) {
+            textMessage.textContent = 'Unsuccessful completion of the deletion operation';
+          }
+        } finally {
+          basketBtnElem.disabled = false;
+          this.basketBtn.activeButton();
+        }
       });
     }
   }

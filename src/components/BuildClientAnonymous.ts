@@ -41,7 +41,6 @@ export default class AnonymClient {
       projectKey: this.projectKey,
       host: Api.HOST_API,
     };
-    // let tokenStoreT: TokenStore;
     this.tOptions = tOptions;
 
     const tokenCacheT: TokenCache = {
@@ -62,48 +61,3 @@ export default class AnonymClient {
       .build();
   }
 }
-
-// const projectKey = Api.PROJECT_KEY;
-// const scopes = [Api.SCOPES_CARTS];
-
-// export function tokenCache(): TokenCache {
-//   let tOptions: TokenCacheOptions | undefined = {
-//     clientId: Api.CLIENT_ID_LOG,
-//     projectKey: Api.PROJECT_KEY,
-//     host: Api.HOST_API,
-//   };
-
-//   let tokenStoreT: TokenStore;
-
-//   const tokenCacheT: TokenCache = {
-//     get: () => tokenStoreT,
-//     set: (tokenStore) => {
-//       tokenStoreT = tokenStore;
-//       tOptions = tokenCacheOptions;
-//     },
-//   };
-
-//   return tokenCacheT;
-// }
-
-// const authMiddlewareOptions: AuthMiddlewareOptions = {
-//   host: Api.HOST_AUTH,
-//   projectKey,
-//   credentials: {
-//     clientId: Api.CLIENT_ID_CARTS,
-//     clientSecret: Api.CLIENT_SECRET_CARTS,
-//   },
-//   scopes,
-//   fetch,
-//   tokenCache: tokenCache(),
-// };
-
-// const httpMiddlewareOptions: HttpMiddlewareOptions = {
-//   host: Api.HOST_API,
-//   fetch,
-// };
-
-// export const anonymClient = new ClientBuilder()
-//   .withAnonymousSessionFlow(authMiddlewareOptions)
-//   .withHttpMiddleware(httpMiddlewareOptions)
-//   .build();

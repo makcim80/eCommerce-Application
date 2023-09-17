@@ -23,8 +23,5 @@ export default class TotalPrice extends View {
 
     const total = this.totalPrice.getHTMLElement();
     total?.classList.add(ListClasses.TEXT_RED);
-    // if (total) {
-    //   total.innerHTML = 'EUR 730.40';
-    // }
   }
 }
