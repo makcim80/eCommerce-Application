@@ -171,7 +171,7 @@ export const enum ListClasses {
   BUTTON_ORDER = 'bg-red-400 text-white flex m-auto mt-5 py-1 px-3 rounded-md hover:text-white hover:decoration-white hover:underline',
   TOTAL_PRICE_INFO = 'p-2 mb-4 rounded-lg summary flex flex-col gap-y-2',
   PROMOCODE = 'text-center text-white promocode',
-  PROMOCODE_INPUT = 'w-24 mr-2.5 outline-0 rounded px-1',
+  PROMOCODE_INPUT = 'w-9/12 mr-2.5 outline-0 rounded px-1',
   PROMOCODE_ELEMENTS = 'flex justify-center items-center',
   PADDING = 'px-2',
   PADDING_MAIN_CONTENT = 'p-3',
