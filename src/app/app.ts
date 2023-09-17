@@ -51,8 +51,8 @@ export default class App {
       {
         path: ``,
         callback: async (): Promise<void> => {
-          const { default: LoginView } = await import('./view/main/form-login/login-view');
-          this.setContent(Pages.LOGIN, new LoginView(this.router));
+          const { default: EmptyMainView } = await import('./view/main/empty-main/empty-main-view');
+          this.setContent(Pages.MAIN, new EmptyMainView(this.router));
         },
       },
       {
