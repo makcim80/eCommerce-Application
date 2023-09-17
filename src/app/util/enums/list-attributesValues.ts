@@ -46,4 +46,8 @@ export const enum ListOfValues {
   PROMOCODE_IMG = 'promocode-image',
   MAIN_CAT = 'main-cat',
   LOADING_LAZY = 'lazy',
+  TARGET_ATTRIBUTE_VALUE = '_blank',
+  PHOTO = 'photo',
+  SOCIAL_ICON = 'footer-icon',
+  RS_SCHOOL = 'rs-school',
 }

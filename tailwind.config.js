@@ -19,6 +19,7 @@ module.exports = {
         'label-profile': '#9797af',
         'popup-color': '#EBEBEB',
         'modal-password': '#292929CC',
+        'bg-about': '#E3E49C',
       },
       borderWidth: {
         // eslint-disable-next-line prettier/prettier
@@ -39,6 +40,7 @@ module.exports = {
       screens: {
         'sm-sm': '320px',
         '445px': '445px',
+        '465px': '465px',
         '515px': '515px',
         '606px': '606px',
         'sm-s': '640px',
@@ -47,7 +49,9 @@ module.exports = {
         '900px': '900px',
         'lg-l': '1024px',
         '1200px': '1200px',
+        '1207px': '1207px',
         '1350px': '1350px',
+        '1462px': '1462px',
         '2xl': '1536px',
       },
       inset: {
@@ -89,10 +93,12 @@ module.exports = {
         '900px': '900px',
       },
       maxWidth: {
+        '8rem': '8rem',
         '13rem': '13rem',
         '23rem': '23rem',
         '28rem': '28rem',
-        '8rem': '8rem',
+        '500px': '500px',
+        '580px': '580px',
         '665px': '665px',
       },
       maxHeight: {
@@ -114,6 +120,9 @@ module.exports = {
       fontFamily: {
         'serif-s': ['ui-serif', 'Rubik Wet Paint'],
         'mono-s': ['ui-sans-serif', 'Roboto'],
+      },
+      container: {
+        center: true,
       },
     },
   },
