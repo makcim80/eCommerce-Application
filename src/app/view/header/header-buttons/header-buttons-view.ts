@@ -92,6 +92,9 @@ export default class HeaderButtonsView extends View {
     this.catalogAndAboutUsContainer?.buttonCatalog
       ?.getHTMLElement()
       ?.classList.remove(...ListClasses.BUTTON_ACTIVE.split(' '));
+    this.catalogAndAboutUsContainer?.buttonAboutUs
+      ?.getHTMLElement()
+      ?.classList.remove(...ListClasses.BUTTON_ACTIVE.split(' '));
     if (namePage === Pages.LOGIN) {
       this.buttonSignIn?.getHTMLElement()?.classList.add(...ListClasses.BUTTON_ACTIVE.split(' '));
     }
@@ -103,6 +106,11 @@ export default class HeaderButtonsView extends View {
     }
     if (namePage === Pages.CATALOG) {
       this.catalogAndAboutUsContainer?.buttonCatalog
+        ?.getHTMLElement()
+        ?.classList.add(...ListClasses.BUTTON_ACTIVE.split(' '));
+    }
+    if (namePage === Pages.ABOUT_US) {
+      this.catalogAndAboutUsContainer?.buttonAboutUs
         ?.getHTMLElement()
         ?.classList.add(...ListClasses.BUTTON_ACTIVE.split(' '));
     }

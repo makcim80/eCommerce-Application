@@ -32,7 +32,7 @@ export default class App {
   private createView(): void {
     this.header = new HeaderView(this.router);
     this.main = new MainView();
-    this.footer = new FooterView();
+    this.footer = new FooterView(this.router);
 
     document.body.append(
       this.header.getHTMLElement() || '',
@@ -98,6 +98,13 @@ export default class App {
         callback: async (id): Promise<void> => {
           const { default: CatDetailsView } = await import('./view/main/cat-details/cat-details-view');
           this.setContent(Pages.CAT_DETAILS, new CatDetailsView(id));
+        },
+      },
+      {
+        path: `${Pages.ABOUT_US}`,
+        callback: async (): Promise<void> => {
+          const { default: AboutUsView } = await import('./view/main/about-us/about-us-view');
+          this.setContent(Pages.ABOUT_US, new AboutUsView());
         },
       },
     ];

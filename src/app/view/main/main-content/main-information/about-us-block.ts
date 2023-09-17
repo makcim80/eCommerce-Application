@@ -32,11 +32,22 @@ export default class AboutUsBlockView extends View {
     };
     const text = new ElementCreator(params1);
 
-    const mainCatImg = document.createElement(ListTags.IMG);
-    mainCatImg.classList.add(...ListClasses.PARAGRAPH_MAIN_CONTENT_IMG.split(' '));
-    mainCatImg.setAttribute(ListAttributes.SRC, ListPaths.MAIN_CAT);
-    mainCatImg.setAttribute(ListAttributes.ALT, ListOfValues.MAIN_CAT);
+    const params2 = {
+      tag: ListTags.IMG,
+      classNames: ListClasses.PARAGRAPH_MAIN_CONTENT_IMG,
+    };
+    const mainCatImg = new ElementCreator(params2);
 
-    this.view.getHTMLElement()?.append(title.getHTMLElement() || '', mainCatImg, text.getHTMLElement() || '');
+    mainCatImg.getHTMLElement()?.setAttribute(ListAttributes.SRC, ListPaths.MAIN_CAT);
+    mainCatImg.getHTMLElement()?.setAttribute(ListAttributes.ALT, ListOfValues.MAIN_CAT);
+
+    const params3 = {
+      tag: ListTags.CONTAINER,
+      classNames: ListClasses.DIV_CAT_IMAGE_AND_TEXT,
+    };
+    const itemsContainer = new ElementCreator(params3);
+    itemsContainer.getHTMLElement()?.append(mainCatImg.getHTMLElement() || '', text.getHTMLElement() || '');
+
+    this.view.getHTMLElement()?.append(title.getHTMLElement() || '', itemsContainer.getHTMLElement() || '');
   }
 }
