@@ -112,7 +112,7 @@ export const enum ListClasses {
   WIDTH_9REM = 'w-36',
   LABEL_TYPE = 'text-zinc-600 text-xx-s font-bold mr-2 w-24',
   BUTTON_CATEGORY = 'rounded-lg bg-red-400 py-1.5',
-  PROFILE = 'rounded-2xl border-1px my-7 flex m-auto p-2 border-label-profile max-w-28rem bg-profile-bg sm-ss:max-w-2xl',
+  PROFILE = 'rounded-2xl border-1px m-3 p-2 border-label-profile max-w-28rem bg-profile-bg sm-ss:max-w-2xl',
   DIV_FIELD = 'py-3 mx-2 field',
   FORM_GROUP = 'bg-white',
   DATA_FIELD = 'border-b border-label-profile',
