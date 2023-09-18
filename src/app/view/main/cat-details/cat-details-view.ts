@@ -356,7 +356,7 @@ export default class CatDetailsView extends View {
 
     if (removeBasketBtnElem instanceof HTMLButtonElement && basketBtnElem instanceof HTMLButtonElement) {
       removeBasketBtnElem.addEventListener('click', async () => {
-        this.modalRemoveProduct.getHTMLElement()?.classList.add(...ListClasses.OVERLAY_OPEN);
+        this.modalRemoveProduct.getHTMLElement()?.classList.add(ListClasses.OVERLAY_OPEN);
         const textMessage = this.modalRemoveProduct.textMessage?.getHTMLElement();
         const { cart } = this;
         removeBasketBtnElem.disabled = true;
