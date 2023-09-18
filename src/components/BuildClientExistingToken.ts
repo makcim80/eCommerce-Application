@@ -17,7 +17,6 @@ export default class ExistingTokenClient {
 
   private readonly httpMiddlewareOptions: HttpMiddlewareOptions = {
     host: Api.HOST_API,
-    fetch,
   };
 
   public existingTokenClient(authorization: string = this.authorization): Client {

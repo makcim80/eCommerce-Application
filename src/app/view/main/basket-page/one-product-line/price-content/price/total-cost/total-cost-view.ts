@@ -6,7 +6,7 @@ export default class TotalCostView extends View {
   constructor() {
     const params = {
       tag: ListTags.H6,
-      classNames: [ListClasses.TEXT_RED, ListClasses.ORDER_PRICE],
+      classNames: [ListClasses.TEXT_RED, ListClasses.ORDER_PRICE_PRODUCT],
     };
     super(params);
   }

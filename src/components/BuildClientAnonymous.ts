@@ -22,13 +22,11 @@ export default class AnonymClient {
       clientSecret: Api.CLIENT_SECRET_CARTS,
     },
     scopes: this.scopes,
-    fetch,
     tokenCache: this.tokenCache(),
   };
 
   private readonly httpMiddlewareOptions: HttpMiddlewareOptions = {
     host: Api.HOST_API,
-    fetch,
   };
 
   public tOptions: TokenCacheOptions | undefined;

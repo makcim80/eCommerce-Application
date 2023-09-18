@@ -6,7 +6,7 @@ export default class IndividualPriceView extends View {
   constructor() {
     const params = {
       tag: ListTags.H6,
-      classNames: ListClasses.ORDER_PRICE,
+      classNames: ListClasses.ORDER_PRICE_PRODUCT,
     };
     super(params);
   }
