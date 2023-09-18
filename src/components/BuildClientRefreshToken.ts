@@ -11,7 +11,6 @@ export default class RefreshTokenClient {
 
   private readonly httpMiddlewareOptions: HttpMiddlewareOptions = {
     host: Api.HOST_API,
-    fetch,
   };
 
   private readonly host = Api.HOST_AUTH;
@@ -25,7 +24,6 @@ export default class RefreshTokenClient {
         clientSecret: Api.CLIENT_SECRET_CARTS,
       },
       refreshToken,
-      fetch,
     };
   }
 
