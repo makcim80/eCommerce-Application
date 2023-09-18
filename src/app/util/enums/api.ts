@@ -8,5 +8,9 @@ export const enum Api {
   CLIENT_ID_LOG = 'Ox1jTqGRgRyP_U9FM9B8H8pX',
   CLIENT_SECRET_LOG = 'M0h1EgcHUKIl2S5Py7UfYz5Krr-bwhrj',
   SCOPES_LOG = 'view_published_products:project0108 view_project_settings:project0108 manage_my_profile:project0108 manage_my_business_units:project0108 manage_my_shopping_lists:project0108 manage_my_quote_requests:project0108 create_anonymous_token:project0108 manage_my_orders:project0108 view_products:project0108 view_categories:project0108 manage_my_quotes:project0108 manage_my_payments:project0108',
+  CLIENT_ID_CARTS = 'kInyk3jJfHSWhaUV4-bw-fXj',
+  CLIENT_SECRET_CARTS = 'fnlZmjZD1yDrpL2Sx1unj_4fjaJ2iykf',
+  SCOPES_CARTS = 'view_published_products:project0108 view_project_settings:project0108 manage_my_profile:project0108 manage_my_business_units:project0108 manage_my_shopping_lists:project0108 manage_my_quote_requests:project0108 manage_orders:project0108 manage_customers:project0108 create_anonymous_token:project0108 manage_my_orders:project0108 view_products:project0108 view_categories:project0108 manage_my_quotes:project0108 manage_my_payments:project0108',
   STORAGE = 'tokenQwerty152',
+  REFRESH_TOKEN = 'refreshTokenQwerty152',
 }

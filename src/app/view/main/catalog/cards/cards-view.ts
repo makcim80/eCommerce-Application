@@ -14,6 +14,7 @@ import SwiperPaginationView from './swiper-pagination-view/swiper-pagination-vie
 
 import './cards-view.css';
 import { observeElementDOMAppearance } from '../../../../util/utils';
+import Carts from '../../../../../components/carts';
 
 const baseSwiperInitParams: SwiperOptions = {
   modules: [Pagination, EffectCreative],
@@ -100,7 +101,8 @@ export default class CardsView extends View {
 
   public async configureView(
     products: ClientResponse<ProductProjectionPagedQueryResponse>,
-    router?: Router,
+    router: Router,
+    cart: Carts,
     initSwiper: boolean = true,
   ): Promise<void> {
     const container = this.getHTMLElement();
@@ -114,7 +116,7 @@ export default class CardsView extends View {
     }
 
     this.clearSlides();
-    this.generateSlides(products.body.results, routerGuarded);
+    this.generateSlides(products.body.results, routerGuarded, cart);
 
     container?.append(this.swiperWrapper.getHTMLElement() || '');
     container?.append(this.swiperPagination.getHTMLElement() || '');
@@ -142,9 +144,9 @@ export default class CardsView extends View {
     }
   }
 
-  private generateSlides(products: ProductProjection[], router: Router): void {
+  private generateSlides(products: ProductProjection[], router: Router, cart: Carts): void {
     products.forEach((product) => {
-      const card = new CardView(router, product.masterVariant.sku ? product.masterVariant.sku : 'corrupted-sku');
+      const card = new CardView(router, product.masterVariant.sku ? product.masterVariant.sku : 'corrupted-sku', cart);
       if (product.masterVariant.images) card.setSrcImg(product.masterVariant.images[0].url);
       card.setAltImg(product.name['en-US']);
       if (product.masterVariant.prices) {

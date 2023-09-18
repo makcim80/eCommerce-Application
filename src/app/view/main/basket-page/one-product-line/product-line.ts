@@ -6,7 +6,7 @@ import ContentOrderView from './content-order/content-order-view';
 import PriceDeleteView from './price-content/price-content-view';
 
 export default class ProductLine extends View {
-  private readonly sku: string;
+  public readonly sku: string;
 
   private imgContainer: ImgOrderContainerView;
 
@@ -39,16 +39,36 @@ export default class ProductLine extends View {
     this.contentOrder.name.setNameHeading(name);
   }
 
-  public setPriceHeading(price: string): void {
-    this.priceDeleteView.priceView.price.setPriceHeading(price);
+  public setQuantity(quantity: string): void {
+    this.contentOrder.buttonsControl.buttonQuantity.setQuantity(quantity);
   }
 
-  public crossOutPrice(): void {
-    this.priceDeleteView.priceView.price.crossOutPrice();
+  public getQuantityElem(): HTMLInputElement | string {
+    const quantityElem = this.contentOrder.buttonsControl.buttonQuantity.getHTMLElement();
+    return quantityElem instanceof HTMLInputElement ? quantityElem : '';
   }
 
-  public setDiscountedPriceHeading(discountedPrice: string): void {
-    this.priceDeleteView.priceView.discount.setDiscountedPriceHeading(discountedPrice);
+  public getPlusElem(): HTMLButtonElement | string {
+    const plusElem = this.contentOrder.buttonsControl.buttonPlus.getHTMLElement();
+    return plusElem instanceof HTMLButtonElement ? plusElem : '';
+  }
+
+  public getMinusElem(): HTMLButtonElement | string {
+    const minusElem = this.contentOrder.buttonsControl.buttonMinus.getHTMLElement();
+    return minusElem instanceof HTMLButtonElement ? minusElem : '';
+  }
+
+  public setIndividualPrice(price: string): void {
+    this.priceDeleteView.priceView.price.setIndividualPrice(price);
+  }
+
+  public setTotalCost(totalCost: string): void {
+    this.priceDeleteView.priceView.totalCost.setTotalCost(totalCost);
+  }
+
+  public getButtonDeleteProduct(): HTMLImageElement | string {
+    const buttonDeleteProduct = this.priceDeleteView.buttonDeleteProduct.getHTMLElement();
+    return buttonDeleteProduct instanceof HTMLImageElement ? buttonDeleteProduct : '';
   }
 
   public configureView(): void {

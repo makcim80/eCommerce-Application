@@ -1,10 +1,12 @@
-import { ClientResponse, ProductProjectionPagedQueryResponse } from '@commercetools/platform-sdk';
+import { LineItem } from '@commercetools/platform-sdk';
 import { ListClasses } from '../../../util/enums/list-classes';
 import { ListTags } from '../../../util/enums/list-tags';
 import View from '../../view';
 import ProductLine from './one-product-line/product-line';
 
 export default class BasketListView extends View {
+  private ordersArr: ProductLine[] = [];
+
   constructor() {
     const params = {
       tag: ListTags.CONTAINER,
@@ -13,29 +15,42 @@ export default class BasketListView extends View {
     super(params);
   }
 
-  public async configureView(products: ClientResponse<ProductProjectionPagedQueryResponse>): Promise<void> {
+  public configureView(cartArr: LineItem[]): void {
     const container = this.getHTMLElement();
 
     if (container instanceof HTMLDivElement) container.innerHTML = '';
 
-    products.body.results.forEach((product) => {
-      const order = new ProductLine(product.masterVariant.sku ? product.masterVariant.sku : 'corrupted-sku');
-      if (product.masterVariant.images) order.setSrcImg(product.masterVariant.images[0].url);
-      order.setAltImg(product.name['en-US']);
-      if (product.masterVariant.prices) {
-        const price = product.masterVariant.prices[0].value;
-        const discountedPrice = product.masterVariant.prices[0].discounted?.value;
+    cartArr.forEach((lineItem) => {
+      const order = new ProductLine(lineItem.variant.sku ? lineItem.variant.sku : 'corrupted-sku');
+      if (lineItem.variant.images) order.setSrcImg(lineItem.variant.images[0].url);
+      order.setAltImg(lineItem.name['en-US']);
+      if (lineItem.variant.prices) {
+        const price = lineItem.variant.prices[0].value;
+        const discountedPrice = lineItem.variant.prices[0].discounted?.value;
 
-        order.setPriceHeading(`${price.currencyCode} ${(price.centAmount / 100).toFixed(2)}`);
         if (discountedPrice) {
-          order.crossOutPrice();
-          order.setDiscountedPriceHeading(
-            `${discountedPrice.currencyCode} ${(discountedPrice.centAmount / 100).toFixed(2)}`,
+          order.setIndividualPrice(
+            `${discountedPrice.currencyCode} ${(discountedPrice.centAmount / 100).toFixed(
+              discountedPrice.fractionDigits,
+            )}`,
           );
+        } else {
+          order.setIndividualPrice(`${price.currencyCode} ${(price.centAmount / 100).toFixed(price.fractionDigits)}`);
         }
       }
-      order.setNameHeading(product.name['en-US']);
+      order.setTotalCost(
+        `${lineItem.totalPrice.currencyCode} ${(lineItem.totalPrice.centAmount / 100).toFixed(
+          lineItem.totalPrice.fractionDigits,
+        )}`,
+      );
+      order.setNameHeading(lineItem.name['en-US']);
+      order.setQuantity(`${lineItem.quantity}`);
+      this.ordersArr.push(order);
       container?.append(order.getHTMLElement() || '');
     });
+  }
+
+  public getOrdersArr(): ProductLine[] {
+    return this.ordersArr;
   }
 }

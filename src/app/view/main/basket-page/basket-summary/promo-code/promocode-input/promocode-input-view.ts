@@ -5,7 +5,7 @@ import { ListTags } from '../../../../../../util/enums/list-tags';
 import View from '../../../../../view';
 
 export default class PromocodeInputView extends View {
-  private valueInput: string;
+  private valueInput!: HTMLInputElement;
 
   constructor() {
     const params = {
@@ -13,11 +13,18 @@ export default class PromocodeInputView extends View {
     };
     super(params);
 
-    this.valueInput = '';
     this.configureView();
   }
 
   public getValueInput(): string {
+    return this.valueInput.value;
+  }
+
+  public setValueInput(code: string): void {
+    this.valueInput.value = code;
+  }
+
+  public getInput(): HTMLInputElement {
     return this.valueInput;
   }
 
@@ -27,10 +34,11 @@ export default class PromocodeInputView extends View {
       classNames: ListClasses.PROMOCODE_INPUT,
     };
     const input = new View(params);
+    const inputElem = input.getHTMLElement();
 
-    if (input instanceof HTMLInputElement) {
-      input.setAttribute(ListAttributes.TYPE, ListOfValues.TEXT);
-      input.setAttribute(ListAttributes.PLACEHOLDER, ListOfValues.PLACEHOLDER_COLOR);
+    if (inputElem instanceof HTMLInputElement) {
+      this.valueInput = inputElem;
+      inputElem.setAttribute(ListAttributes.TYPE, ListOfValues.TEXT);
     }
     this.view.addInnerElement(input);
   }
