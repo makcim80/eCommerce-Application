@@ -1,0 +1,19 @@
+.icon-plus::before {
+  content: '+';
+  position: absolute;
+  top: -20%;
+  left: 0;
+}
+
+.icon-minus::before {
+  content: '−';
+  position: absolute;
+  top: -20%;
+  left: 0;
+}
+
+.arrow input::-webkit-outer-spin-button,
+.arrow input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
