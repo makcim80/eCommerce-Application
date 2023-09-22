@@ -16,7 +16,8 @@ export default class Products {
       .productProjections()
       .get({
         queryArgs: {
-          limit: 35,
+          limit: 34,
+          offset: 0,
         },
       })
       .execute();

@@ -35,7 +35,7 @@ export default class HeaderButtonsView extends View {
     super(params);
 
     this.catalogAndAboutUsContainer = new CatalogAndAboutUsButtonsContainer(router);
-    this.basketIcon = new BasketIcon();
+    this.basketIcon = new BasketIcon(router);
     this.buttonUserProfile = new ButtonUserProfile(router);
     this.buttonLogout = new ButtonLogout(router);
     this.buttonSignUp = new ButtonSignUp(router);
@@ -88,11 +88,31 @@ export default class HeaderButtonsView extends View {
   public setSelectedItem(namePage: string): void {
     this.buttonSignUp?.getHTMLElement()?.classList.remove(...ListClasses.BUTTON_ACTIVE.split(' '));
     this.buttonSignIn?.getHTMLElement()?.classList.remove(...ListClasses.BUTTON_ACTIVE.split(' '));
+    this.buttonUserProfile?.getHTMLElement()?.classList.remove(...ListClasses.BUTTON_ACTIVE.split(' '));
+    this.catalogAndAboutUsContainer?.buttonCatalog
+      ?.getHTMLElement()
+      ?.classList.remove(...ListClasses.BUTTON_ACTIVE.split(' '));
+    this.catalogAndAboutUsContainer?.buttonAboutUs
+      ?.getHTMLElement()
+      ?.classList.remove(...ListClasses.BUTTON_ACTIVE.split(' '));
     if (namePage === Pages.LOGIN) {
       this.buttonSignIn?.getHTMLElement()?.classList.add(...ListClasses.BUTTON_ACTIVE.split(' '));
     }
     if (namePage === Pages.REGISTRATION) {
       this.buttonSignUp?.getHTMLElement()?.classList.add(...ListClasses.BUTTON_ACTIVE.split(' '));
+    }
+    if (namePage === Pages.PROFILE) {
+      this.buttonUserProfile?.getHTMLElement()?.classList.add(...ListClasses.BUTTON_ACTIVE.split(' '));
+    }
+    if (namePage === Pages.CATALOG) {
+      this.catalogAndAboutUsContainer?.buttonCatalog
+        ?.getHTMLElement()
+        ?.classList.add(...ListClasses.BUTTON_ACTIVE.split(' '));
+    }
+    if (namePage === Pages.ABOUT_US) {
+      this.catalogAndAboutUsContainer?.buttonAboutUs
+        ?.getHTMLElement()
+        ?.classList.add(...ListClasses.BUTTON_ACTIVE.split(' '));
     }
   }
 

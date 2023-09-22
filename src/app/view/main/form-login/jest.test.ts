@@ -10,4 +10,12 @@ describe('test', () => {
     const passwordView = new PasswordView();
     expect(passwordView).toBeTruthy();
   });
+  test('validationEmail', () => {
+    const elem = new EmailView();
+    expect(elem.validationEmail());
+  });
+  test('validationPassword', () => {
+    const elem = new PasswordView();
+    expect(elem.validationPassword());
+  });
 });

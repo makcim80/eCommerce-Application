@@ -1,6 +1,8 @@
 import { ListClasses } from '../../../../../../util/enums/list-classes';
 import { ListTags } from '../../../../../../util/enums/list-tags';
 import View from '../../../../../view';
+import { ListAttributes } from '../../../../../../util/enums/list-attributes';
+import { ListOfValues } from '../../../../../../util/enums/list-attributesValues';
 
 export default class ImgCardView extends View {
   constructor() {
@@ -9,6 +11,12 @@ export default class ImgCardView extends View {
       classNames: ListClasses.CARD_IMAGE,
     };
     super(params);
+
+    this.configureView();
+  }
+
+  private configureView(): void {
+    this.view.getHTMLElement()?.setAttribute(ListAttributes.LOADING, ListOfValues.LOADING_LAZY);
   }
 
   public setSrcImg(src: string): void {

@@ -3,21 +3,23 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'profile-bg': '#fafcfc',
+        'white-text': '#FFFFFF',
+        'profile-bg': '#FAFCFC',
         'blue-color': '#8EB2C6',
         'login-color': '#222222',
         'footer-color': '#3A5874',
         'form-color': '#21364A',
-        'neon-color': '#7df9ff',
+        'neon-color': '#7DF9FF',
         'input-color': '#FFE76E',
-        'address-color': '#e0c643',
+        'address-color': '#E0C643',
         'successful-color': '#3EB972',
         'error-color': '#F74339',
         'modal-window-bg': '#FFFFFF',
-        'save-btn': '#ffdf40',
+        'save-btn': '#FFDF40',
         'label-profile': '#9797af',
-        'popup-color': '#ebebeb',
-        'modal-password': '#292929cc',
+        'popup-color': '#EBEBEB',
+        'modal-password': '#292929CC',
+        'bg-about': '#E3E49C',
       },
       borderWidth: {
         // eslint-disable-next-line prettier/prettier
@@ -37,10 +39,19 @@ module.exports = {
       },
       screens: {
         'sm-sm': '320px',
+        '445px': '445px',
+        '465px': '465px',
+        '515px': '515px',
+        '606px': '606px',
         'sm-s': '640px',
         'sm-ss': '689px',
         'max-ms': '805px',
+        '900px': '900px',
         'lg-l': '1024px',
+        '1200px': '1200px',
+        '1207px': '1207px',
+        '1350px': '1350px',
+        '1462px': '1462px',
         '2xl': '1536px',
       },
       inset: {
@@ -67,6 +78,8 @@ module.exports = {
         '25rem': '25rem',
       },
       fontSize: {
+        '0.55rem': '0.55rem',
+        '0.65rem': '0.65rem',
         'xx-s': '0.7rem',
       },
       padding: {
@@ -80,9 +93,36 @@ module.exports = {
         '900px': '900px',
       },
       maxWidth: {
+        '8rem': '8rem',
         '13rem': '13rem',
         '23rem': '23rem',
         '28rem': '28rem',
+        '500px': '500px',
+        '580px': '580px',
+        '665px': '665px',
+      },
+      maxHeight: {
+        '374px': '374px',
+      },
+      flex: {
+        '2flex': '0 0 9rem',
+      },
+      minHeight: {
+        '8rem': '8rem',
+      },
+      flexGrow: {
+        100: '100',
+        99: '99',
+      },
+      boxShadow: {
+        '5xl': '0 2px 6px rgba(28,28,30,.3)',
+      },
+      fontFamily: {
+        'serif-s': ['ui-serif', 'Rubik Wet Paint'],
+        'mono-s': ['ui-sans-serif', 'Roboto'],
+      },
+      container: {
+        center: true,
       },
     },
   },

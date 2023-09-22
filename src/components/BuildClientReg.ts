@@ -12,12 +12,10 @@ const authMiddlewareOptions: AuthMiddlewareOptions = {
     clientSecret: Api.CLIENT_SECRET_REG,
   },
   scopes,
-  fetch,
 };
 
 const httpMiddlewareOptions: HttpMiddlewareOptions = {
   host: Api.HOST_API,
-  fetch,
 };
 
 export const client = new ClientBuilder()

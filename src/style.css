@@ -40,6 +40,7 @@ body {
   height: 100%;
   display: flex;
   flex-direction: column;
+  background-image: url('./assets/img/bg.svg');
 }
 
 .form,
@@ -84,10 +85,12 @@ body {
 .header-nav-active {
   transform: translateX(0);
 }
+
 .screen-fade {
   content: '';
   position: fixed;
-  z-index: 0;
+  /* z-index: 98; */
+  z-index: 30;
   top: 0;
   left: 0;
   right: 0;
@@ -122,4 +125,22 @@ body {
 .grid {
 	display: grid;
 	grid-template-columns: 240px 1fr;
+}
+
+.summary {
+  background: linear-gradient(60deg, rgba(245,211,236,1) 9%, rgba(225,225,247,1) 69%, rgba(240,244,250,1) 83%);
+}
+
+.promocode {
+  background: linear-gradient(135deg, #e56ed2 20%, #5a9ddb 70%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.swiper-slide-fit-w {
+  width: fit-content !important;
+}
+
+.container {
+  max-width: 93.75rem;
 }

@@ -7,6 +7,10 @@ import Product from '../../../../components/product';
 import Errors, { CatDetailsViewErrors } from './utils/errors';
 import ElementCreator from '../../../util/element-creator';
 import CatDetailsSliderView, { CatDetailsSliderSliderConfig } from './slider/cat-details-slider-view';
+import AddToCartBtnView from '../catalog/cards/card/add-to-cart-btn/add-to-cart-btn-view';
+import AddToCartBtnWrpView from '../catalog/cards/card/add-to-cart-btn-wrp/add-to-cart-btn-wrp-view';
+import Carts from '../../../../components/carts';
+import ModalMessage from '../profile/modal-message/message-modal';
 
 const createParams = (id?: string): ISource => {
   return {
@@ -42,19 +46,33 @@ export default class CatDetailsView extends View {
 
   private contentRight: ElementCreator | null;
 
-  constructor(id: string) {
+  private readonly basketBtnWrp: AddToCartBtnWrpView;
+
+  private readonly basketBtn: AddToCartBtnView;
+
+  private readonly removeBasketBtn: AddToCartBtnView;
+
+  private readonly cart: Carts;
+
+  private readonly modalRemoveProduct: ModalMessage;
+
+  constructor(id: string, cart: Carts) {
     super(createParams());
 
     this.errors = Errors;
     this.productId = id;
     this.response = null;
-
+    this.cart = cart;
     this.nameEnUS = null;
     this.imagesObjectsArr = null;
     this.descriptionEnUS = null;
     this.priceCurrencyCode = null;
     this.priceDefault = null;
     this.priceDiscount = null;
+    this.basketBtnWrp = new AddToCartBtnWrpView();
+    this.basketBtn = new AddToCartBtnView();
+    this.removeBasketBtn = new AddToCartBtnView();
+    this.modalRemoveProduct = new ModalMessage();
 
     this.content = null;
     this.contentRight = null;
@@ -158,6 +176,7 @@ export default class CatDetailsView extends View {
     this.makeName();
     this.makeDescription();
     this.makePrice();
+    this.addBasketBtn();
 
     if (this.content) {
       if (this.contentRight) {
@@ -166,6 +185,7 @@ export default class CatDetailsView extends View {
         throw this.errors.contentRightIsNull();
       }
       this.view.addInnerElement(this.content);
+      this.view.addInnerElement(this.modalRemoveProduct);
     } else {
       throw this.errors.contentIsNull();
     }
@@ -291,5 +311,70 @@ export default class CatDetailsView extends View {
 
   private parsePrice(price: number): string {
     return `${this.priceCurrencyCode} ${(price / 100).toFixed(2)}`;
+  }
+
+  private addBasketBtn(): void {
+    if (!this.contentRight) {
+      throw this.errors.contentRightIsNull();
+    }
+
+    this.basketBtnWrp.view.addInnerElement(this.basketBtn);
+    this.basketBtnWrp.view.addInnerElement(this.removeBasketBtn);
+    this.contentRight.addInnerElement(this.basketBtnWrp);
+
+    if (this.cart.keysSkuLineItemIdArr().includes(this.productId)) {
+      this.basketBtn.inactiveButton();
+      this.removeBasketBtn.activeRemoveButton();
+    } else {
+      this.basketBtn.activeButton();
+      this.removeBasketBtn.inactiveRemoveButton();
+    }
+    this.buttonAddToBasketListener();
+    this.buttonRemoveFromBasketListener();
+  }
+
+  private buttonAddToBasketListener(): void {
+    const basketBtnElem = this.basketBtn.getHTMLElement();
+    const removeBasketBtnElem = this.removeBasketBtn.getHTMLElement();
+
+    if (basketBtnElem instanceof HTMLButtonElement && removeBasketBtnElem instanceof HTMLButtonElement) {
+      basketBtnElem.addEventListener('click', async () => {
+        const { cart } = this;
+        basketBtnElem.disabled = true;
+        this.basketBtn.inactiveButton();
+        if (!cart.getCartId()) await cart.createCart();
+        await cart.addLineItemCart(this.productId);
+        removeBasketBtnElem.disabled = false;
+        this.removeBasketBtn.activeRemoveButton();
+      });
+    }
+  }
+
+  private buttonRemoveFromBasketListener(): void {
+    const basketBtnElem = this.basketBtn.getHTMLElement();
+    const removeBasketBtnElem = this.removeBasketBtn.getHTMLElement();
+
+    if (removeBasketBtnElem instanceof HTMLButtonElement && basketBtnElem instanceof HTMLButtonElement) {
+      removeBasketBtnElem.addEventListener('click', async () => {
+        this.modalRemoveProduct.getHTMLElement()?.classList.add(ListClasses.OVERLAY_OPEN);
+        const textMessage = this.modalRemoveProduct.textMessage?.getHTMLElement();
+        const { cart } = this;
+        removeBasketBtnElem.disabled = true;
+        this.removeBasketBtn.inactiveRemoveButton();
+        try {
+          await cart.removeLineItemCart(this.productId);
+          if (textMessage) {
+            textMessage.textContent = 'The product has been successfully removed';
+          }
+        } catch {
+          if (textMessage) {
+            textMessage.textContent = 'Unsuccessful completion of the deletion operation';
+          }
+        } finally {
+          basketBtnElem.disabled = false;
+          this.basketBtn.activeButton();
+        }
+      });
+    }
   }
 }
